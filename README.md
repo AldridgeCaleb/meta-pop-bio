@@ -1,6 +1,6 @@
 # metapopbio
 ## Pacage Description
-An R package inspired by [popbio](https://cran.r-project.org/web/packages/popbio/index.html) to construct and analyze projection matrix models of metapopulations classified by age or stage and location.
+`metapopbio` is an R package inspired by [`popbio`](https://cran.r-project.org/web/packages/popbio/index.html) to construct and analyze projection matrix models of metapopulations classified by age or stage and location.
 
 ## Visuals (placeholder)
 Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
