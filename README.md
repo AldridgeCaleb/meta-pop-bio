@@ -1,4 +1,4 @@
-# metapopbio
+# metapopbio: Construction and Analysis of Metapopulation Models
 ## Pacage Description
 The [`metapopbio`]() package is inspired by and complements the fuctionalities of the [`popbio`](https://cran.r-project.org/web/packages/popbio/index.html) package. Users can construct and analyze projection matrix models for metapopulations classified by age or stage and located in distinct patches.
 
