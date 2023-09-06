@@ -1,0 +1,8 @@
+Package: metapopbio
+Type: Package
+Title: Construction and Analysis of Metapopulation Models
+Version: 0.0.1
+RoxygenNote: 7.2.3
+Encoding: UTF-8
+VignetteBuilder: knitr
+Suggests: knitr, rmarkdown

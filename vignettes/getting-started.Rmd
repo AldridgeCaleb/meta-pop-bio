@@ -1,0 +1,228 @@
+---
+title: "Getting started with the `metapopbio` package"
+author: "Caleb A. Aldridge"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started metapopbio}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+devtools::install_github("AldridgeCaleb/meta-pop-bio")
+library(metapopbio)
+```
+
+# About
+The [`metapopbio`]() package is inspired by and complements the fuctionalities of the [`popbio`](https://cran.r-project.org/web/packages/popbio/index.html) package. Users can construct and analyze projection matrix models for metapopulations classified by age or stage and located in distinct patches.
+
+The functionality to date is largely based on Hunter and Caswell (2005) to construct and analyze spatial matrix population models using the vec-permutation matrix. This model extends the Leslie matrix (Leslie 1945) to include dispersal rates between patches. An analogous approach was taken by Lebreton (1996) and called the "renewal equation approach."
+
+Current plans include support for classic metapopulation models of Gotelli (1991; 2008) *and others*, i.e., $\frac{df}{dt}=p_{i}(1-f)-p_{e}f$, $\frac{df}{dt}=p_{i}(1-f)-ef(1-f)$, $\frac{df}{dt}=if(1-f)-p_{e}f$, and $\frac{df}{dt}=if(1-f)-ef(1-f)$, and hyperstate matrix models (Roth and Caswell 2016). Additionally, Hanski's (1994) incidence function $J_{i}=\frac{1}{1+\Bigl(1+\bigl[\frac{y'}{S_{i}}\bigr]^2\Bigr)\frac{e}{A_{i}^x}}$ and a metapopulation version of the **S**usceptible--**I**nfected--**R**ecovered model (SIR model) are also being considered. Other suggestions can be submitted in email to caleb.a.aldridge@gmail.com or as an issue on the package's GitHub repository (https://github.com/AldridgeCaleb/meta-pop-bio/issues).
+
+# Examples
+The following two examples come from Hunter and Caswell (2005) using peregrine falcon (*Falco peregrinus*) data from Wootton and Bell (1992) and black-headed gull (*Larus ridibundus*) data from Lebrenton (1996).
+
+## The peregrine falcon
+
+#### 1. Patches, stages, and grouping
+First, we define the number of patches (discrete locations) and stages (age, class, or size). In this example there are two "patches", Northern California and Southern California, and two life-stages, juvenile and adult. We also group or will project stages within patches^[If we were to group or project patches within stages, the groupby object would contain "stages".].
+```{r}
+n_patches <- 2
+n_stages <- 2
+group_by <- "patches"
+```
+
+#### 2. Construct vec-permutation matrix
+Next, we construct the vec-permutation matrix. Essentially, the vec-permutation matrix helps us relate demographic and dispersal parameters so that populations in patches are projected considering births, immigration, deaths, and emigration (BIDE) or recruitment, immigration, survival, and emigration (RISE). The `metapopbio::vec.perm` function helps us to easily construct a vec-permutation matrix.
+```{r}
+P <-
+  vec.perm(stages = n_stages,
+           patches = n_patches,
+           group_by = group_by)
+```
+
+#### 3. Demographic parameters for each patch
+We now specify transition probabilities from one stage to the next (survival *s* and recruitment *r*). Numbers in object names indicate patch then stage. Only adults are assumed to reproduce.
+
+Northern first.
+```{r}
+# Northern
+r11 <- 0.00 
+r12 <- 0.26
+s11 <- 0.72
+s12 <- 0.77
+```
+
+Now Southern.
+```{r}
+# Southern
+r21 <- 0.00
+r22 <- 0.19  
+s21 <- 0.72
+s22 <- 0.77
+```
+
+#### 4a. Structure demographic parameters
+Now we will construct demographic (Leslise-style) matrices for each of the patches. This is just placing the demographic parameters from above into an ordered matrices for analysis and projecting.
+```{r}
+# Northern
+B1x <-
+  matrix(c(r11, r12, s11, s12),
+         nrow = n_stages,
+         ncol = n_stages,
+         byrow = TRUE)
+# Southern
+B2x <-
+  matrix(c(r21, r22, s21, s22),
+         nrow = n_stages,
+         ncol = n_stages,
+         byrow = TRUE)
+```
+
+#### 4b. Construct block diagonal matrix
+Along with the vec-permutation matrix, spatial matrix population models use a matrix of matrices for analysis and projection of population demographics and movement. We accomplish this using the `metapopbio::blk.diag` function.
+```{r}
+BB <- blk.diag(B1x, B2x)
+```
+
+#### 5. Structure movement parameters
+Similar to the above, we will construct movement or dispersal matrices for each of the stages. This is just placing movement parameters into an ordered matrices for analysis and projecting. We assume that only juveniles disperse, therefore an idenity matrix is specified for adult movement.
+```{r}
+# Juveniles
+dx1 <- 0.27 
+dx2 <- 1 - dx1
+Mx1 <- matrix(c(dx2, dx1, dx1, dx2),
+              nrow = n_patches,
+              ncol = n_patches,
+              byrow = TRUE)
+# Adults
+Mx2 <- diag(
+  x = 1,
+  nrow = n_patches,
+  ncol = n_patches
+)
+# Block diagonal matrix
+MM <- blk.diag(Mx1, Mx2)
+```
+
+#### 6. Construct projection matrix
+Now we can use the vec-permutation matrix and block diagonal matrices to construct a population projection matrix. This is accomplished through matrix multiplication. The order of matrices is very important (see Hunter and Caswell 2005 or function documentation for more detail), but the `metapopbio::proj.mat` function makes it much more convenient and reduces the probability of calculation errors. All that's needed is to specify the grouping (structure) for the projection (stages within patches here) and the order type between demographic and movement / dispersal processes (here, dispersal then deomgraphics), then supply the matrices we have constructed (P, BB, and MM).
+```{r}
+group_by <- "patches"
+type <- "move"
+A <-
+  proj.mat(
+    P = P,
+    BB = BB,
+    MM = MM,
+    group_by = group_by,
+    type = type
+  )
+```
+
+#### 7. Project
+Now we can project populations into future time steps. First, we have to indicate the starting, initial, or current sizes of each stage by patch, or vice versa if grouping by stages. An added step is to comment on the vector which ensures projection calculations are correct.
+```{r}
+n <- c(
+  50, 22,  # Northern patch adults then juveniles
+  40, 17   # Southern patch adults then juveniles
+)
+comment(n) <- "patches"  # vector attr for group_by 
+```
+Now we indicate the number of time steps we would like to project.
+```{r}
+n_timesteps <- 50
+```
+And, finally we can project stages within patches using the `metapopbio::meta.pop.proj` function.
+```{r}
+projs <-
+  meta.pop.proj(
+    n = n,
+    A = A,
+    n_timesteps = n_timesteps,
+    n_stages = n_stages,
+    n_patches = n_patches
+  )
+```
+
+#### 8. Plotting
+```{r}
+stage_names <- c("Juv.", "Adults")
+patch_names <- c("North", "South")
+meta.pop.plot(
+  projections = projs,
+  ylabs = "Abundance",
+  xlabs = "Years",
+  stage_names = stage_names,
+  patch_names = patch_names
+)
+```
+
+#### 9. Sensitivity and elasticity analyses
+```{r}
+sens.A(A)
+eigen.lambda(A)
+sens.BB(BB, A, P, MM)
+elas.BB(BB, A, P, MM)
+sens.MM(MM, P, A, BB)
+elas.MM(MM, P, A, BB)
+```
+
+## The black-headed gull
+
+<!-- n_stages <- 5 -->
+<!-- n_patches <- 2 -->
+<!-- structure <- "stages"  # group by stages -->
+<!-- type <- "disp"  # dispersal then demographics -->
+
+<!-- B1x <- matrix(c(0.000, 0.096, 0.160, 0.224, 0.320, -->
+<!--                 0.800, 0.000, 0.000, 0.000, 0.000, -->
+<!--                 0.000, 0.820, 0.000, 0.000, 0.000, -->
+<!--                 0.000, 0.000, 0.820, 0.000, 0.000, -->
+<!--                 0.000, 0.000, 0.000, 0.820, 0.820),  -->
+<!--               nrow = n_stages, ncol = n_stages, byrow = TRUE) -->
+
+
+<!-- B2x <- matrix(c(0.000, 0.100, 0.160, 0.200, 0.200, -->
+<!--                 0.800, 0.000, 0.000, 0.000, 0.000, -->
+<!--                 0.000, 0.820, 0.000, 0.000, 0.000, -->
+<!--                 0.000, 0.000, 0.820, 0.000, 0.000, -->
+<!--                 0.000, 0.000, 0.000, 0.820, 0.820),  -->
+<!--               nrow = n_stages, ncol = n_stages, byrow = TRUE) -->
+
+<!-- Mx1 <- matrix(c(0.75, 0.375, 0.25, 0.625),  -->
+<!--               nrow = n_patches, ncol = n_patches, byrow = TRUE) -->
+
+<!-- Mx5 <- Mx4 <- Mx3 <- Mx2 <-  -->
+<!--   diag(x = 1, nrow = n_patches, ncol = n_patches, byrow = TRUE) -->
+
+<!-- P <- vec.perm(stages = n_stages, -->
+<!--               patches = n_patches, -->
+<!--               n_struc = structure) -->
+<!-- A <- proj.mat(P, BB, MM, n_struc = structure, type = type) -->
+
+## References
+Caswell, H. (2001). Matrix Population Models: Construction, analysis, and 
+interpretation (2nd ed.). Sinauer Associates.
+
+Gotelli, N. J. (1991). Metapopulation models: the rescue effect, the propagule rain, and the core-satellite hypothesis. *The American Naturalist* 138(3):768--776. url: https://www.jstor.org/stable/2462468
+
+Gotelli, N. J. (2008). A Primer of Ecology (4th ed.). Sinauer Associates.
+
+Hunter, C. M. and Caswell, H. (2005). The use of vec-permutation matrix in spatial matrix population models. *Ecological Modelling* 188:15--21.
+
+Lebreton, J. D. (1996). Demographic models for subdivided populations: the renewal equation approach. *Theoretical Population Biology* 49:291--313.
+
+Leslie, P. H. (1945). On the use of matrices in certain population mathematics. *Biometrika* 33:183–212.
+
+Morris, W. F., and Doak, D. F. (2003). Quantitative Conservation Biology: Theory and practice of population viability analysis. Sinauer Associates.
+
+Roth, G. and Caswell, H. (2016). Hyperstate matrix models: extending demographic state spaces to higher dimensions. *Methods in Ecology and Evolution* 7:1438--1450.
+
+Wootton, J.T., and Bell, D.A. (1992). A metapopulation model of the peregrine falcon in California: viability and management strategies. *Ecological Applications* 2:307-–321.
