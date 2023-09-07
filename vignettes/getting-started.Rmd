@@ -44,10 +44,10 @@ group_by <- "patches"
 #### 2. Construct vec-permutation matrix
 Next, we construct the vec-permutation matrix. Essentially, the vec-permutation matrix helps us relate demographic and dispersal parameters so that populations in patches are projected considering births, immigration, deaths, and emigration (BIDE) or recruitment, immigration, survival, and emigration (RISE). The `metapopbio::vec.perm` function helps us to easily construct a vec-permutation matrix.
 ```{r}
-P <-
+(P <-
   metapopbio::vec.perm(stages = n_stages,
            patches = n_patches,
-           group_by = group_by)
+           group_by = group_by))
 ```
 
 #### 3. Demographic parameters for each patch
@@ -75,23 +75,23 @@ s22 <- 0.77
 Now we will construct demographic (Leslise-style) matrices for each of the patches. This is just placing the demographic parameters from above into an ordered matrices for analysis and projecting.
 ```{r}
 # Northern
-B1x <-
+(B1x <-
   matrix(c(r11, r12, s11, s12),
          nrow = n_stages,
          ncol = n_stages,
-         byrow = TRUE)
+         byrow = TRUE))
 # Southern
-B2x <-
+(B2x <-
   matrix(c(r21, r22, s21, s22),
          nrow = n_stages,
          ncol = n_stages,
-         byrow = TRUE)
+         byrow = TRUE))
 ```
 
 #### 4b. Construct block diagonal matrix
 Along with the vec-permutation matrix, spatial matrix population models use a matrix of matrices for analysis and projection of population demographics and movement. We accomplish this using the `metapopbio::blk.diag` function.
 ```{r}
-BB <- metapopbio::blk.diag(B1x, B2x)
+(BB <- metapopbio::blk.diag(B1x, B2x))
 ```
 
 #### 5. Structure movement parameters
@@ -100,18 +100,18 @@ Similar to the above, we will construct movement or dispersal matrices for each 
 # Juveniles
 dx1 <- 0.27 
 dx2 <- 1 - dx1
-Mx1 <- matrix(c(dx2, dx1, dx1, dx2),
+(Mx1 <- matrix(c(dx2, dx1, dx1, dx2),
               nrow = n_patches,
               ncol = n_patches,
-              byrow = TRUE)
+              byrow = TRUE))
 # Adults
-Mx2 <- diag(
+(Mx2 <- diag(
   x = 1,
   nrow = n_patches,
   ncol = n_patches
-)
+))
 # Block diagonal matrix
-MM <- metapopbio::blk.diag(Mx1, Mx2)
+(MM <- metapopbio::blk.diag(Mx1, Mx2))
 ```
 
 #### 6. Construct projection matrix
@@ -119,14 +119,14 @@ Now we can use the vec-permutation matrix and block diagonal matrices to constru
 ```{r}
 group_by <- "patches"
 type <- "move"
-A <-
+(A <-
   metapopbio::meta.pop.A(
     P = P,
     BB = BB,
     MM = MM,
     group_by = group_by,
     type = type
-  )
+  ))
 ```
 
 #### 7. Project
@@ -144,14 +144,16 @@ n_timesteps <- 50
 ```
 And, finally we can project stages within patches using the `metapopbio::meta.pop.proj` function.
 ```{r}
-projs <-
-  metapopbio::meta.pop.proj(
-    n = n,
-    A = A,
-    n_timesteps = n_timesteps,
-    n_stages = n_stages,
-    n_patches = n_patches
-  )
+head(
+  projs <-
+    metapopbio::meta.pop.proj(
+      n = n,
+      A = A,
+      n_timesteps = n_timesteps,
+      n_stages = n_stages,
+      n_patches = n_patches
+    )
+)
 ```
 
 #### 8. Plotting
