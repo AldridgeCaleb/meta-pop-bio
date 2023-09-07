@@ -2,11 +2,11 @@
 #' 
 #' @description
 #' Calculates the sensitivity of lambda to changes in the projection matrix A 
-#' (see `proj.matrix.spmm`) as described in Hunter and Caswell (2005) and Lebreton (1996). 
+#' (see `spmm.proj.matrix`) as described in Hunter and Caswell (2005) and Lebreton (1996). 
 #' 
 #' @param A The spatial population projection matrix constructed from the
 #' vec-permutation matrix P, block diagonal demographic matrix BB, and 
-#' block diagonal movement matrix MM (see `proj.matrix.spmm` for more details).
+#' block diagonal movement matrix MM (see `spmm.proj.matrix` for more details).
 #' 
 #' @returns A matrix containing sensitivity values for the projection matrix A.
 #' According to Morris and Doak (2003) sensitivity values od lambda for a 
@@ -40,7 +40,7 @@
 #' 
 #' @examples
 #' Peregrine falcon example from Hunter and Caswell (2005), data from Wootton
-#' and Bell (1992). Continues example from `proj.matrix.spmm`.
+#' and Bell (1992). Continues example from `spmm.proj.matrix`.
 #' 
 #' Define the number of patches and stages
 #' n_patches <- 2  # northern = 1x; southern = 2x
@@ -89,7 +89,7 @@
 #' type <- "move"
 #' 
 #' Projection matrix construction
-#' A <- proj.matrix.spmm(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P 
+#' A <- spmm.proj.matrix(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P 
 #' 
 #' Calculate sensitivity of lambda to elements of projection matrix A
 #' A_sens <- spmm.proj.matrix.sens(A)

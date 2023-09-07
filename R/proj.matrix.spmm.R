@@ -89,10 +89,10 @@
 #' type <- "move"
 #' 
 #' Projection matrix construction
-#' A <- proj.matrix.spmm(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P 
+#' A <- spmm.proj.matrix(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P 
 #' 
 #' @export
-proj.matrix.spmm <- function(P, BB, MM, group_by = c("patches", "stages"), type = c("demo", "move")) {
+spmm.proj.matrix <- function(P, BB, MM, group_by = c("patches", "stages"), type = c("demo", "move")) {
   if (group_by == "patches" && type == "demo") {
     A <- t(P) %*% MM %*% P %*% BB 
   } else if (group_by == "patches" && type == "move") {

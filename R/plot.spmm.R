@@ -7,7 +7,7 @@
 #'
 #' @param projections A `matrix` with `nrow` n_stages × n_patches and `ncol` of
 #' n_timesteps (see `project.spmm` for more detail). If prerequisite steps,
-#' i.e., `vec.perm`, `blk.diag`, `proj.matrix.spmm`, and `project.spmm`, have been
+#' i.e., `vec.perm`, `blk.diag`, `spmm.proj.matrix`, and `project.spmm`, have been
 #' specified correctly and correspond to structure of `n` (and expectations).
 #'
 #' @note
@@ -87,7 +87,7 @@
 #' type <- "move"
 #'
 #' Projection matrix construction
-#' A <- proj.matrix.spmm(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P
+#' A <- spmm.proj.matrix(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P
 #'
 #' Initial stages within patches (patch group_by)
 #' n <- c(

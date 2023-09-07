@@ -12,7 +12,7 @@
 #' order values for each patch within each stage and "stack" stages.
 #' @param A The spatial population projection matrix constructed from the
 #' vec-permutation matrix P, block diagonal demographic matrix BB, and 
-#' block diagonal Movement matrix MM (see `proj.matrix.spmm` for more details).
+#' block diagonal Movement matrix MM (see `spmm.proj.matrix` for more details).
 #' @param n_timesteps The number of time steps into the future that should be 
 #' projected.
 #' @param n_stages The number of stages (rows) in the metapopulation state matrix 
@@ -46,7 +46,7 @@
 #' 
 #' @examples
 #' Peregrine falcon example from Hunter and Caswell (2005), data from Wootton
-#' and Bell (1992). Continues example from `proj.matrix.spmm`.
+#' and Bell (1992). Continues example from `spmm.proj.matrix`.
 #' 
 #' Define the number of patches and stages
 #' n_patches <- 2  # northern = 1x; southern = 2x
@@ -95,7 +95,7 @@
 #' type <- "move"
 #' 
 #' Projection matrix construction
-#' A <- proj.matrix.spmm(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P 
+#' A <- spmm.proj.matrix(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P 
 #' 
 #' Initial stages within patches (patch group_by)  
 #' n <- c(
