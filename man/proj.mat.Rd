@@ -15,6 +15,8 @@
 
 \item{group_by}{The structural form of the population vector `n` as either
 "patches" or "stages".}
+
+\item{type}{The order of demographic and movement (dispersal) processes.}
 }
 \description{
 Constructs projection matrix A given a vec-permutation matrix P, a 

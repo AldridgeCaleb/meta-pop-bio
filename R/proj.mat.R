@@ -10,6 +10,7 @@
 #' @param MM The block diagonal movement matrix (see `blk.diag` function). 
 #' @param group_by The structural form of the population vector `n` as either
 #' "patches" or "stages".
+#' @param type The order of demographic and movement (dispersal) processes.
 #' 
 #' @note
 #' The demographic block matrix BB consists of s × s number of 

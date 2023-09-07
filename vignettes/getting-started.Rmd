@@ -14,7 +14,10 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-devtools::install_github("AldridgeCaleb/meta-pop-bio")
+```
+
+```{r}
+# devtools::install_github("AldridgeCaleb/meta-pop-bio")
 library(metapopbio)
 ```
 
@@ -42,7 +45,7 @@ group_by <- "patches"
 Next, we construct the vec-permutation matrix. Essentially, the vec-permutation matrix helps us relate demographic and dispersal parameters so that populations in patches are projected considering births, immigration, deaths, and emigration (BIDE) or recruitment, immigration, survival, and emigration (RISE). The `metapopbio::vec.perm` function helps us to easily construct a vec-permutation matrix.
 ```{r}
 P <-
-  vec.perm(stages = n_stages,
+  metapopbio::vec.perm(stages = n_stages,
            patches = n_patches,
            group_by = group_by)
 ```
@@ -88,7 +91,7 @@ B2x <-
 #### 4b. Construct block diagonal matrix
 Along with the vec-permutation matrix, spatial matrix population models use a matrix of matrices for analysis and projection of population demographics and movement. We accomplish this using the `metapopbio::blk.diag` function.
 ```{r}
-BB <- blk.diag(B1x, B2x)
+BB <- metapopbio::blk.diag(B1x, B2x)
 ```
 
 #### 5. Structure movement parameters
@@ -108,7 +111,7 @@ Mx2 <- diag(
   ncol = n_patches
 )
 # Block diagonal matrix
-MM <- blk.diag(Mx1, Mx2)
+MM <- metapopbio::blk.diag(Mx1, Mx2)
 ```
 
 #### 6. Construct projection matrix
@@ -117,7 +120,7 @@ Now we can use the vec-permutation matrix and block diagonal matrices to constru
 group_by <- "patches"
 type <- "move"
 A <-
-  proj.mat(
+  metapopbio::proj.mat(
     P = P,
     BB = BB,
     MM = MM,
