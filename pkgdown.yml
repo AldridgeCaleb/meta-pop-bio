@@ -3,7 +3,7 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   getting-started: getting-started.html
-last_built: 2023-09-07T18:33Z
+last_built: 2023-09-07T19:01Z
 urls:
   reference: https://aldridgecaleb.github.io/meta-pop-bio/reference
   article: https://aldridgecaleb.github.io/meta-pop-bio/articles
