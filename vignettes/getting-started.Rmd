@@ -171,12 +171,12 @@ metapopbio::spmm.plot(
 
 #### 9. Sensitivity and elasticity analyses
 ```{r}
-# metapopbio::spmm.project.matrix.sens(A)
-# metapopbio::spmm.eig.lambda(A)
-# metapopbio::spmm.demo.sens(BB, A, P, MM)
-# metapopbio::spmm.demo.elas(BB, A, P, MM)
-# metapopbio::spmm.move.sens(MM, A, P, BB)
-# metapopbio::spmm.move.elas(MM, A, P, BB)
+metapopbio::spmm.project.matrix.sens(A)
+metapopbio::spmm.eig.lambda(A)
+metapopbio::spmm.demo.sens(BB, A, P, MM)
+metapopbio::spmm.demo.elas(BB, A, P, MM)
+metapopbio::spmm.move.sens(MM, A, P, BB)
+metapopbio::spmm.move.elas(MM, A, P, BB)
 ```
 
 ## The black-headed gull
@@ -296,12 +296,12 @@ metapopbio::spmm.plot(
 
 #### 9. Sensitivity and elasticity analyses
 ```{r}
-# metapopbio::spmm.project.matrix.sens(A)
-# metapopbio::spmm.eig.lambda(A)
-# metapopbio::spmm.demo.sens(BB, A, P, MM)
-# metapopbio::spmm.demo.elas(BB, A, P, MM)
-# metapopbio::spmm.move.sens(MM, A, P, BB)
-# metapopbio::spmm.move.elas(MM, A, P, BB)
+metapopbio::spmm.project.matrix.sens(A)
+metapopbio::spmm.eig.lambda(A)
+metapopbio::spmm.demo.sens(BB, A, P, MM)
+metapopbio::spmm.demo.elas(BB, A, P, MM)
+metapopbio::spmm.move.sens(MM, A, P, BB)
+metapopbio::spmm.move.elas(MM, A, P, BB)
 ```
 
 
