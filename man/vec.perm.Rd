@@ -4,17 +4,17 @@
 \alias{vec.perm}
 \title{vec-permutation matrix}
 \usage{
-vec.perm(stages, patches, group_by = c("patches", "stages"))
+vec.perm(n_stages, n_patches, group_by = c("patches", "stages"))
 }
 \arguments{
-\item{group_by}{The structural form of the population vector `n` as either
-"patches" or "stages".}
-
 \item{n_stages}{The number of stages (rows) in the metapopulation state matrix 
 N.}
 
 \item{n_patches}{The number of patches (columns) in the metapopulation state 
 matrix N.}
+
+\item{group_by}{The structural form of the population vector `n` as either
+"patches" or "stages".}
 }
 \description{
 Stacks the columns of a matrix one on top of the other to covert a population 
@@ -34,15 +34,15 @@ For convenience, the argument `group_by` is used to properly construct the
 vec-permutation matrix correctly.
 }
 \examples{
-Peregrine falcon example from Hunter and Caswell (2005), data from Wootton
-and Bell (1992).
+# Peregrine falcon example from Hunter and Caswell (2005), data from Wootton
+# and Bell (1992).
 
-Define the number of patches and stages
+# Define the number of patches and stages
 n_patches <- 2  # northern = 1x; southern = 2x
 n_stages <- 2  # juvenile = x1; adult = x2
 group_by <- "patches"
 
-Construct vec-permutation matrix
+# Construct vec-permutation matrix
 P <- vec.perm(n_stages, n_patches, group_by)
 
 }

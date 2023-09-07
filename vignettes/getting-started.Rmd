@@ -45,8 +45,8 @@ group_by <- "patches"
 Next, we construct the vec-permutation matrix. Essentially, the vec-permutation matrix helps us relate demographic and dispersal parameters so that populations in patches are projected considering births, immigration, deaths, and emigration (BIDE) or recruitment, immigration, survival, and emigration (RISE). The `metapopbio::vec.perm` function helps us to easily construct a vec-permutation matrix.
 ```{r}
 (P <-
-  metapopbio::vec.perm(stages = n_stages,
-           patches = n_patches,
+  metapopbio::vec.perm(n_stages = n_stages,
+           n_patches = n_patches,
            group_by = group_by))
 ```
 

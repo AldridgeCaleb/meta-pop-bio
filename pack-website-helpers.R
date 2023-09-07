@@ -1,5 +1,5 @@
 # Helpers building package
-roxygen2::roxygenise()
+roxygen2::roxygenise()  # builds NAMESPACE and man files
 devtools::check()
 
 # Build package website

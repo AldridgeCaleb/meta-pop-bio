@@ -27,30 +27,30 @@ Ensure that the structural types of population vector `n` and projection
 matrix `A` are the same. Otherwise, projections may produce incorrect values!
 }
 \examples{
-Peregrine falcon example from Hunter and Caswell (2005), data from Wootton
-and Bell (1992). Continues example from `spmm.project.matrix`.
+# Peregrine falcon example from Hunter and Caswell (2005), data from Wootton
+# and Bell (1992). Continues example from `spmm.project.matrix`.
 
-Define the number of patches and stages
+# Define the number of patches and stages
 n_patches <- 2  # northern = 1x; southern = 2x
 n_stages <- 2  # juvenile = x1; adult = x2
 group_by <- "patches"
 
-Construct vec-permutation matrix
+# Construct vec-permutation matrix
 P <- vec.perm(n_stages, n_patches, group_by)
 
-Demographic parameter values
-Northern
+# Demographic parameter values
+# Northern
 f11 <- 0.00  # only adults reproduce
 f12 <- 0.26
 s11 <- 0.72
 s12 <- 0.77
-Southern
+# Southern
 f21 <- 0.00
 f22 <- 0.19  
 s21 <- 0.72
 s22 <- 0.77
 
-Demography matrices for patches
+# Demography matrices for patches
 B1x <-
   matrix(c(f11, f12, s11, s12),
          nrow = 2,
@@ -59,27 +59,27 @@ B2x <-
   matrix(c(f21, f22, s21, s22),
          nrow = 2,
          byrow = TRUE)
-Demography block matrix construction
+# Demography block matrix construction
 BB <- blk.diag(B1x, B2x)
 
-Movement parameter values
+# Movement parameter values
 dx1 <- 0.27  # only juveniles disperse
 dx2 <- 1 - dx1
-Movement matrices for stages
+# Movement matrices for stages
 Mx1 <- matrix(c(dx2, dx1, dx1, dx2), nrow = n_patches, byrow = TRUE)
 Mx2 <- diag(x = 1, nrow = n_patches, ncol = n_patches)  # no movement by adults
-Movement block matrix construction
+# Movement block matrix construction
 MM <- blk.diag(Mx1, Mx2)
 
-Arrangement by patches
+# Arrangement by patches
 group_by <- "patches"
-Assumed movement before demography
+# Assumed movement before demography
 type <- "move"
 
-Projection matrix construction
+# Projection matrix construction
 A <- spmm.project.matrix(P, BB, MM, group_by, type)  # BB \%*\% t(P) \%*\% MM \%*\% P 
 
-Calculate sensitivity of lambda to elements of projection matrix A
+# Calculate sensitivity of lambda to elements of projection matrix A
 A_sens <- spmm.project.matrix.sens(A)
 
 }

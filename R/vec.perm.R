@@ -45,25 +45,25 @@
 #' spatial matrix population models. Ecological Modelling 188:15--21.
 #' 
 #' @examples
-#' Peregrine falcon example from Hunter and Caswell (2005), data from Wootton
-#' and Bell (1992).
+#' # Peregrine falcon example from Hunter and Caswell (2005), data from Wootton
+#' # and Bell (1992).
 #' 
-#' Define the number of patches and stages
+#' # Define the number of patches and stages
 #' n_patches <- 2  # northern = 1x; southern = 2x
 #' n_stages <- 2  # juvenile = x1; adult = x2
 #' group_by <- "patches"
 #' 
-#' Construct vec-permutation matrix
+#' # Construct vec-permutation matrix
 #' P <- vec.perm(n_stages, n_patches, group_by)
 #' 
 #' @export
 vec.perm <-
-  function(stages,
-           patches,
+  function(n_stages,
+           n_patches,
            group_by = c("patches", "stages")) {
     if (group_by == "patches") {
-      m <- stages
-      n <- patches
+      m <- n_stages
+      n <- n_patches
       P <- matrix(0, nrow = m * n, ncol = m * n)
       for (i in 1:m) {
         for (j in 1:n) {
@@ -73,8 +73,8 @@ vec.perm <-
         }
       }
     } else if (group_by == "stages") {
-      m <- patches
-      n <- stages
+      m <- n_patches
+      n <- n_stages
       P <- matrix(0, nrow = m * n, ncol = m * n)
       for (i in 1:m) {
         for (j in 1:n) {

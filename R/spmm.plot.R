@@ -9,6 +9,10 @@
 #' n_timesteps (see `spmm.project` for more detail). If prerequisite steps,
 #' i.e., `vec.perm`, `blk.diag`, `spmm.project.matrix`, and `spmm.project`, have been
 #' specified correctly and correspond to structure of `n` (and expectations).
+#' @param ylabs Y-axis label for plots.
+#' @param xlabs X-axis label for plots.
+#' @param stage_names Names of stages, ages, classes, etc.
+#' @param patch_names Names of patches, units, pools, etc.
 #'
 #' @note
 #' As with `spmm.project` ensure that the structural types of population vector
@@ -36,31 +40,31 @@
 #' spatial matrix population models. Ecological Modelling 188:15--21.
 #'
 #' @examples
-#' Peregrine falcon example from Hunter and Caswell (2005), Ecological Modelling 
-#' 188(2005):15--21. Data from Wootton and Bell (1992). Continues example from 
-#' `spmm.project`.
+#' # Peregrine falcon example from Hunter and Caswell (2005), Ecological Modelling 
+#' # 188(2005):15--21. Data from Wootton and Bell (1992). Continues example from 
+#' # `spmm.project`.
 #'
-#' Define the number of patches and stages
+#' # Define the number of patches and stages
 #' n_patches <- 2  # northern = 1x; southern = 2x
 #' n_stages <- 2  # juvenile = x1; adult = x2
 #' group_by <- "patches"
 #'
-#' Construct vec-permutation matrix
+#' # Construct vec-permutation matrix
 #' P <- vec.perm(n_stages, n_patches, group_by)
 #'
-#' Demographic parameter values
-#' Northern
+#' # Demographic parameter values
+#' # Northern
 #' f11 <- 0.00  # only adults reproduce
 #' f12 <- 0.26
 #' s11 <- 0.72
 #' s12 <- 0.77
-#' Southern
+#' # Southern
 #' f21 <- 0.00
 #' f22 <- 0.19
 #' s21 <- 0.72
 #' s22 <- 0.77
 #'
-#' Demography matrices for patches
+#' # Demography matrices for patches
 #' B1x <-
 #'   matrix(c(f11, f12, s11, s12),
 #'          nrow = 2,
@@ -69,40 +73,40 @@
 #'   matrix(c(f21, f22, s21, s22),
 #'          nrow = 2,
 #'          byrow = TRUE)
-#' Demography block matrix construction
+#' # Demography block matrix construction
 #' BB <- blk.diag(B1x, B2x)
 #'
-#' Movement parameter values
+#' # Movement parameter values
 #' dx1 <- 0.27  # only juveniles disperse
 #' dx2 <- 1 - dx1
-#' Movement matrices for stages
+#' # Movement matrices for stages
 #' Mx1 <- matrix(c(dx2, dx1, dx1, dx2), nrow = n_patches, byrow = TRUE)
 #' Mx2 <- diag(x = 1, nrow = n_patches, ncol = n_patches)  # no movement by adults
-#' Movement block matrix construction
+#' # Movement block matrix construction
 #' MM <- blk.diag(Mx1, Mx2)
 #'
-#' Arrangement by patches
+#' # Arrangement by patches
 #' group_by <- "patches"
-#' Assumed movement before demography
+#' # Assumed movement before demography
 #' type <- "move"
 #'
-#' Projection matrix construction
+#' # Projection matrix construction
 #' A <- spmm.project.matrix(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P
 #'
-#' Initial stages within patches (patch group_by)
+#' # Initial stages within patches (patch group_by)
 #' n <- c(
 #'   50, 22,  # Northern patch adults and juveniles
 #'   40, 17   # Southern patch adults and juveniles
 #' )
 #' comment(n) <- "patches"  # vec comment attr for group_by
 #'
-#' Number of time steps to project into the future
+#' # Number of time steps to project into the future
 #' n_timesteps <- 50
 #'
-#' Project spatial matrix population model
+#' # Project spatial matrix population model
 #' projs <- spmm.project(n, A, n_timesteps, n_stages, n_patches)
 #'
-#' Plot projections
+#' # Plot projections
 #' spmm.plot(projs)
 #'
 #' @export
@@ -115,13 +119,13 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
     n_patches <- as.numeric(strsplit(comments, " +")[[3]][1])
     
     if ((dim(projections)[1] / n_patches) + 1 <= 4) {
-      par(
+      graphics::par(
         mfrow = c(n_patches + 1, 1),
         mar = c(5, 5, 1.5, 0.5),
         oma = rep(0.5, 4)
       )
     } else if ((dim(projections)[1] / n_patches) + 1 > 4) {
-      par(
+      graphics::par(
         mfrow = c(4 + 1, n_patches - 4),
         mar = c(5, 5, 1.5, 0.5),
         oma = rep(0.5, 4)
@@ -132,7 +136,7 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
     ends <- c(starts - 1, dim(projections)[1])[-1]
     # throw error if starts and ends != lengths()
     for (i in 1:length(starts)) {
-      matplot(
+      graphics::matplot(
         t(projections)[, c(starts[i], ends[i])],
         type = 'b',
         pch = 16,
@@ -144,8 +148,8 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
       )
     }
     if (!is.na(stage_names)[1]) {
-      plot.new()
-      legend("center",
+      graphics::plot.new()
+      graphics::legend("center",
              stage_names,
              pch = 16,
              col = 1:length(stage_names))
@@ -156,13 +160,13 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
     n_stages <- as.numeric(strsplit(comments, " +")[[3]][1])
     
     if ((dim(projections)[1] / n_stages) + 1 <= 4) {
-      par(
+      graphics::par(
         mfrow = c(n_stages + 1, 1),
         mar = c(5, 5, 1.5, 0.5),
         oma = rep(0.5, 4)
       )
     } else if ((dim(projections)[1] / n_stages) + 1 > 4) {
-      par(
+      graphics::par(
         mfrow = c(4 + 1, n_stages - 4),
         mar = c(5, 5, 1.5, 0.5),
         oma = rep(0.5, 4)
@@ -173,7 +177,7 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
     ends <- c(starts - 1, dim(projections)[1])[-1]
     # throw error if starts and ends != lengths()
     for (i in 1:length(starts)) {
-      matplot(
+      graphics::matplot(
         t(projections)[, c(starts[i], ends[i])],
         type = 'b',
         pch = 16,
@@ -185,8 +189,8 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
       )
     }
     if (!is.na(patch_names)[1]) {
-      plot.new()
-      legend("center",
+      graphics::plot.new()
+      graphics::legend("center",
              patch_names,
              pch = 16,
              col = 1:length(patch_names))
