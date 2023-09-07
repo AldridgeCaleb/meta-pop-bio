@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r}
-devtools::install_github("AldridgeCaleb/meta-pop-bio")
+# devtools::install_github("AldridgeCaleb/meta-pop-bio")
 library(metapopbio)
 ```
 
@@ -115,12 +115,12 @@ MM <- metapopbio::blk.diag(Mx1, Mx2)
 ```
 
 #### 6. Construct projection matrix
-Now we can use the vec-permutation matrix and block diagonal matrices to construct a population projection matrix. This is accomplished through matrix multiplication. The order of matrices is very important (see Hunter and Caswell 2005 or function documentation for more detail), but the `metapopbio::proj.A.mat` function makes it much more convenient and reduces the probability of calculation errors. All that's needed is to specify the grouping (structure) for the projection (stages within patches here) and the order type between demographic and movement / dispersal processes (here, dispersal then deomgraphics), then supply the matrices we have constructed (P, BB, and MM).
+Now we can use the vec-permutation matrix and block diagonal matrices to construct a population projection matrix. This is accomplished through matrix multiplication. The order of matrices is very important (see Hunter and Caswell 2005 or function documentation for more detail), but the `metapopbio::meta.pop.A` function makes it much more convenient and reduces the probability of calculation errors. All that's needed is to specify the grouping (structure) for the projection (stages within patches here) and the order type between demographic and movement / dispersal processes (here, dispersal then deomgraphics), then supply the matrices we have constructed (P, BB, and MM).
 ```{r}
 group_by <- "patches"
 type <- "move"
 A <-
-  metapopbio::proj.A.mat(
+  metapopbio::meta.pop.A(
     P = P,
     BB = BB,
     MM = MM,
@@ -145,7 +145,7 @@ n_timesteps <- 50
 And, finally we can project stages within patches using the `metapopbio::meta.pop.proj` function.
 ```{r}
 projs <-
-  meta.pop.proj(
+  metapopbio::meta.pop.proj(
     n = n,
     A = A,
     n_timesteps = n_timesteps,
@@ -158,7 +158,7 @@ projs <-
 ```{r}
 stage_names <- c("Juv.", "Adults")
 patch_names <- c("North", "South")
-meta.pop.plot(
+metapopbio::meta.pop.plot(
   projections = projs,
   ylabs = "Abundance",
   xlabs = "Years",
@@ -169,12 +169,12 @@ meta.pop.plot(
 
 #### 9. Sensitivity and elasticity analyses
 ```{r}
-sens.A(A)
-eigen.lambda(A)
-sens.BB(BB, A, P, MM)
-elas.BB(BB, A, P, MM)
-sens.MM(MM, P, A, BB)
-elas.MM(MM, P, A, BB)
+metapopbio::sens.A(A)
+metapopbio::eigen.lambda(A)
+metapopbio::sens.BB(BB, A, P, MM)
+metapopbio::elas.BB(BB, A, P, MM)
+metapopbio::sens.MM(MM, P, A, BB)
+metapopbio::elas.MM(MM, P, A, BB)
 ```
 
 ## The black-headed gull
@@ -208,7 +208,7 @@ elas.MM(MM, P, A, BB)
 <!-- P <- vec.perm(stages = n_stages, -->
 <!--               patches = n_patches, -->
 <!--               n_struc = structure) -->
-<!-- A <- proj.A.mat(P, BB, MM, n_struc = structure, type = type) -->
+<!-- A <- meta.pop.A(P, BB, MM, n_struc = structure, type = type) -->
 
 ## References
 Caswell, H. (2001). Matrix Population Models: Construction, analysis, and 

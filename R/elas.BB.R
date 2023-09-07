@@ -1,5 +1,4 @@
-#' @title sensitivity and elasticity of demographic and movement (dispersal) 
-#' block matrices
+#' @title elasticity of demographic block matrices
 #' 
 #' @description
 #' Calculates the sensitivity or elasticity of lambda to changes in the 
@@ -108,19 +107,6 @@
 #' sens_d <- MM_sens[1, 2] + MM_sens[2, 1] - MM_sens[1, 1] - MM_sens[2, 2]
 #' 
 #' @export
-sens.BB <- function(BB, A, P, MM) {
-  eig <- eigen(A)
-  lambda <- max(Re(eig$values))
-  v <- eig$vectors[, which.max(Re(eig$values))]
-  eig_t <- eigen(t(A))
-  w <- eig_t$vectors[, which.max(Re(eig_t$values))]
-  SA <- t((v %*% t(w)) / sum(w * v))
-  
-  SBB <- t(SA) %*% t(P) %*% t(MM) %*% P
-  
-  return(SBB)
-}
-
 elas.BB <- function(BB, A, P, MM) {
   eig <- eigen(A)
   lambda <- max(Re(eig$values))
@@ -132,29 +118,4 @@ elas.BB <- function(BB, A, P, MM) {
   SBB <- t(SA) %*% t(P) %*% t(MM) %*% P
   EBB <- BB / lambda * SBB
   return(EBB)
-}
-
-sens.MM <- function(MM, A, P, BB) {
-  eig <- eigen(A)
-  lambda <- max(Re(eig$values))
-  v <- eig$vectors[, which.max(Re(eig$values))]
-  eig_t <- eigen(t(A))
-  w <- eig_t$vectors[, which.max(Re(eig_t$values))]
-  SA <- t((v %*% t(w)) / sum(w * v))
-  
-  SMM <- P %*% t(BB) %*% t(SA) %*% t(P)
-  return(SMM)
-}
-
-elas.MM <- function(MM, A, P, BB) {
-  eig <- eigen(A)
-  lambda <- max(Re(eig$values))
-  v <- eig$vectors[, which.max(Re(eig$values))]
-  eig_t <- eigen(t(A))
-  w <- eig_t$vectors[, which.max(Re(eig_t$values))]
-  SA <- t((v %*% t(w)) / sum(w * v))
-  
-  SMM <- P %*% t(BB) %*% t(SA) %*% t(P)
-  EMM <- MM / lambda * SMM
-  return(EMM)
 }

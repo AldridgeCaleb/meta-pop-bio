@@ -2,9 +2,12 @@
 
 export(blk.diag)
 export(eigen.lambda)
+export(elas.BB)
+export(elas.MM)
 export(meta.pop.A)
 export(meta.pop.plot)
 export(meta.pop.proj)
 export(sens.A)
 export(sens.BB)
+export(sens.MM)
 export(vec.perm)
