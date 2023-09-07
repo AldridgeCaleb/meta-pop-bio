@@ -194,7 +194,7 @@ group_by <- "stages"
 Next, we construct the vec-permutation matrix. 
 ```{r}
 (P <-
-  metapopbio::vec.perm(n_stages = n_stages,
+  vec.perm(n_stages = n_stages,
            n_patches = n_patches,
            group_by = group_by))
 ```
@@ -230,7 +230,7 @@ Mx1 <- matrix(c(0.75, 0.375, 0.25, 0.625),
               nrow = n_patches, ncol = n_patches, byrow = TRUE)
 # Adults
 Mx5 <- Mx4 <- Mx3 <- Mx2 <-
-  diag(x = 1, nrow = n_patches, ncol = n_patches, byrow = TRUE)
+  diag(x = 1, nrow = n_patches, ncol = n_patches)
 
 # Block diagonal matrix
 (MM <- metapopbio::blk.diag(Mx1, Mx2, Mx3, Mx4, Mx5))

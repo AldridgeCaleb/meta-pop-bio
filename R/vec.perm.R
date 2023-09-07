@@ -62,8 +62,8 @@ vec.perm <-
            n_patches,
            group_by = c("patches", "stages")) {
     if (group_by == "patches") {
-      m <- n_stages
-      n <- n_patches
+      m <- n_patches
+      n <- n_stages
       P <- matrix(0, nrow = m * n, ncol = m * n)
       for (i in 1:m) {
         for (j in 1:n) {
@@ -73,8 +73,8 @@ vec.perm <-
         }
       }
     } else if (group_by == "stages") {
-      m <- n_patches
-      n <- n_stages
+      m <- n_stages
+      n <- n_patches
       P <- matrix(0, nrow = m * n, ncol = m * n)
       for (i in 1:m) {
         for (j in 1:n) {

@@ -137,7 +137,7 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
     # throw error if starts and ends != lengths()
     for (i in 1:length(starts)) {
       graphics::matplot(
-        t(projections)[, c(starts[i], ends[i])],
+        t(projections)[, c(starts[i]:ends[i])],
         type = 'b',
         pch = 16,
         # col = c("black", "black"),
@@ -178,7 +178,7 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
     # throw error if starts and ends != lengths()
     for (i in 1:length(starts)) {
       graphics::matplot(
-        t(projections)[, c(starts[i], ends[i])],
+        t(projections)[, c(starts[i]:ends[i])],
         type = 'b',
         pch = 16,
         # col = c("black", "black"),
