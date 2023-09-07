@@ -9,7 +9,7 @@ spmm.eigen.lamda(A)
 \arguments{
 \item{A}{The spatial population projection matrix constructed from the
 vec-permutation matrix P, block diagonal demographic matrix BB, and 
-block diagonal movement matrix MM (see `proj.matrix.spmm` for more details).}
+block diagonal movement matrix MM (see `spmm.project.matrix` for more details).}
 }
 \value{
 A list containing `eig` = eigenvalues of A; `lambda` = dominant
@@ -19,7 +19,7 @@ containing the max real eigenvalue.
 }
 \description{
 Calculates the dominant eigenvalue (lambda) and corresponding eigenvectors 
-for the projection matrix A (see `proj.matrix.spmm`) as described in Hunter and 
+for the projection matrix A (see `spmm.project.matrix`) as described in Hunter and 
 Caswell (2005) and Lebreton (1996).
 }
 \note{
@@ -29,7 +29,7 @@ matrix `A` are the same. Otherwise, projections may produce incorrect values!
 \examples{
 Peregrine falcon example from Hunter and Caswell (2005), data from Wootton
 and Bell (1992). Continues example from
-`proj.matrix.spmm`.
+`spmm.project.matrix`.
 
 Define the number of patches and stages
 n_patches <- 2  # northern = 1x; southern = 2x
@@ -78,7 +78,7 @@ Assumed movement before demography
 type <- "move"
 
 Projection matrix construction
-A <- proj.matrix.spmm(P, BB, MM, group_by, type)  # BB \%*\% t(P) \%*\% MM \%*\% P 
+A <- spmm.project.matrix(P, BB, MM, group_by, type)  # BB \%*\% t(P) \%*\% MM \%*\% P 
 
 eigen_results <- spmm.eigen.lamda(A)
 

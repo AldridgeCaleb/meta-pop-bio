@@ -1,3 +1,7 @@
+# Helpers building package
+roxygen2::roxygenise()
+devtools::check()
+
 # Build package website
 # Install released version from CRAN
 install.packages("pkgdown")

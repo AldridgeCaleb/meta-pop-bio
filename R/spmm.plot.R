@@ -6,12 +6,12 @@
 #' stages and lines the opposite.
 #'
 #' @param projections A `matrix` with `nrow` n_stages × n_patches and `ncol` of
-#' n_timesteps (see `project.spmm` for more detail). If prerequisite steps,
-#' i.e., `vec.perm`, `blk.diag`, `spmm.proj.matrix`, and `project.spmm`, have been
+#' n_timesteps (see `spmm.project` for more detail). If prerequisite steps,
+#' i.e., `vec.perm`, `blk.diag`, `spmm.project.matrix`, and `spmm.project`, have been
 #' specified correctly and correspond to structure of `n` (and expectations).
 #'
 #' @note
-#' As with `project.spmm` ensure that the structural types of population vector
+#' As with `spmm.project` ensure that the structural types of population vector
 #' `n` and projection matrix `A` are the same. Otherwise, projections may produce
 #' incorrect values!
 #' 
@@ -38,7 +38,7 @@
 #' @examples
 #' Peregrine falcon example from Hunter and Caswell (2005), Ecological Modelling 
 #' 188(2005):15--21. Data from Wootton and Bell (1992). Continues example from 
-#' `project.spmm`.
+#' `spmm.project`.
 #'
 #' Define the number of patches and stages
 #' n_patches <- 2  # northern = 1x; southern = 2x
@@ -87,7 +87,7 @@
 #' type <- "move"
 #'
 #' Projection matrix construction
-#' A <- spmm.proj.matrix(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P
+#' A <- spmm.project.matrix(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P
 #'
 #' Initial stages within patches (patch group_by)
 #' n <- c(
@@ -100,13 +100,13 @@
 #' n_timesteps <- 50
 #'
 #' Project spatial matrix population model
-#' projs <- project.spmm(n, A, n_timesteps, n_stages, n_patches)
+#' projs <- spmm.project(n, A, n_timesteps, n_stages, n_patches)
 #'
 #' Plot projections
-#' plot.spmm(projs)
+#' spmm.plot(projs)
 #'
 #' @export
-plot.spmm <- function(projections, ylabs = NA, xlabs = NA, 
+spmm.plot <- function(projections, ylabs = NA, xlabs = NA, 
                           stage_names = NA, patch_names = NA) {
   comments <- comment(projections)
   group_by <- strsplit(comments, " +")[[1]][1]

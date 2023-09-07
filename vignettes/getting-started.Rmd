@@ -1,10 +1,10 @@
 ---
-title: "Getting started with the `metapopbio` package"
+title: "Getting started with the metapopbio package"
 author: "Caleb A. Aldridge"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Getting started metapopbio}
+  %\VignetteIndexEntry{Getting started with the metapopbio package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -115,12 +115,12 @@ dx2 <- 1 - dx1
 ```
 
 #### 6. Construct projection matrix
-Now we can use the vec-permutation matrix and block diagonal matrices to construct a population projection matrix. This is accomplished through matrix multiplication. The order of matrices is very important (see Hunter and Caswell 2005 or function documentation for more detail), but the `metapopbio::proj.matrix.spmm` function makes it much more convenient and reduces the probability of calculation errors. All that's needed is to specify the grouping (structure) for the projection (stages within patches here) and the order type between demographic and movement / dispersal processes (here, dispersal then deomgraphics), then supply the matrices we have constructed (P, BB, and MM).
+Now we can use the vec-permutation matrix and block diagonal matrices to construct a population projection matrix. This is accomplished through matrix multiplication. The order of matrices is very important (see Hunter and Caswell 2005 or function documentation for more detail), but the `metapopbio::spmm.project.matrix` function makes it much more convenient and reduces the probability of calculation errors. All that's needed is to specify the grouping (structure) for the projection (stages within patches here) and the order type between demographic and movement / dispersal processes (here, dispersal then deomgraphics), then supply the matrices we have constructed (P, BB, and MM).
 ```{r}
 group_by <- "patches"
 type <- "move"
 (A <-
-  metapopbio::proj.matrix.spmm(
+  metapopbio::spmm.project.matrix(
     P = P,
     BB = BB,
     MM = MM,
@@ -142,11 +142,11 @@ Now we indicate the number of time steps we would like to project.
 ```{r}
 n_timesteps <- 50
 ```
-And, finally we can project stages within patches using the `metapopbio::project.spmm` function.
+And, finally we can project stages within patches using the `metapopbio::spmm.project` function.
 ```{r}
 head(
   projs <-
-    metapopbio::project.spmm(
+    metapopbio::spmm.project(
       n = n,
       A = A,
       n_timesteps = n_timesteps,
@@ -160,7 +160,7 @@ head(
 ```{r}
 stage_names <- c("Juv.", "Adults")
 patch_names <- c("North", "South")
-metapopbio::plot.spmm(
+metapopbio::spmm.plot(
   projections = projs,
   ylabs = "Abundance",
   xlabs = "Years",
@@ -171,12 +171,12 @@ metapopbio::plot.spmm(
 
 #### 9. Sensitivity and elasticity analyses
 ```{r}
-metapopbio::spmm.proj.matrix.sens(A)
-metapopbio::spmm.eigen.lambda(A)
-metapopbio::spmm.demo.sens(BB, A, P, MM)
-metapopbio::spmm.demo.elas(BB, A, P, MM)
-metapopbio::spmm.move.sens(MM, P, A, BB)
-metapopbio::spmm.move.elas(MM, P, A, BB)
+# metapopbio::spmm.project.matrix.sens(A)
+# metapopbio::spmm.eigen.lambda(A)
+# metapopbio::spmm.demo.sens(BB, A, P, MM)
+# metapopbio::spmm.demo.elas(BB, A, P, MM)
+# metapopbio::spmm.move.sens(MM, A, P, BB)
+# metapopbio::spmm.move.elas(MM, A, P, BB)
 ```
 
 ## The black-headed gull
@@ -210,7 +210,7 @@ metapopbio::spmm.move.elas(MM, P, A, BB)
 <!-- P <- vec.perm(stages = n_stages, -->
 <!--               patches = n_patches, -->
 <!--               n_struc = structure) -->
-<!-- A <- proj.matrix.spmm(P, BB, MM, n_struc = structure, type = type) -->
+<!-- A <- spmm.project.matrix(P, BB, MM, n_struc = structure, type = type) -->
 
 ## References
 Caswell, H. (2001). Matrix Population Models: Construction, analysis, and 
