@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r}
-devtools::install_github("AldridgeCaleb/meta-pop-bio")
+# devtools::install_github("AldridgeCaleb/meta-pop-bio")
 library(metapopbio)
 ```
 
