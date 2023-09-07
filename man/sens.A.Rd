@@ -9,7 +9,7 @@ sens.A(A)
 \arguments{
 \item{A}{The spatial population projection matrix constructed from the
 vec-permutation matrix P, block diagonal demographic matrix BB, and 
-block diagonal movement matrix MM (see `proj.mat` for more details).}
+block diagonal movement matrix MM (see `meta.pop.A` for more details).}
 }
 \value{
 A matrix containing sensitivity values for the projection matrix A.
@@ -20,7 +20,7 @@ value of each individual that the element 'creates'" (p. 226).
 }
 \description{
 Calculates the sensitivity of lambda to changes in the projection matrix A 
-(see `proj.mat`) as described in Hunter and Caswell (2005) and Lebreton (1996).
+(see `meta.pop.A`) as described in Hunter and Caswell (2005) and Lebreton (1996).
 }
 \note{
 Ensure that the structural types of population vector `n` and projection 
@@ -28,7 +28,7 @@ matrix `A` are the same. Otherwise, projections may produce incorrect values!
 }
 \examples{
 Peregrine falcon example from Hunter and Caswell (2005), data from Wootton
-and Bell (1992). Continues example from `proj.mat`.
+and Bell (1992). Continues example from `meta.pop.A`.
 
 Define the number of patches and stages
 n_patches <- 2  # northern = 1x; southern = 2x
@@ -77,7 +77,7 @@ Assumed movement before demography
 type <- "move"
 
 Projection matrix construction
-A <- proj.mat(P, BB, MM, group_by, type)  # BB \%*\% t(P) \%*\% MM \%*\% P 
+A <- meta.pop.A(P, BB, MM, group_by, type)  # BB \%*\% t(P) \%*\% MM \%*\% P 
 
 Calculate sensitivity of lambda to elements of projection matrix A
 A_sens <- sens.A(A)

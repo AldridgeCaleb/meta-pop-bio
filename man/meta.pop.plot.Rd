@@ -15,7 +15,7 @@ meta.pop.plot(
 \arguments{
 \item{projections}{A `matrix` with `nrow` n_stages × n_patches and `ncol` of
 n_timesteps (see `meta.pop.proj` for more detail). If prerequisite steps,
-i.e., `vec.perm`, `blk.diag`, `proj.mat`, and `meta.pop.proj`, have been
+i.e., `vec.perm`, `blk.diag`, `meta.pop.A`, and `meta.pop.proj`, have been
 specified correctly and correspond to structure of `n` (and expectations).}
 }
 \description{
@@ -80,7 +80,7 @@ Assumed movement before demography
 type <- "move"
 
 Projection matrix construction
-A <- proj.mat(P, BB, MM, group_by, type)  # BB \%*\% t(P) \%*\% MM \%*\% P
+A <- meta.pop.A(P, BB, MM, group_by, type)  # BB \%*\% t(P) \%*\% MM \%*\% P
 
 Initial stages within patches (patch group_by)
 n <- c(

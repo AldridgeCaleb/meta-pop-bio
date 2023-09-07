@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r}
-# devtools::install_github("AldridgeCaleb/meta-pop-bio")
+devtools::install_github("AldridgeCaleb/meta-pop-bio")
 library(metapopbio)
 ```
 
@@ -115,12 +115,12 @@ MM <- metapopbio::blk.diag(Mx1, Mx2)
 ```
 
 #### 6. Construct projection matrix
-Now we can use the vec-permutation matrix and block diagonal matrices to construct a population projection matrix. This is accomplished through matrix multiplication. The order of matrices is very important (see Hunter and Caswell 2005 or function documentation for more detail), but the `metapopbio::proj.mat` function makes it much more convenient and reduces the probability of calculation errors. All that's needed is to specify the grouping (structure) for the projection (stages within patches here) and the order type between demographic and movement / dispersal processes (here, dispersal then deomgraphics), then supply the matrices we have constructed (P, BB, and MM).
+Now we can use the vec-permutation matrix and block diagonal matrices to construct a population projection matrix. This is accomplished through matrix multiplication. The order of matrices is very important (see Hunter and Caswell 2005 or function documentation for more detail), but the `metapopbio::proj.A.mat` function makes it much more convenient and reduces the probability of calculation errors. All that's needed is to specify the grouping (structure) for the projection (stages within patches here) and the order type between demographic and movement / dispersal processes (here, dispersal then deomgraphics), then supply the matrices we have constructed (P, BB, and MM).
 ```{r}
 group_by <- "patches"
 type <- "move"
 A <-
-  metapopbio::proj.mat(
+  metapopbio::proj.A.mat(
     P = P,
     BB = BB,
     MM = MM,
@@ -208,7 +208,7 @@ elas.MM(MM, P, A, BB)
 <!-- P <- vec.perm(stages = n_stages, -->
 <!--               patches = n_patches, -->
 <!--               n_struc = structure) -->
-<!-- A <- proj.mat(P, BB, MM, n_struc = structure, type = type) -->
+<!-- A <- proj.A.mat(P, BB, MM, n_struc = structure, type = type) -->
 
 ## References
 Caswell, H. (2001). Matrix Population Models: Construction, analysis, and 

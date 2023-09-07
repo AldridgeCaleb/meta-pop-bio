@@ -89,10 +89,10 @@
 #' type <- "move"
 #' 
 #' Projection matrix construction
-#' A <- proj.mat(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P 
+#' A <- meta.pop.A(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P 
 #' 
 #' @export
-proj.mat <- function(P, BB, MM, group_by = c("patches", "stages"), type = c("demo", "move")) {
+meta.pop.A <- function(P, BB, MM, group_by = c("patches", "stages"), type = c("demo", "move")) {
   if (group_by == "patches" && type == "demo") {
     A <- t(P) %*% MM %*% P %*% BB 
   } else if (group_by == "patches" && type == "move") {

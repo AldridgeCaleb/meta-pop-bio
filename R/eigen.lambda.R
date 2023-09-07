@@ -2,12 +2,12 @@
 #' 
 #' @description
 #' Calculates the dominant eigenvalue (lambda) and corresponding eigenvectors 
-#' for the projection matrix A (see `proj.mat`) as described in Hunter and 
+#' for the projection matrix A (see `meta.pop.A`) as described in Hunter and 
 #' Caswell (2005) and Lebreton (1996). 
 #' 
 #' @param A The spatial population projection matrix constructed from the
 #' vec-permutation matrix P, block diagonal demographic matrix BB, and 
-#' block diagonal movement matrix MM (see `proj.mat` for more details).
+#' block diagonal movement matrix MM (see `meta.pop.A` for more details).
 #' 
 #' @returns A list containing `eig` = eigenvalues of A; `lambda` = dominant
 #' eigenvalue; `v` = eigenvector of `eig` containing the max real eigenvalue; 
@@ -41,7 +41,7 @@
 #' @examples
 #' Peregrine falcon example from Hunter and Caswell (2005), data from Wootton
 #' and Bell (1992). Continues example from
-#' `proj.mat`.
+#' `meta.pop.A`.
 #' 
 #' Define the number of patches and stages
 #' n_patches <- 2  # northern = 1x; southern = 2x
@@ -90,7 +90,7 @@
 #' type <- "move"
 #' 
 #' Projection matrix construction
-#' A <- proj.mat(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P 
+#' A <- meta.pop.A(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P 
 #' 
 #' eigen_results <- eigen.lambda(A)
 #' 

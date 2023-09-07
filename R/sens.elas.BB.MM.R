@@ -10,7 +10,7 @@
 #' @param MM  The block diagonal movement matrix (see `blk.diag` function). 
 #' @param A The spatial population projection matrix constructed from the
 #' vec-permutation matrix P, block diagonal demographic matrix BB, and 
-#' block diagonal movement matrix MM (see `proj.mat` for more details).
+#' block diagonal movement matrix MM (see `meta.pop.A` for more details).
 #' @param P The vec-permutation matrix (see `vec.perm` function). 
 #' 
 #' @returns A matrix containing sensitivity values for the projection matrix A.
@@ -45,7 +45,7 @@
 #' 
 #' @examples
 #' Peregrine falcon example from Hunter and Caswell (2005), data from Wootton
-#' and Bell (1992). Continues example from `proj.mat`.
+#' and Bell (1992). Continues example from `meta.pop.A`.
 #' 
 #' Define the number of patches and stages
 #' n_patches <- 2  # northern = 1x; southern = 2x
@@ -94,7 +94,7 @@
 #' type <- "move"
 #' 
 #' Projection matrix construction
-#' A <- proj.mat(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P 
+#' A <- meta.pop.A(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P 
 #' 
 #' Calculate sensitivity of lambda to elements of block deomgraphic matrix BB
 #' BB_sens <- sens.BB(BB, A, P, MM)
