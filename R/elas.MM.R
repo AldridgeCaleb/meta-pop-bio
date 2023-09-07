@@ -28,7 +28,7 @@
 #' 
 #' Wootton, J.T., and Bell, D.A. (1992). A metapopulation model of the peregrine 
 #' falcon in California: viability and management strategies. Ecological 
-#' Applications 2:307-–321.
+#' Applications 2:307--321.
 #' 
 #' Lebreton, J. D. (1996). Demographic models for subdivided populations: the 
 #' renewal equation approach. Theoretical Population Biology 49:291--313.

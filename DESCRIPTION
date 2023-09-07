@@ -2,6 +2,11 @@ Package: metapopbio
 Type: Package
 Title: Construction and Analysis of Metapopulation Models
 Version: 0.0.1
+Description: The [`metapopbio`](https://github.com/AldridgeCaleb/meta-pop-bio) package is inspired by and complements the fuctionalities of the [`popbio`](https://cran.r-project.org/web/packages/popbio/index.html) package. Users can construct and analyze projection matrix models for metapopulations classified by age or stage and located in distinct patches.
+Author: Caleb A. Aldrdge
+Maintainer: Caleb A. Aldrdge <caleb.a.aldridge at gmail.com>
+BugReports: https://github.com/AldridgeCaleb/meta-pop-bio/issues
+License: GPL-3
 RoxygenNote: 7.2.3
 Encoding: UTF-8
 VignetteBuilder: knitr

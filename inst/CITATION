@@ -1,0 +1,16 @@
+citHeader("To cite metapopbio in publications, please use:")
+
+
+citEntry(entry = "manual",
+         title = "{metapopbio}: {C}onstruction and analysis of metapopulation models",
+         author = "Caleb A. Aldridge",
+         # organization = "",
+         address = "Columbus, Mississippi",
+         note = "version 0.0.1",
+         year = "2023",
+         url = "https://github.com/AldridgeCaleb/meta-pop-bio",
+         textVersion  = paste("Aldridge, C. A. (2023).",
+                              "metapopbio: Construction and analysis of metapopulation models.",
+                              "version 0.0.1. Columbus, Mississippi.",
+                              "http://github.com/AldridgeCaleb/meta-pop-bio")
+)
