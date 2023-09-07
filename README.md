@@ -1,6 +1,6 @@
 # metapopbio <a href="https://aldridgecaleb.github.io/meta-pop-bio/"><img src="man/figures/logo.png" align="right" height="139" alt="metapopbio website" /></a>
-# metapopbio: Construction and Analysis of Metapopulation Models
-## Pacage Description
+# Construction and Analysis of Metapopulation Models
+## Package Description
 The [`metapopbio`](https://github.com/AldridgeCaleb/meta-pop-bio) package is inspired by and complements the fuctionalities of the [`popbio`](https://cran.r-project.org/web/packages/popbio/index.html) package. Users can construct and analyze projection matrix models for metapopulations classified by age or stage and located in distinct patches.
 
 The functionality to date is largely based on Hunter and Caswell (2005) to construct and analyze spatial matrix population models using the vec-permutation matrix. This model extends the Leslie matrix (Leslie 1945) to include dispersal rates between patches. An analogous approach was taken by Lebreton (1996) and called the "renewal equation approach."
