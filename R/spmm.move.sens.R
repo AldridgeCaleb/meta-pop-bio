@@ -1,12 +1,16 @@
-#' @title sensitivity of projection matrix A
+#' @title sensitivity movement (dispersal) block matrices
 #' 
 #' @description
-#' Calculates the sensitivity of lambda to changes in the projection matrix A 
-#' (see `meta.pop.A`) as described in Hunter and Caswell (2005) and Lebreton (1996). 
+#' Calculates the sensitivity or elasticity of lambda to changes in the 
+#' demographic and movement (dispersal) black matrices as described in Hunter and 
+#' Caswell (2005) and Lebreton (1996). 
 #' 
+#' @param BB The block diagonal demographics matrix (see `blk.diag` function).
+#' @param MM  The block diagonal movement matrix (see `blk.diag` function). 
 #' @param A The spatial population projection matrix constructed from the
 #' vec-permutation matrix P, block diagonal demographic matrix BB, and 
-#' block diagonal movement matrix MM (see `meta.pop.A` for more details).
+#' block diagonal movement matrix MM (see `proj.matrix.spmm` for more details).
+#' @param P The vec-permutation matrix (see `vec.perm` function). 
 #' 
 #' @returns A matrix containing sensitivity values for the projection matrix A.
 #' According to Morris and Doak (2003) sensitivity values od lambda for a 
@@ -40,7 +44,7 @@
 #' 
 #' @examples
 #' Peregrine falcon example from Hunter and Caswell (2005), data from Wootton
-#' and Bell (1992). Continues example from `meta.pop.A`.
+#' and Bell (1992). Continues example from `proj.matrix.spmm`.
 #' 
 #' Define the number of patches and stages
 #' n_patches <- 2  # northern = 1x; southern = 2x
@@ -89,18 +93,28 @@
 #' type <- "move"
 #' 
 #' Projection matrix construction
-#' A <- meta.pop.A(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P 
+#' A <- proj.matrix.spmm(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P 
 #' 
-#' Calculate sensitivity of lambda to elements of projection matrix A
-#' A_sens <- sens.A(A)
+#' Calculate sensitivity of lambda to elements of block deomgraphic matrix BB
+#' BB_sens <- spmm.demo.sens(BB, A, P, MM)
+#' BB_elas <- spmm.demo.elas(BB, A, P, MM)
+#' 
+#' Calculate sensitivity of lambda to elements of block movement matrix MM
+#' MM_sens <- spmm.move.sens(MM, A, P, BB)
+#' MM_elas <- spmm.move.elas(MM, A, P, BB)
+#' 
+#' Calculate sensitivity of lambda to specific movement probability
+#' sens_d <- MM_sens[1, 2] + MM_sens[2, 1] - MM_sens[1, 1] - MM_sens[2, 2]
 #' 
 #' @export
-sens.A <- function(A) {
+spmm.move.sens <- function(MM, A, P, BB) {
   eig <- eigen(A)
   lambda <- max(Re(eig$values))
   v <- eig$vectors[, which.max(Re(eig$values))]
   eig_t <- eigen(t(A))
   w <- eig_t$vectors[, which.max(Re(eig_t$values))]
   SA <- t((v %*% t(w)) / sum(w * v))
-  return(SA)
+  
+  SMM <- P %*% t(BB) %*% t(SA) %*% t(P)
+  return(SMM)
 }

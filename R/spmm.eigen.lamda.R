@@ -1,22 +1,18 @@
-#' @title elasticity of movement (dispersal) block matrices
+#' @title calculate lambda
 #' 
 #' @description
-#' Calculates the sensitivity or elasticity of lambda to changes in the 
-#' demographic and movement (dispersal) black matrices as described in Hunter and 
+#' Calculates the dominant eigenvalue (lambda) and corresponding eigenvectors 
+#' for the projection matrix A (see `proj.matrix.spmm`) as described in Hunter and 
 #' Caswell (2005) and Lebreton (1996). 
 #' 
-#' @param BB The block diagonal demographics matrix (see `blk.diag` function).
-#' @param MM  The block diagonal movement matrix (see `blk.diag` function). 
 #' @param A The spatial population projection matrix constructed from the
 #' vec-permutation matrix P, block diagonal demographic matrix BB, and 
-#' block diagonal movement matrix MM (see `meta.pop.A` for more details).
-#' @param P The vec-permutation matrix (see `vec.perm` function). 
+#' block diagonal movement matrix MM (see `proj.matrix.spmm` for more details).
 #' 
-#' @returns A matrix containing sensitivity values for the projection matrix A.
-#' According to Morris and Doak (2003) sensitivity values od lambda for a 
-#' particular matrix element is "directly proportional to the fraction of 
-#' individuals in the population on which the element will act times the future 
-#' value of each individual that the element 'creates'" (p. 226). 
+#' @returns A list containing `eig` = eigenvalues of A; `lambda` = dominant
+#' eigenvalue; `v` = eigenvector of `eig` containing the max real eigenvalue; 
+#' `eig_t` = eigenvalues of transposed A; and `w` = eigenvector of `eig_t`
+#' containing the max real eigenvalue.
 #'  
 #' @note
 #' Ensure that the structural types of population vector `n` and projection 
@@ -44,7 +40,8 @@
 #' 
 #' @examples
 #' Peregrine falcon example from Hunter and Caswell (2005), data from Wootton
-#' and Bell (1992). Continues example from `meta.pop.A`.
+#' and Bell (1992). Continues example from
+#' `proj.matrix.spmm`.
 #' 
 #' Define the number of patches and stages
 #' n_patches <- 2  # northern = 1x; southern = 2x
@@ -93,29 +90,21 @@
 #' type <- "move"
 #' 
 #' Projection matrix construction
-#' A <- meta.pop.A(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P 
+#' A <- proj.matrix.spmm(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P 
 #' 
-#' Calculate sensitivity of lambda to elements of block deomgraphic matrix BB
-#' BB_sens <- sens.BB(BB, A, P, MM)
-#' BB_elas <- elas.BB(BB, A, P, MM)
-#' 
-#' Calculate sensitivity of lambda to elements of block movement matrix MM
-#' MM_sens <- sens.MM(MM, A, P, BB)
-#' MM_elas <- elas.MM(MM, A, P, BB)
-#' 
-#' Calculate sensitivity of lambda to specific movement probability
-#' sens_d <- MM_sens[1, 2] + MM_sens[2, 1] - MM_sens[1, 1] - MM_sens[2, 2]
+#' eigen_results <- spmm.eigen.lamda(A)
 #' 
 #' @export
-elas.MM <- function(MM, A, P, BB) {
+spmm.eigen.lamda <- function(A) {
   eig <- eigen(A)
   lambda <- max(Re(eig$values))
   v <- eig$vectors[, which.max(Re(eig$values))]
   eig_t <- eigen(t(A))
   w <- eig_t$vectors[, which.max(Re(eig_t$values))]
-  SA <- t((v %*% t(w)) / sum(w * v))
-  
-  SMM <- P %*% t(BB) %*% t(SA) %*% t(P)
-  EMM <- MM / lambda * SMM
-  return(EMM)
+  l <- list(eig = eig, 
+            lambda = lambda, 
+            v = v, 
+            eig_t = eig_t, 
+            w = w)
+  return(l)
 }

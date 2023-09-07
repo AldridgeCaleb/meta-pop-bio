@@ -6,12 +6,12 @@
 #' stages and lines the opposite.
 #'
 #' @param projections A `matrix` with `nrow` n_stages × n_patches and `ncol` of
-#' n_timesteps (see `meta.pop.proj` for more detail). If prerequisite steps,
-#' i.e., `vec.perm`, `blk.diag`, `meta.pop.A`, and `meta.pop.proj`, have been
+#' n_timesteps (see `project.spmm` for more detail). If prerequisite steps,
+#' i.e., `vec.perm`, `blk.diag`, `proj.matrix.spmm`, and `project.spmm`, have been
 #' specified correctly and correspond to structure of `n` (and expectations).
 #'
 #' @note
-#' As with `meta.pop.proj` ensure that the structural types of population vector
+#' As with `project.spmm` ensure that the structural types of population vector
 #' `n` and projection matrix `A` are the same. Otherwise, projections may produce
 #' incorrect values!
 #' 
@@ -38,7 +38,7 @@
 #' @examples
 #' Peregrine falcon example from Hunter and Caswell (2005), Ecological Modelling 
 #' 188(2005):15--21. Data from Wootton and Bell (1992). Continues example from 
-#' `meta.pop.proj`.
+#' `project.spmm`.
 #'
 #' Define the number of patches and stages
 #' n_patches <- 2  # northern = 1x; southern = 2x
@@ -87,7 +87,7 @@
 #' type <- "move"
 #'
 #' Projection matrix construction
-#' A <- meta.pop.A(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P
+#' A <- proj.matrix.spmm(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P
 #'
 #' Initial stages within patches (patch group_by)
 #' n <- c(
@@ -100,13 +100,13 @@
 #' n_timesteps <- 50
 #'
 #' Project spatial matrix population model
-#' projs <- meta.pop.proj(n, A, n_timesteps, n_stages, n_patches)
+#' projs <- project.spmm(n, A, n_timesteps, n_stages, n_patches)
 #'
 #' Plot projections
-#' meta.pop.plot(projs)
+#' plot.spmm(projs)
 #'
 #' @export
-meta.pop.plot <- function(projections, ylabs = NA, xlabs = NA, 
+plot.spmm <- function(projections, ylabs = NA, xlabs = NA, 
                           stage_names = NA, patch_names = NA) {
   comments <- comment(projections)
   group_by <- strsplit(comments, " +")[[1]][1]
