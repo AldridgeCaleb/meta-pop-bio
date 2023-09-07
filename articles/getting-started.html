@@ -89,7 +89,8 @@ Aldridge</h4>
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># devtools::install_github("AldridgeCaleb/meta-pop-bio")</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://aldridgecaleb.github.io/meta-pop-bio/">metapopbio</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://aldridgecaleb.github.io/meta-pop-bio/">metapopbio</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: readxl</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="about">About<a class="anchor" aria-label="anchor" href="#about"></a>
 </h2>
@@ -150,8 +151,8 @@ immigration, survival, and emigration (RISE). The
 a vec-permutation matrix.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">P</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">metapopbio</span><span class="fu">::</span><span class="fu"><a href="../reference/vec.perm.html">vec.perm</a></span><span class="op">(</span>stages <span class="op">=</span> <span class="va">n_stages</span>,</span>
-<span>           patches <span class="op">=</span> <span class="va">n_patches</span>,</span>
+<span>  <span class="fu">metapopbio</span><span class="fu">::</span><span class="fu"><a href="../reference/vec.perm.html">vec.perm</a></span><span class="op">(</span>n_stages <span class="op">=</span> <span class="va">n_stages</span>,</span>
+<span>           n_patches <span class="op">=</span> <span class="va">n_patches</span>,</span>
 <span>           group_by <span class="op">=</span> <span class="va">group_by</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2] [,3] [,4]</span></span>
 <span><span class="co">#&gt; [1,]    1    0    0    0</span></span>

@@ -117,7 +117,70 @@ spatial matrix population models. Ecological Modelling 188:15--21.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Peregrine falcon example from Hunter and Caswell (2005), data from Wootton</span></span></span>
+<span class="r-in"><span><span class="co"># and Bell (1992). Continues example from `spmm.project.matrix`.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Define the number of patches and stages</span></span></span>
+<span class="r-in"><span><span class="va">n_patches</span> <span class="op">&lt;-</span> <span class="fl">2</span>  <span class="co"># northern = 1x; southern = 2x</span></span></span>
+<span class="r-in"><span><span class="va">n_stages</span> <span class="op">&lt;-</span> <span class="fl">2</span>  <span class="co"># juvenile = x1; adult = x2</span></span></span>
+<span class="r-in"><span><span class="va">group_by</span> <span class="op">&lt;-</span> <span class="st">"patches"</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Construct vec-permutation matrix</span></span></span>
+<span class="r-in"><span><span class="va">P</span> <span class="op">&lt;-</span> <span class="fu"><a href="vec.perm.html">vec.perm</a></span><span class="op">(</span><span class="va">n_stages</span>, <span class="va">n_patches</span>, <span class="va">group_by</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Demographic parameter values</span></span></span>
+<span class="r-in"><span><span class="co"># Northern</span></span></span>
+<span class="r-in"><span><span class="va">f11</span> <span class="op">&lt;-</span> <span class="fl">0.00</span>  <span class="co"># only adults reproduce</span></span></span>
+<span class="r-in"><span><span class="va">f12</span> <span class="op">&lt;-</span> <span class="fl">0.26</span></span></span>
+<span class="r-in"><span><span class="va">s11</span> <span class="op">&lt;-</span> <span class="fl">0.72</span></span></span>
+<span class="r-in"><span><span class="va">s12</span> <span class="op">&lt;-</span> <span class="fl">0.77</span></span></span>
+<span class="r-in"><span><span class="co"># Southern</span></span></span>
+<span class="r-in"><span><span class="va">f21</span> <span class="op">&lt;-</span> <span class="fl">0.00</span></span></span>
+<span class="r-in"><span><span class="va">f22</span> <span class="op">&lt;-</span> <span class="fl">0.19</span>  </span></span>
+<span class="r-in"><span><span class="va">s21</span> <span class="op">&lt;-</span> <span class="fl">0.72</span></span></span>
+<span class="r-in"><span><span class="va">s22</span> <span class="op">&lt;-</span> <span class="fl">0.77</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Demography matrices for patches</span></span></span>
+<span class="r-in"><span><span class="va">B1x</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">f11</span>, <span class="va">f12</span>, <span class="va">s11</span>, <span class="va">s12</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>         nrow <span class="op">=</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>         byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">B2x</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">f21</span>, <span class="va">f22</span>, <span class="va">s21</span>, <span class="va">s22</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>         nrow <span class="op">=</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>         byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Demography block matrix construction</span></span></span>
+<span class="r-in"><span><span class="va">BB</span> <span class="op">&lt;-</span> <span class="fu"><a href="blk.diag.html">blk.diag</a></span><span class="op">(</span><span class="va">B1x</span>, <span class="va">B2x</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Movement parameter values</span></span></span>
+<span class="r-in"><span><span class="va">dx1</span> <span class="op">&lt;-</span> <span class="fl">0.27</span>  <span class="co"># only juveniles disperse</span></span></span>
+<span class="r-in"><span><span class="va">dx2</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">dx1</span></span></span>
+<span class="r-in"><span><span class="co"># Movement matrices for stages</span></span></span>
+<span class="r-in"><span><span class="va">Mx1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">dx2</span>, <span class="va">dx1</span>, <span class="va">dx1</span>, <span class="va">dx2</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="va">n_patches</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">Mx2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span>, nrow <span class="op">=</span> <span class="va">n_patches</span>, ncol <span class="op">=</span> <span class="va">n_patches</span><span class="op">)</span>  <span class="co"># no movement by adults</span></span></span>
+<span class="r-in"><span><span class="co"># Movement block matrix construction</span></span></span>
+<span class="r-in"><span><span class="va">MM</span> <span class="op">&lt;-</span> <span class="fu"><a href="blk.diag.html">blk.diag</a></span><span class="op">(</span><span class="va">Mx1</span>, <span class="va">Mx2</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Arrangement by patches</span></span></span>
+<span class="r-in"><span><span class="va">group_by</span> <span class="op">&lt;-</span> <span class="st">"patches"</span></span></span>
+<span class="r-in"><span><span class="co"># Assumed movement before demography</span></span></span>
+<span class="r-in"><span><span class="va">type</span> <span class="op">&lt;-</span> <span class="st">"move"</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Projection matrix construction</span></span></span>
+<span class="r-in"><span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu"><a href="spmm.project.matrix.html">spmm.project.matrix</a></span><span class="op">(</span><span class="va">P</span>, <span class="va">BB</span>, <span class="va">MM</span>, <span class="va">group_by</span>, <span class="va">type</span><span class="op">)</span>  <span class="co"># BB %*% t(P) %*% MM %*% P </span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Calculate sensitivity of lambda to elements of block deomgraphic matrix BB</span></span></span>
+<span class="r-in"><span><span class="va">BB_sens</span> <span class="op">&lt;-</span> <span class="fu"><a href="spmm.demo.sens.html">spmm.demo.sens</a></span><span class="op">(</span><span class="va">BB</span>, <span class="va">A</span>, <span class="va">P</span>, <span class="va">MM</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">BB_elas</span> <span class="op">&lt;-</span> <span class="fu"><a href="spmm.demo.elas.html">spmm.demo.elas</a></span><span class="op">(</span><span class="va">BB</span>, <span class="va">A</span>, <span class="va">P</span>, <span class="va">MM</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Calculate sensitivity of lambda to elements of block movement matrix MM</span></span></span>
+<span class="r-in"><span><span class="va">MM_sens</span> <span class="op">&lt;-</span> <span class="fu"><a href="spmm.move.sens.html">spmm.move.sens</a></span><span class="op">(</span><span class="va">MM</span>, <span class="va">A</span>, <span class="va">P</span>, <span class="va">BB</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">MM_elas</span> <span class="op">&lt;-</span> <span class="fu">spmm.move.elas</span><span class="op">(</span><span class="va">MM</span>, <span class="va">A</span>, <span class="va">P</span>, <span class="va">BB</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Calculate sensitivity of lambda to specific movement probability</span></span></span>
+<span class="r-in"><span><span class="va">sens_d</span> <span class="op">&lt;-</span> <span class="va">MM_sens</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">]</span> <span class="op">+</span> <span class="va">MM_sens</span><span class="op">[</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">-</span> <span class="va">MM_sens</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">-</span> <span class="va">MM_sens</span><span class="op">[</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
