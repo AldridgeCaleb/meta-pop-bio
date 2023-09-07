@@ -118,13 +118,13 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
     n_stages <- as.numeric(strsplit(comments, " +")[[2]][1])
     n_patches <- as.numeric(strsplit(comments, " +")[[3]][1])
     
-    if ((dim(projections)[1] / n_patches) + 1 <= 4) {
+    if ((dim(projections)[1] / n_stages) + 1 <= 4) {
       graphics::par(
         mfrow = c(n_patches + 1, 1),
         mar = c(5, 5, 1.5, 0.5),
         oma = rep(0.5, 4)
       )
-    } else if ((dim(projections)[1] / n_patches) + 1 > 4) {
+    } else if ((dim(projections)[1] / n_stages) + 1 > 4) {
       graphics::par(
         mfrow = c(4 + 1, n_patches - 4),
         mar = c(5, 5, 1.5, 0.5),
@@ -132,7 +132,7 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
       )
     }
     
-    starts <- seq(1, dim(projections)[1], by = n_patches)
+    starts <- seq(1, dim(projections)[1], by = n_stages)
     ends <- c(starts - 1, dim(projections)[1])[-1]
     # throw error if starts and ends != lengths()
     for (i in 1:length(starts)) {
@@ -141,7 +141,7 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
         type = 'b',
         pch = 16,
         # col = c("black", "black"),
-        ylim = c(0, round(max(projections[starts[i]:ends[i]]) +1, -1)),
+        ylim = c(0, round(max(projections) +1, -1)),
         ylab = ylabs,
         xlab = xlabs,
         main = paste("Patch :", patch_names[i])
@@ -159,13 +159,13 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
     n_patches <- as.numeric(strsplit(comments, " +")[[2]][1])
     n_stages <- as.numeric(strsplit(comments, " +")[[3]][1])
     
-    if ((dim(projections)[1] / n_stages) + 1 <= 4) {
+    if ((dim(projections)[1] / n_patches) + 1 <= 4) {
       graphics::par(
         mfrow = c(n_stages + 1, 1),
         mar = c(5, 5, 1.5, 0.5),
         oma = rep(0.5, 4)
       )
-    } else if ((dim(projections)[1] / n_stages) + 1 > 4) {
+    } else if ((dim(projections)[1] / n_patches) + 1 > 4) {
       graphics::par(
         mfrow = c(4 + 1, n_stages - 4),
         mar = c(5, 5, 1.5, 0.5),
@@ -173,7 +173,7 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
       )
     }
     
-    starts <- seq(1, dim(projections)[1], by = n_stages)
+    starts <- seq(1, dim(projections)[1], by = n_patches)
     ends <- c(starts - 1, dim(projections)[1])[-1]
     # throw error if starts and ends != lengths()
     for (i in 1:length(starts)) {
@@ -182,10 +182,10 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
         type = 'b',
         pch = 16,
         # col = c("black", "black"),
-        ylim = c(0, round(max(projections[starts[i]:ends[i]]) +1 , -1)),
+        ylim = c(0, round(max(projections) +1 , -1)),
         ylab = ylabs,
         xlab = xlabs,
-        paste("Stage :", stage_names[i])
+        main = paste("Stage :", stage_names[i])
       )
     }
     if (!is.na(patch_names)[1]) {
