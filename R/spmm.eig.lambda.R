@@ -92,10 +92,10 @@
 #' # Projection matrix construction
 #' A <- spmm.project.matrix(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P 
 #' 
-#' eigen_results <- spmm.eig.lamda(A)
+#' eigen_results <- spmm.eig.lambda(A)
 #' 
 #' @export
-spmm.eig.lamda <- function(A) {
+spmm.eig.lambda <- function(A) {
   eig <- eigen(A)
   lambda <- max(Re(eig$values))
   v <- eig$vectors[, which.max(Re(eig$values))]
