@@ -3,7 +3,7 @@
 export(blk.diag)
 export(spmm.demo.elas)
 export(spmm.demo.sens)
-export(spmm.eigen.lamda)
+export(spmm.eig.lamda)
 export(spmm.move.elas)
 export(spmm.move.sens)
 export(spmm.plot)
