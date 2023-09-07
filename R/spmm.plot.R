@@ -130,12 +130,13 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
     #     mar = c(5, 5, 1.5, 0.5),
     #     oma = rep(0.5, 4)
     #   )
+    # }
+    
     graphics::par(
-          mfrow = c(3, 2),
-          mar = c(5, 5, 1.5, 0.5),
-          oma = rep(0.5, 4)
-        )
-    }
+      mfrow = c(3, 2),
+      mar = c(5, 5, 1.5, 0.5),
+      oma = rep(0.5, 4)
+    )
     
     starts <- seq(1, dim(projections)[1], by = n_stages)
     ends <- c(starts - 1, dim(projections)[1])[-1]
@@ -176,12 +177,13 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
     #     mar = c(5, 5, 1.5, 0.5),
     #     oma = rep(0.5, 4)
     #   )
+    # }
+    
     graphics::par(
       mfrow = c(3, 2),
       mar = c(5, 5, 1.5, 0.5),
       oma = rep(0.5, 4)
     )
-    }
     
     starts <- seq(1, dim(projections)[1], by = n_patches)
     ends <- c(starts - 1, dim(projections)[1])[-1]
