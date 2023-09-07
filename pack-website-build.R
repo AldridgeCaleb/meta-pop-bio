@@ -5,7 +5,7 @@ install.packages("pkgdown")
 # usethis::use_pkgdown()
 
 pkgdown::build_site(examples = TRUE,
-                    lazy = TRUE,
+                    lazy = FALSE,
                     preview = TRUE,
                     devel = FALSE)
 
