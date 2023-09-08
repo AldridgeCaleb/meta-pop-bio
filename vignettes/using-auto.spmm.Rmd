@@ -1,10 +1,10 @@
 ---
-title: "Using `auto.spmm`"
+title: "Using auto.spmm"
 author: "Caleb A. Aldridge"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Using auto.spmm}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

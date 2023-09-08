@@ -4,7 +4,7 @@ author: "Caleb A. Aldridge"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Getting started with the metapopbio package}
+  %\VignetteIndexEntry{Getting started with metapopbio}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -91,7 +91,7 @@ Now we will construct demographic (Leslise-style) matrices for each of the patch
 #### 4b. Construct block diagonal matrix
 Along with the vec-permutation matrix, spatial matrix population models use a matrix of matrices for analysis and projection of population demographics and movement. We accomplish this using the `metapopbio::blk.diag` function.
 ```{r}
-(BB <- metapopbio::blk.diag(B1x, B2x))
+(BB <- metapopbio::blk.diag(list(B1x, B2x)))
 ```
 
 #### 5. Structure movement parameters
@@ -111,7 +111,7 @@ dx2 <- 1 - dx1
   ncol = n_patches
 ))
 # Block diagonal matrix
-(MM <- metapopbio::blk.diag(Mx1, Mx2))
+(MM <- metapopbio::blk.diag(list(Mx1, Mx2)))
 ```
 
 #### 6. Construct projection matrix
@@ -194,7 +194,7 @@ group_by <- "stages"
 Next, we construct the vec-permutation matrix. 
 ```{r}
 (P <-
-  vec.perm(n_stages = n_stages,
+  metapopbio::vec.perm(n_stages = n_stages,
            n_patches = n_patches,
            group_by = group_by))
 ```
@@ -219,7 +219,7 @@ B2x <- matrix(c(0.000, 0.100, 0.160, 0.200, 0.200,
 #### 4. Construct block diagonal matrix
 Along with the vec-permutation matrix, spatial matrix population models use a matrix of matrices for analysis and projection of population demographics and movement. We accomplish this using the `metapopbio::blk.diag` function.
 ```{r}
-(BB <- metapopbio::blk.diag(B1x, B2x))
+(BB <- metapopbio::blk.diag(list(B1x, B2x)))
 ```
 
 #### 5. Structure movement parameters
@@ -233,7 +233,7 @@ Mx5 <- Mx4 <- Mx3 <- Mx2 <-
   diag(x = 1, nrow = n_patches, ncol = n_patches)
 
 # Block diagonal matrix
-(MM <- metapopbio::blk.diag(Mx1, Mx2, Mx3, Mx4, Mx5))
+(MM <- metapopbio::blk.diag(list(Mx1, Mx2, Mx3, Mx4, Mx5)))
 ```
 
 #### 6. Construct projection matrix

@@ -67,7 +67,7 @@ B2x <-
          nrow = 2,
          byrow = TRUE)
 # Demography block matrix construction
-BB <- blk.diag(B1x, B2x)
+BB <- blk.diag(list(B1x, B2x))
 
 # Movement parameter values
 dx1 <- 0.27  # only juveniles disperse
@@ -76,7 +76,7 @@ dx2 <- 1 - dx1
 Mx1 <- matrix(c(dx2, dx1, dx1, dx2), nrow = n_patches, byrow = TRUE)
 Mx2 <- diag(x = 1, nrow = n_patches, ncol = n_patches)  # no movement by adults
 # Movement block matrix construction
-MM <- blk.diag(Mx1, Mx2)
+MM <- blk.diag(list(Mx1, Mx2))
 
 # Arrangement by patches
 group_by <- "patches"

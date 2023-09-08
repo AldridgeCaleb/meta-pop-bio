@@ -1,5 +1,5 @@
 ---
-title: "Using the `spmm.readxl` funciton"
+title: "Using the spmm.readxl funciton"
 author: "Caleb A. Aldridge"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
