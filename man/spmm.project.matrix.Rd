@@ -9,7 +9,7 @@ spmm.project.matrix(
   BB,
   MM,
   group_by = c("patches", "stages"),
-  type = c("demo", "move")
+  lh_order = c("demo", "move")
 )
 }
 \arguments{
@@ -22,7 +22,7 @@ spmm.project.matrix(
 \item{group_by}{The structural form of the population vector `n` as either
 "patches" or "stages".}
 
-\item{type}{The order of demographic and movement (dispersal) processes.}
+\item{lh_order}{The order of demographic and movement (dispersal) processes.}
 }
 \description{
 Constructs projection matrix A given a vec-permutation matrix P, a 
@@ -83,10 +83,10 @@ MM <- blk.diag(Mx1, Mx2)
 # Arrangement by patches
 group_by <- "patches"
 # Assumed movement before demography
-type <- "move"
+lh_order <- "move"
 
 # Projection matrix construction
-A <- spmm.project.matrix(P, BB, MM, group_by, type)  # BB \%*\% t(P) \%*\% MM \%*\% P 
+A <- spmm.project.matrix(P, BB, MM, group_by, lh_order)  # BB \%*\% t(P) \%*\% MM \%*\% P 
 
 }
 \references{

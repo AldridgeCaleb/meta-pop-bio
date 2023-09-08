@@ -1,0 +1,19 @@
+---
+title: "Using the `spmm.readxl` funciton"
+author: "Caleb A. Aldridge"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using spmm.readxl}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette will explain how to use the `spmm.readxl` function.

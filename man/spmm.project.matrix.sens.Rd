@@ -23,7 +23,7 @@ Calculates the sensitivity of lambda to changes in the projection matrix A
 (see `spmm.project.matrix`) as described in Hunter and Caswell (2005) and Lebreton (1996).
 }
 \note{
-Ensure that the structural types of population vector `n` and projection 
+Ensure that the structural lh_orders of population vector `n` and projection 
 matrix `A` are the same. Otherwise, projections may produce incorrect values!
 }
 \examples{
@@ -74,10 +74,10 @@ MM <- blk.diag(Mx1, Mx2)
 # Arrangement by patches
 group_by <- "patches"
 # Assumed movement before demography
-type <- "move"
+lh_order <- "move"
 
 # Projection matrix construction
-A <- spmm.project.matrix(P, BB, MM, group_by, type)  # BB \%*\% t(P) \%*\% MM \%*\% P 
+A <- spmm.project.matrix(P, BB, MM, group_by, lh_order)  # BB \%*\% t(P) \%*\% MM \%*\% P 
 
 # Calculate sensitivity of lambda to elements of projection matrix A
 A_sens <- spmm.project.matrix.sens(A)

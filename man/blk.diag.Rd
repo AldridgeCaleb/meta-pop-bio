@@ -4,7 +4,7 @@
 \alias{blk.diag}
 \title{block diagonal matrix construction}
 \usage{
-blk.diag(...)
+blk.diag(matlist)
 }
 \arguments{
 \item{...}{Matrices, separated by commas, for constructing the block diagonal

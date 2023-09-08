@@ -82,8 +82,13 @@
 #' MM <- blk.diag(Mx1, Mx2)
 #' 
 #' @export
-blk.diag  <- function(...) {
-  Ms <- list(...)
+blk.diag  <- function(matlist) {
+  if (!is.list(matlist)) {
+    Ms <- list(...)
+  } else if (is.null(matlist)) {
+    stop("Please provide list of matrices!")
+  }
+  Ms <- matlist
   n_rows <- sum(sapply(Ms, nrow))
   n_cols <- sum(sapply(Ms, ncol))
   MM <- matrix(0, n_rows, n_cols)
