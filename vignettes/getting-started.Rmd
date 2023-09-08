@@ -118,14 +118,14 @@ dx2 <- 1 - dx1
 Now we can use the vec-permutation matrix and block diagonal matrices to construct a population projection matrix. This is accomplished through matrix multiplication. The order of matrices is very important (see Hunter and Caswell 2005 or function documentation for more detail), but the `metapopbio::spmm.project.matrix` function makes it much more convenient and reduces the probability of calculation errors. All that's needed is to specify the grouping (structure) for the projection (stages within patches here) and the order type between demographic and movement / dispersal processes (here, dispersal then demographics), then supply the matrices we have constructed (P, BB, and MM).
 ```{r}
 group_by <- "patches"
-type <- "move"
+lh_order <- "move"
 (A <-
   metapopbio::spmm.project.matrix(
     P = P,
     BB = BB,
     MM = MM,
     group_by = group_by,
-    type = type
+    lh_order = lh_order
   ))
 ```
 
@@ -240,14 +240,14 @@ Mx5 <- Mx4 <- Mx3 <- Mx2 <-
 Now we can use the vec-permutation matrix and block diagonal matrices to construct a population projection matrix. This is accomplished through matrix multiplication. The order of matrices is very important (see Hunter and Caswell 2005 or function documentation for more detail), but the `metapopbio::spmm.project.matrix` function makes it much more convenient and reduces the probability of calculation errors. All that's needed is to specify the grouping (structure) for the projection (stages within patches here) and the order type between demographic and movement / dispersal processes (here, dispersal then demographics), then supply the matrices we have constructed (P, BB, and MM).
 ```{r}
 group_by <- "stages"
-type <- "move"
+lh_order <- "move"
 (A <-
   metapopbio::spmm.project.matrix(
     P = P,
     BB = BB,
     MM = MM,
     group_by = group_by,
-    type = type
+    lh_order = lh_order
   ))
 ```
 

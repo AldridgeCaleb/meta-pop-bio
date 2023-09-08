@@ -15,7 +15,7 @@
 #' @param patch_names Names of patches, units, pools, etc.
 #'
 #' @note
-#' As with `spmm.project` ensure that the structural types of population vector
+#' As with `spmm.project` ensure that the structural type of population vector
 #' `n` and projection matrix `A` are the same. Otherwise, projections may produce
 #' incorrect values!
 #' 
@@ -88,10 +88,10 @@
 #' # Arrangement by patches
 #' group_by <- "patches"
 #' # Assumed movement before demography
-#' type <- "move"
+#' lh_order <- "move"
 #'
 #' # Projection matrix construction
-#' A <- spmm.project.matrix(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P
+#' A <- spmm.project.matrix(P, BB, MM, group_by, lh_order)  # BB %*% t(P) %*% MM %*% P
 #'
 #' # Initial stages within patches (patch group_by)
 #' n <- c(

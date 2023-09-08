@@ -21,7 +21,7 @@
 #' matrix N.
 #'  
 #' @note
-#' Ensure that the structural types of population vector `n` and projection 
+#' Ensure that the structural lh_orders of population vector `n` and projection 
 #' matrix `A` are the same. Otherwise, projections may produce incorrect values!
 #' 
 #' @references
@@ -92,10 +92,10 @@
 #' # Arrangement by patches
 #' group_by <- "patches"
 #' # Assumed movement before demography
-#' type <- "move"
+#' lh_order <- "move"
 #' 
 #' # Projection matrix construction
-#' A <- spmm.project.matrix(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P 
+#' A <- spmm.project.matrix(P, BB, MM, group_by, lh_order)  # BB %*% t(P) %*% MM %*% P 
 #' 
 #' # Initial stages within patches (patch group_by)  
 #' n <- c(
@@ -112,9 +112,9 @@
 #' 
 #' @export
 spmm.project <- function(n, A, n_timesteps, n_stages, n_patches) {
-  type <- comment(A)
-  group_by <- strsplit(type, " +")[[1]][1]
-  A_type <- strsplit(type, " +")[[1]][2]
+  lh_order <- comment(A)
+  group_by <- strsplit(lh_order, " +")[[1]][1]
+  A_lh_order <- strsplit(lh_order, " +")[[1]][2]
   
   try(if (is.null(comment(n)))
     stop("Please specify structure of n as either patches or stages (e.g., comment(n) <- 'patches'.')")
@@ -124,7 +124,7 @@ spmm.project <- function(n, A, n_timesteps, n_stages, n_patches) {
     stop("Structure of n and A are not the same; both should include either 'patches' or 'stages'.")
   )
     
-  if (type == "patches demo") {
+  if (lh_order == "patches demo") {
     mat <- matrix(nrow = n_stages * n_patches, ncol = n_timesteps)
     # throw.err <-
     #   function(...)
@@ -141,7 +141,7 @@ spmm.project <- function(n, A, n_timesteps, n_stages, n_patches) {
     }
     colnames(mat) <- paste(1:n_timesteps)
     
-  } else if (type == "patches move") {
+  } else if (lh_order == "patches move") {
     mat <- matrix(nrow = n_stages * n_patches, ncol = n_timesteps)
     tryCatch({
       mat[, 1] <- as.vector(n)
@@ -157,7 +157,7 @@ spmm.project <- function(n, A, n_timesteps, n_stages, n_patches) {
     }
     colnames(mat) <- paste(1:n_timesteps)
     
-  } else if (type == "stages demo") {
+  } else if (lh_order == "stages demo") {
     mat <- matrix(nrow = n_patches * n_stages, ncol = n_timesteps)
     tryCatch({
       mat[, 1] <- as.vector(n)
@@ -173,7 +173,7 @@ spmm.project <- function(n, A, n_timesteps, n_stages, n_patches) {
     }
     colnames(mat) <- paste(1:n_timesteps)
     
-  } else if (type == "stages move") {
+  } else if (lh_order == "stages move") {
     mat <- matrix(nrow = n_patches * n_stages, ncol = n_timesteps)
     # throw.err <-
     #   function(...)
@@ -192,9 +192,9 @@ spmm.project <- function(n, A, n_timesteps, n_stages, n_patches) {
     
   }
   
-  if (A_type == "move") {
+  if (A_lh_order == "move") {
     A_TYPE <- "movement then demography"
-  } else if (A_type == "demo") {
+  } else if (A_lh_order == "demo") {
     A_TYPE <- "demography then movement"
   }
   print(paste("Deterministic spatial matrix model projections for", group_by, 

@@ -10,7 +10,7 @@
 #' @param MM The block diagonal movement matrix (see `blk.diag` function). 
 #' @param group_by The structural form of the population vector `n` as either
 #' "patches" or "stages".
-#' @param type The order of demographic and movement (dispersal) processes.
+#' @param lh_order The order of demographic and movement (dispersal) processes.
 #' 
 #' @note
 #' The demographic block matrix BB consists of s × s number of 
@@ -86,22 +86,22 @@
 #' # Arrangement by patches
 #' group_by <- "patches"
 #' # Assumed movement before demography
-#' type <- "move"
+#' lh_order <- "move"
 #' 
 #' # Projection matrix construction
-#' A <- spmm.project.matrix(P, BB, MM, group_by, type)  # BB %*% t(P) %*% MM %*% P 
+#' A <- spmm.project.matrix(P, BB, MM, group_by, lh_order)  # BB %*% t(P) %*% MM %*% P 
 #' 
 #' @export
-spmm.project.matrix <- function(P, BB, MM, group_by = c("patches", "stages"), type = c("demo", "move")) {
-  if (group_by == "patches" && type == "demo") {
+spmm.project.matrix <- function(P, BB, MM, group_by = c("patches", "stages"), lh_order = c("demo", "move")) {
+  if (group_by == "patches" && lh_order == "demo") {
     A <- t(P) %*% MM %*% P %*% BB 
-  } else if (group_by == "patches" && type == "move") {
+  } else if (group_by == "patches" && lh_order == "move") {
     A <- BB %*% t(P) %*% MM %*% P
-  } else if (group_by == "stages" && type == "demo") {
+  } else if (group_by == "stages" && lh_order == "demo") {
     A <- MM %*% P %*% BB %*% t(P)
-  } else if (group_by == "stages" && type == "move") {
+  } else if (group_by == "stages" && lh_order == "move") {
     A <- P %*% BB %*% t(P) %*% MM
   }
-  comment(A) <- paste(group_by, type)
+  comment(A) <- paste(group_by, lh_order)
   return(A)
 } 
