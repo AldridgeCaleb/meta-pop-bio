@@ -6,8 +6,8 @@
 #' include demographic B and dispersal M for which block diagonal matrices are 
 #' constructed, BB and MM for demographic and dispersal respectively.
 #' 
-#' @param ... Matrices, separated by commas, for constructing the block diagonal
-#' matrix.
+#' @param matlist List of matrices, separated by commas, for constructing the 
+#' block diagonal matrix.
 #' 
 #' @note
 #' The demographic block matrix BB consists of s × s number of 

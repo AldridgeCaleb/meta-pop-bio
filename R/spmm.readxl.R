@@ -17,7 +17,7 @@
 #'
 #' @export
 spmm.readxl <- function(path, filename) {
-  sheetNames <- getSheetNames(paste0(path, filename))
+  sheetNames <- openxlsx::getSheetNames(paste0(path, filename))
   # metadata
   # metadata part 1
   metadata <-

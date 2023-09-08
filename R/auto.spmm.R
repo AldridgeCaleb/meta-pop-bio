@@ -27,7 +27,7 @@
 auto.spmm <- function(path, filename, plot = FALSE, ylabs = NA, xlabs = NA) {
   # source("C:/Users/caldridge/Documents/R/meta-pop-bio/R/auto.spmm.internal.R", local = TRUE)
   
-  sheetNames <- getSheetNames(paste0(path, filename))
+  sheetNames <- openxlsx::getSheetNames(paste0(path, filename))
   patch_idx <- grep("patch", sheetNames)
   stage_idx <- grep("stage", sheetNames)
   

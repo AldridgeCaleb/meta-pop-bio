@@ -6,6 +6,7 @@ Authors@R: c(person("Caleb A. Aldrdge", role = c("aut", "cre"), email = "caleb.a
 Author: Caleb A. Aldridge [aut, cre]
 Maintainer: Caleb A. Aldrdge <caleb.a.aldridge@gmail.com>
 Depends: base, datasets, utils, grDevices, graphics, stats, methods, openxlsx, zeallot
+Imports: openxlsx, zeallot
 Suggests: knitr, rmarkdown
 Description: The [`metapopbio`](https://github.com/AldridgeCaleb/meta-pop-bio) package is inspired by and complements the fuctionalities of the [`popbio`](https://cran.r-project.org/web/packages/popbio/index.html) package. Users can construct and analyze projection matrix models for metapopulations classified by age or stage and located in distinct patches.
 License: GPL-3
