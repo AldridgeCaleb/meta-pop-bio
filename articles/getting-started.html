@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">metapopbio</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,6 +49,8 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/getting-started.html">Getting started with the metapopbio package</a>
+    <a class="dropdown-item" href="../articles/using-auto.spmm.html">Using auto.spmm</a>
+    <a class="dropdown-item" href="../articles/using-spmm.readxl.html">Using the spmm.readxl funciton</a>
   </div>
 </li>
       </ul>
@@ -79,7 +81,7 @@
                         <h4 data-toc-skip class="author">Caleb A.
 Aldridge</h4>
             
-            <h4 data-toc-skip class="date">2023-09-07</h4>
+            <h4 data-toc-skip class="date">2023-09-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/AldridgeCaleb/meta-pop-bio/blob/HEAD/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
       <div class="d-none name"><code>getting-started.Rmd</code></div>
@@ -90,7 +92,8 @@ Aldridge</h4>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># devtools::install_github("AldridgeCaleb/meta-pop-bio")</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://aldridgecaleb.github.io/meta-pop-bio/">metapopbio</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Loading required package: readxl</span></span></code></pre></div>
+<span><span class="co">#&gt; Loading required package: openxlsx</span></span>
+<span><span class="co">#&gt; Loading required package: zeallot</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="about">About<a class="anchor" aria-label="anchor" href="#about"></a>
 </h2>
@@ -216,7 +219,7 @@ models use a matrix of matrices for analysis and projection of
 population demographics and movement. We accomplish this using the
 <code><a href="../reference/blk.diag.html">metapopbio::blk.diag</a></code> function.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="op">(</span><span class="va">BB</span> <span class="op">&lt;-</span> <span class="fu">metapopbio</span><span class="fu">::</span><span class="fu"><a href="../reference/blk.diag.html">blk.diag</a></span><span class="op">(</span><span class="va">B1x</span>, <span class="va">B2x</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">BB</span> <span class="op">&lt;-</span> <span class="fu">metapopbio</span><span class="fu">::</span><span class="fu"><a href="../reference/blk.diag.html">blk.diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">B1x</span>, <span class="va">B2x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2] [,3] [,4]</span></span>
 <span><span class="co">#&gt; [1,] 0.00 0.26 0.00 0.00</span></span>
 <span><span class="co">#&gt; [2,] 0.72 0.77 0.00 0.00</span></span>
@@ -252,7 +255,7 @@ specified for adult movement.</p>
 <span><span class="co">#&gt; [1,]    1    0</span></span>
 <span><span class="co">#&gt; [2,]    0    1</span></span>
 <span><span class="co"># Block diagonal matrix</span></span>
-<span><span class="op">(</span><span class="va">MM</span> <span class="op">&lt;-</span> <span class="fu">metapopbio</span><span class="fu">::</span><span class="fu"><a href="../reference/blk.diag.html">blk.diag</a></span><span class="op">(</span><span class="va">Mx1</span>, <span class="va">Mx2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">(</span><span class="va">MM</span> <span class="op">&lt;-</span> <span class="fu">metapopbio</span><span class="fu">::</span><span class="fu"><a href="../reference/blk.diag.html">blk.diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Mx1</span>, <span class="va">Mx2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2] [,3] [,4]</span></span>
 <span><span class="co">#&gt; [1,] 0.73 0.27    0    0</span></span>
 <span><span class="co">#&gt; [2,] 0.27 0.73    0    0</span></span>
@@ -275,14 +278,14 @@ demographics), then supply the matrices we have constructed (P, BB, and
 MM).</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">group_by</span> <span class="op">&lt;-</span> <span class="st">"patches"</span></span>
-<span><span class="va">type</span> <span class="op">&lt;-</span> <span class="st">"move"</span></span>
+<span><span class="va">lh_order</span> <span class="op">&lt;-</span> <span class="st">"move"</span></span>
 <span><span class="op">(</span><span class="va">A</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">metapopbio</span><span class="fu">::</span><span class="fu"><a href="../reference/spmm.project.matrix.html">spmm.project.matrix</a></span><span class="op">(</span></span>
 <span>    P <span class="op">=</span> <span class="va">P</span>,</span>
 <span>    BB <span class="op">=</span> <span class="va">BB</span>,</span>
 <span>    MM <span class="op">=</span> <span class="va">MM</span>,</span>
 <span>    group_by <span class="op">=</span> <span class="va">group_by</span>,</span>
-<span>    type <span class="op">=</span> <span class="va">type</span></span>
+<span>    lh_order <span class="op">=</span> <span class="va">lh_order</span></span>
 <span>  <span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        [,1] [,2]   [,3] [,4]</span></span>
 <span><span class="co">#&gt; [1,] 0.0000 0.26 0.0000 0.00</span></span>
@@ -509,7 +512,7 @@ also group or will project patches within stages.</p>
 <p>Next, we construct the vec-permutation matrix.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">P</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu"><a href="../reference/vec.perm.html">vec.perm</a></span><span class="op">(</span>n_stages <span class="op">=</span> <span class="va">n_stages</span>,</span>
+<span>  <span class="fu">metapopbio</span><span class="fu">::</span><span class="fu"><a href="../reference/vec.perm.html">vec.perm</a></span><span class="op">(</span>n_stages <span class="op">=</span> <span class="va">n_stages</span>,</span>
 <span>           n_patches <span class="op">=</span> <span class="va">n_patches</span>,</span>
 <span>           group_by <span class="op">=</span> <span class="va">group_by</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]</span></span>
@@ -553,7 +556,7 @@ models use a matrix of matrices for analysis and projection of
 population demographics and movement. We accomplish this using the
 <code><a href="../reference/blk.diag.html">metapopbio::blk.diag</a></code> function.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="op">(</span><span class="va">BB</span> <span class="op">&lt;-</span> <span class="fu">metapopbio</span><span class="fu">::</span><span class="fu"><a href="../reference/blk.diag.html">blk.diag</a></span><span class="op">(</span><span class="va">B1x</span>, <span class="va">B2x</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">BB</span> <span class="op">&lt;-</span> <span class="fu">metapopbio</span><span class="fu">::</span><span class="fu"><a href="../reference/blk.diag.html">blk.diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">B1x</span>, <span class="va">B2x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       [,1]  [,2] [,3]  [,4] [,5] [,6] [,7] [,8] [,9] [,10]</span></span>
 <span><span class="co">#&gt;  [1,]  0.0 0.096 0.16 0.224 0.32  0.0 0.00 0.00 0.00  0.00</span></span>
 <span><span class="co">#&gt;  [2,]  0.8 0.000 0.00 0.000 0.00  0.0 0.00 0.00 0.00  0.00</span></span>
@@ -583,7 +586,7 @@ specified for adult movement.</p>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span>, nrow <span class="op">=</span> <span class="va">n_patches</span>, ncol <span class="op">=</span> <span class="va">n_patches</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Block diagonal matrix</span></span>
-<span><span class="op">(</span><span class="va">MM</span> <span class="op">&lt;-</span> <span class="fu">metapopbio</span><span class="fu">::</span><span class="fu"><a href="../reference/blk.diag.html">blk.diag</a></span><span class="op">(</span><span class="va">Mx1</span>, <span class="va">Mx2</span>, <span class="va">Mx3</span>, <span class="va">Mx4</span>, <span class="va">Mx5</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">(</span><span class="va">MM</span> <span class="op">&lt;-</span> <span class="fu">metapopbio</span><span class="fu">::</span><span class="fu"><a href="../reference/blk.diag.html">blk.diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Mx1</span>, <span class="va">Mx2</span>, <span class="va">Mx3</span>, <span class="va">Mx4</span>, <span class="va">Mx5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       [,1]  [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]</span></span>
 <span><span class="co">#&gt;  [1,] 0.75 0.375    0    0    0    0    0    0    0     0</span></span>
 <span><span class="co">#&gt;  [2,] 0.25 0.625    0    0    0    0    0    0    0     0</span></span>
@@ -612,14 +615,14 @@ demographics), then supply the matrices we have constructed (P, BB, and
 MM).</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">group_by</span> <span class="op">&lt;-</span> <span class="st">"stages"</span></span>
-<span><span class="va">type</span> <span class="op">&lt;-</span> <span class="st">"move"</span></span>
+<span><span class="va">lh_order</span> <span class="op">&lt;-</span> <span class="st">"move"</span></span>
 <span><span class="op">(</span><span class="va">A</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">metapopbio</span><span class="fu">::</span><span class="fu"><a href="../reference/spmm.project.matrix.html">spmm.project.matrix</a></span><span class="op">(</span></span>
 <span>    P <span class="op">=</span> <span class="va">P</span>,</span>
 <span>    BB <span class="op">=</span> <span class="va">BB</span>,</span>
 <span>    MM <span class="op">=</span> <span class="va">MM</span>,</span>
 <span>    group_by <span class="op">=</span> <span class="va">group_by</span>,</span>
-<span>    type <span class="op">=</span> <span class="va">type</span></span>
+<span>    lh_order <span class="op">=</span> <span class="va">lh_order</span></span>
 <span>  <span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       [,1] [,2]  [,3] [,4] [,5] [,6]  [,7] [,8] [,9] [,10]</span></span>
 <span><span class="co">#&gt;  [1,]  0.0  0.0 0.096 0.00 0.16 0.00 0.224 0.00 0.32  0.00</span></span>
@@ -768,7 +771,7 @@ project.</p>
 <span><span class="co">#&gt;  [3]  2.182849e-01+4.025870e-01i  2.182849e-01-4.025870e-01i</span></span>
 <span><span class="co">#&gt;  [5] -3.024940e-01+2.461757e-01i -3.024940e-01-2.461757e-01i</span></span>
 <span><span class="co">#&gt;  [7]  6.112978e-02+2.358721e-01i  6.112978e-02-2.358721e-01i</span></span>
-<span><span class="co">#&gt;  [9] -2.028494e-01+0.000000e+00i -2.481725e-15+0.000000e+00i</span></span>
+<span><span class="co">#&gt;  [9] -2.028494e-01+0.000000e+00i  1.791285e-15+0.000000e+00i</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $vectors</span></span>
 <span><span class="co">#&gt;                 [,1]           [,2]                    [,3]</span></span>
@@ -805,15 +808,15 @@ project.</p>
 <span><span class="co">#&gt;  [9,] -0.007352067+0.04513841i -0.007352067-0.04513841i -0.026975652+0i</span></span>
 <span><span class="co">#&gt; [10,] -0.699885399+0.00000000i -0.699885399+0.00000000i -0.612687917+0i</span></span>
 <span><span class="co">#&gt;                  [,10]</span></span>
-<span><span class="co">#&gt;  [1,] -2.152632e-16+0i</span></span>
-<span><span class="co">#&gt;  [2,]  5.083145e-17+0i</span></span>
-<span><span class="co">#&gt;  [3,]  8.319549e-17+0i</span></span>
-<span><span class="co">#&gt;  [4,] -1.860247e-16+0i</span></span>
-<span><span class="co">#&gt;  [5,] -3.341436e-16+0i</span></span>
-<span><span class="co">#&gt;  [6,]  1.981519e-15+0i</span></span>
-<span><span class="co">#&gt;  [7,] -1.381459e-15+0i</span></span>
+<span><span class="co">#&gt;  [1,] -5.224894e-16+0i</span></span>
+<span><span class="co">#&gt;  [2,] -3.630818e-17+0i</span></span>
+<span><span class="co">#&gt;  [3,]  1.699276e-16+0i</span></span>
+<span><span class="co">#&gt;  [4,]  1.250305e-16+0i</span></span>
+<span><span class="co">#&gt;  [5,] -2.213028e-17+0i</span></span>
+<span><span class="co">#&gt;  [6,] -1.216778e-15+0i</span></span>
+<span><span class="co">#&gt;  [7,]  1.660406e-15+0i</span></span>
 <span><span class="co">#&gt;  [8,] -7.071068e-01+0i</span></span>
-<span><span class="co">#&gt;  [9,]  1.464485e-15+0i</span></span>
+<span><span class="co">#&gt;  [9,] -1.566664e-15+0i</span></span>
 <span><span class="co">#&gt; [10,]  7.071068e-01+0i</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -831,31 +834,31 @@ project.</p>
 <span><span class="co">#&gt;  [3]  2.182849e-01+4.025870e-01i  2.182849e-01-4.025870e-01i</span></span>
 <span><span class="co">#&gt;  [5] -3.024940e-01+2.461757e-01i -3.024940e-01-2.461757e-01i</span></span>
 <span><span class="co">#&gt;  [7]  6.112978e-02+2.358721e-01i  6.112978e-02-2.358721e-01i</span></span>
-<span><span class="co">#&gt;  [9] -2.028494e-01+0.000000e+00i -1.560002e-16+0.000000e+00i</span></span>
+<span><span class="co">#&gt;  [9] -2.028494e-01+0.000000e+00i  1.718711e-15+0.000000e+00i</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $vectors</span></span>
 <span><span class="co">#&gt;               [,1]           [,2]                    [,3]</span></span>
-<span><span class="co">#&gt;  [1,] 0.2536597+0i  0.05633004+0i -0.62139103+0.00000000i</span></span>
-<span><span class="co">#&gt;  [2,] 0.2112455+0i -0.15794294+0i -0.29776448-0.07991527i</span></span>
-<span><span class="co">#&gt;  [3,] 0.3513929+0i  0.22206487+0i -0.25523002-0.40674126i</span></span>
-<span><span class="co">#&gt;  [4,] 0.2104240+0i -0.41498457+0i  0.08748875-0.03059607i</span></span>
-<span><span class="co">#&gt;  [5,] 0.3975824+0i  0.23494746+0i  0.20449932-0.23358264i</span></span>
-<span><span class="co">#&gt;  [6,] 0.2301052+0i -0.43212154+0i  0.07462378+0.04455451i</span></span>
-<span><span class="co">#&gt;  [7,] 0.4339490+0i  0.24456348+0i  0.29036465+0.03822100i</span></span>
-<span><span class="co">#&gt;  [8,] 0.2385797+0i -0.43920480+0i  0.05609084+0.06409096i</span></span>
-<span><span class="co">#&gt;  [9,] 0.4583715+0i  0.25062643+0i  0.22827625+0.15273184i</span></span>
-<span><span class="co">#&gt; [10,] 0.2385797+0i -0.43920480+0i  0.05609084+0.06409096i</span></span>
+<span><span class="co">#&gt;  [1,] 0.2536597+0i  0.05633004+0i  0.62139103+0.00000000i</span></span>
+<span><span class="co">#&gt;  [2,] 0.2112455+0i -0.15794294+0i  0.29776448+0.07991527i</span></span>
+<span><span class="co">#&gt;  [3,] 0.3513929+0i  0.22206487+0i  0.25523002+0.40674126i</span></span>
+<span><span class="co">#&gt;  [4,] 0.2104240+0i -0.41498457+0i -0.08748875+0.03059607i</span></span>
+<span><span class="co">#&gt;  [5,] 0.3975824+0i  0.23494746+0i -0.20449932+0.23358264i</span></span>
+<span><span class="co">#&gt;  [6,] 0.2301052+0i -0.43212154+0i -0.07462378-0.04455451i</span></span>
+<span><span class="co">#&gt;  [7,] 0.4339490+0i  0.24456348+0i -0.29036465-0.03822100i</span></span>
+<span><span class="co">#&gt;  [8,] 0.2385797+0i -0.43920480+0i -0.05609084-0.06409096i</span></span>
+<span><span class="co">#&gt;  [9,] 0.4583715+0i  0.25062643+0i -0.22827625-0.15273184i</span></span>
+<span><span class="co">#&gt; [10,] 0.2385797+0i -0.43920480+0i -0.05609084-0.06409096i</span></span>
 <span><span class="co">#&gt;                          [,4]                    [,5]                    [,6]</span></span>
-<span><span class="co">#&gt;  [1,] -0.62139103+0.00000000i -0.73133636+0.00000000i -0.73133636+0.00000000i</span></span>
-<span><span class="co">#&gt;  [2,] -0.29776448+0.07991527i -0.34822924-0.02619348i -0.34822924+0.02619348i</span></span>
-<span><span class="co">#&gt;  [3,] -0.25523002+0.40674126i  0.36773061-0.31024237i  0.36773061+0.31024237i</span></span>
-<span><span class="co">#&gt;  [4,]  0.08748875+0.03059607i  0.00293255+0.03054104i  0.00293255-0.03054104i</span></span>
-<span><span class="co">#&gt;  [5,]  0.20449932+0.23358264i  0.04310500+0.22484486i  0.04310500-0.22484486i</span></span>
-<span><span class="co">#&gt;  [6,]  0.07462378-0.04455451i  0.03221632-0.00719172i  0.03221632+0.00719172i</span></span>
-<span><span class="co">#&gt;  [7,]  0.29036465-0.03822100i  0.05929693-0.07000344i  0.05929693+0.07000344i</span></span>
-<span><span class="co">#&gt;  [8,]  0.05609084-0.06409096i  0.05822178+0.01743571i  0.05822178-0.01743571i</span></span>
-<span><span class="co">#&gt;  [9,]  0.22827625-0.15273184i  0.19892137+0.04362571i  0.19892137-0.04362571i</span></span>
-<span><span class="co">#&gt; [10,]  0.05609084-0.06409096i  0.05822178+0.01743571i  0.05822178-0.01743571i</span></span>
+<span><span class="co">#&gt;  [1,]  0.62139103+0.00000000i -0.73133636+0.00000000i -0.73133636+0.00000000i</span></span>
+<span><span class="co">#&gt;  [2,]  0.29776448-0.07991527i -0.34822924-0.02619348i -0.34822924+0.02619348i</span></span>
+<span><span class="co">#&gt;  [3,]  0.25523002-0.40674126i  0.36773061-0.31024237i  0.36773061+0.31024237i</span></span>
+<span><span class="co">#&gt;  [4,] -0.08748875-0.03059607i  0.00293255+0.03054104i  0.00293255-0.03054104i</span></span>
+<span><span class="co">#&gt;  [5,] -0.20449932-0.23358264i  0.04310500+0.22484486i  0.04310500-0.22484486i</span></span>
+<span><span class="co">#&gt;  [6,] -0.07462378+0.04455451i  0.03221632-0.00719172i  0.03221632+0.00719172i</span></span>
+<span><span class="co">#&gt;  [7,] -0.29036465+0.03822100i  0.05929693-0.07000344i  0.05929693+0.07000344i</span></span>
+<span><span class="co">#&gt;  [8,] -0.05609084+0.06409096i  0.05822178+0.01743571i  0.05822178-0.01743571i</span></span>
+<span><span class="co">#&gt;  [9,] -0.22827625+0.15273184i  0.19892137+0.04362571i  0.19892137-0.04362571i</span></span>
+<span><span class="co">#&gt; [10,] -0.05609084+0.06409096i  0.05822178+0.01743571i  0.05822178-0.01743571i</span></span>
 <span><span class="co">#&gt;                          [,7]                    [,8]            [,9]</span></span>
 <span><span class="co">#&gt;  [1,]  0.00548865-0.03369784i  0.00548865+0.03369784i -0.025230343+0i</span></span>
 <span><span class="co">#&gt;  [2,]  0.78374361+0.00000000i  0.78374361+0.00000000i -0.859571041+0i</span></span>
@@ -868,15 +871,15 @@ project.</p>
 <span><span class="co">#&gt;  [9,] -0.00613811+0.01230184i -0.00613811-0.01230184i  0.007893352+0i</span></span>
 <span><span class="co">#&gt; [10,] -0.18835824-0.05854553i -0.18835824+0.05854553i  0.168073829+0i</span></span>
 <span><span class="co">#&gt;                  [,10]</span></span>
-<span><span class="co">#&gt;  [1,] -1.095150e-16+0i</span></span>
+<span><span class="co">#&gt;  [1,] -5.295556e-15+0i</span></span>
 <span><span class="co">#&gt;  [2,] -9.481194e-01+0i</span></span>
-<span><span class="co">#&gt;  [3,] -1.888905e-16+0i</span></span>
-<span><span class="co">#&gt;  [4,]  2.562543e-16+0i</span></span>
-<span><span class="co">#&gt;  [5,]  2.341254e-16+0i</span></span>
+<span><span class="co">#&gt;  [3,]  1.193352e-15+0i</span></span>
+<span><span class="co">#&gt;  [4,] -4.231046e-15+0i</span></span>
+<span><span class="co">#&gt;  [5,]  7.478823e-16+0i</span></span>
 <span><span class="co">#&gt;  [6,]  1.156243e-01+0i</span></span>
-<span><span class="co">#&gt;  [7,] -5.441816e-16+0i</span></span>
+<span><span class="co">#&gt;  [7,]  1.177518e-15+0i</span></span>
 <span><span class="co">#&gt;  [8,]  1.849989e-01+0i</span></span>
-<span><span class="co">#&gt;  [9,]  2.425013e-16+0i</span></span>
+<span><span class="co">#&gt;  [9,]  1.767433e-15+0i</span></span>
 <span><span class="co">#&gt; [10,]  2.312486e-01+0i</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>

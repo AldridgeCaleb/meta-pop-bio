@@ -13,10 +13,19 @@
     <loc>https://aldridgecaleb.github.io/meta-pop-bio/articles/index.html</loc>
   </url>
   <url>
+    <loc>https://aldridgecaleb.github.io/meta-pop-bio/articles/using-auto.spmm.html</loc>
+  </url>
+  <url>
+    <loc>https://aldridgecaleb.github.io/meta-pop-bio/articles/using-spmm.readxl.html</loc>
+  </url>
+  <url>
     <loc>https://aldridgecaleb.github.io/meta-pop-bio/authors.html</loc>
   </url>
   <url>
     <loc>https://aldridgecaleb.github.io/meta-pop-bio/index.html</loc>
+  </url>
+  <url>
+    <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/auto.spmm.html</loc>
   </url>
   <url>
     <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/blk.diag.html</loc>
@@ -50,6 +59,9 @@
   </url>
   <url>
     <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.project.matrix.sens.html</loc>
+  </url>
+  <url>
+    <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.readxl.html</loc>
   </url>
   <url>
     <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/vec.perm.html</loc>

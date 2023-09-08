@@ -16,7 +16,7 @@ Hunter and Caswell (2005) and Lebreton (1996)."><meta property="og:image" conten
     
     <a class="navbar-brand me-2" href="../index.html">metapopbio</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,6 +31,8 @@ Hunter and Caswell (2005) and Lebreton (1996)."><meta property="og:image" conten
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/getting-started.html">Getting started with the metapopbio package</a>
+    <a class="dropdown-item" href="../articles/using-auto.spmm.html">Using auto.spmm</a>
+    <a class="dropdown-item" href="../articles/using-spmm.readxl.html">Using the spmm.readxl funciton</a>
   </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
@@ -98,7 +100,7 @@ matrix N.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
-    <p>Ensure that the structural types of population vector `n` and projection 
+    <p>Ensure that the structural lh_orders of population vector `n` and projection 
 matrix `A` are the same. Otherwise, projections may produce incorrect values!</p>
     </div>
     <div class="section level2">
@@ -153,7 +155,7 @@ spatial matrix population models. Ecological Modelling 188:15--21.</p>
 <span class="r-in"><span>         nrow <span class="op">=</span> <span class="fl">2</span>,</span></span>
 <span class="r-in"><span>         byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Demography block matrix construction</span></span></span>
-<span class="r-in"><span><span class="va">BB</span> <span class="op">&lt;-</span> <span class="fu"><a href="blk.diag.html">blk.diag</a></span><span class="op">(</span><span class="va">B1x</span>, <span class="va">B2x</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">BB</span> <span class="op">&lt;-</span> <span class="fu"><a href="blk.diag.html">blk.diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">B1x</span>, <span class="va">B2x</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Movement parameter values</span></span></span>
 <span class="r-in"><span><span class="va">dx1</span> <span class="op">&lt;-</span> <span class="fl">0.27</span>  <span class="co"># only juveniles disperse</span></span></span>
@@ -162,15 +164,15 @@ spatial matrix population models. Ecological Modelling 188:15--21.</p>
 <span class="r-in"><span><span class="va">Mx1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">dx2</span>, <span class="va">dx1</span>, <span class="va">dx1</span>, <span class="va">dx2</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="va">n_patches</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">Mx2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span>, nrow <span class="op">=</span> <span class="va">n_patches</span>, ncol <span class="op">=</span> <span class="va">n_patches</span><span class="op">)</span>  <span class="co"># no Movement by adults</span></span></span>
 <span class="r-in"><span><span class="co"># Movement block matrix construction</span></span></span>
-<span class="r-in"><span><span class="va">MM</span> <span class="op">&lt;-</span> <span class="fu"><a href="blk.diag.html">blk.diag</a></span><span class="op">(</span><span class="va">Mx1</span>, <span class="va">Mx2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">MM</span> <span class="op">&lt;-</span> <span class="fu"><a href="blk.diag.html">blk.diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Mx1</span>, <span class="va">Mx2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Arrangement by patches</span></span></span>
 <span class="r-in"><span><span class="va">group_by</span> <span class="op">&lt;-</span> <span class="st">"patches"</span></span></span>
 <span class="r-in"><span><span class="co"># Assumed movement before demography</span></span></span>
-<span class="r-in"><span><span class="va">type</span> <span class="op">&lt;-</span> <span class="st">"move"</span></span></span>
+<span class="r-in"><span><span class="va">lh_order</span> <span class="op">&lt;-</span> <span class="st">"move"</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Projection matrix construction</span></span></span>
-<span class="r-in"><span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu"><a href="spmm.project.matrix.html">spmm.project.matrix</a></span><span class="op">(</span><span class="va">P</span>, <span class="va">BB</span>, <span class="va">MM</span>, <span class="va">group_by</span>, <span class="va">type</span><span class="op">)</span>  <span class="co"># BB %*% t(P) %*% MM %*% P </span></span></span>
+<span class="r-in"><span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu"><a href="spmm.project.matrix.html">spmm.project.matrix</a></span><span class="op">(</span><span class="va">P</span>, <span class="va">BB</span>, <span class="va">MM</span>, <span class="va">group_by</span>, <span class="va">lh_order</span><span class="op">)</span>  <span class="co"># BB %*% t(P) %*% MM %*% P </span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Initial stages within patches (patch group_by)  </span></span></span>
 <span class="r-in"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
