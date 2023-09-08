@@ -13,6 +13,6 @@
 #' 
 #' @export
 spmm.readxl <- function(path, filename) {
-  source(system.file("R/spmm.readxl.internal.R", package = "metapopbio"))
+  source(system.file("spmm.readxl.internal.R", package = "metapopbio"))
 }
 

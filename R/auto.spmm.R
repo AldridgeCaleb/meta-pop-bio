@@ -23,6 +23,6 @@
 #' 
 #' @export
 auto.spmm <- function(path, filename, plot = FALSE, ylabs = NA, xlabs = NA) {
-  source(system.file("R/auto.spmm.internal.R", package = "metapopbio"))
+  source(system.file("auto.spmm.internal.R", package = "metapopbio"))
 }
 
