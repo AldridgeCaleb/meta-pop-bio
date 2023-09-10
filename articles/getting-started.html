@@ -81,7 +81,7 @@
                         <h4 data-toc-skip class="author">Caleb A.
 Aldridge</h4>
             
-            <h4 data-toc-skip class="date">2023-09-08</h4>
+            <h4 data-toc-skip class="date">2023-09-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/AldridgeCaleb/meta-pop-bio/blob/HEAD/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
       <div class="d-none name"><code>getting-started.Rmd</code></div>
@@ -173,15 +173,15 @@ reproduce.</p>
 <p>Northern first.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Northern</span></span>
-<span><span class="va">r11</span> <span class="op">&lt;-</span> <span class="fl">0.00</span> </span>
-<span><span class="va">r12</span> <span class="op">&lt;-</span> <span class="fl">0.26</span></span>
+<span><span class="va">f11</span> <span class="op">&lt;-</span> <span class="fl">0.00</span> </span>
+<span><span class="va">f12</span> <span class="op">&lt;-</span> <span class="fl">0.26</span></span>
 <span><span class="va">s11</span> <span class="op">&lt;-</span> <span class="fl">0.72</span></span>
 <span><span class="va">s12</span> <span class="op">&lt;-</span> <span class="fl">0.77</span></span></code></pre></div>
 <p>Now Southern.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Southern</span></span>
-<span><span class="va">r21</span> <span class="op">&lt;-</span> <span class="fl">0.00</span></span>
-<span><span class="va">r22</span> <span class="op">&lt;-</span> <span class="fl">0.19</span>  </span>
+<span><span class="va">f21</span> <span class="op">&lt;-</span> <span class="fl">0.00</span></span>
+<span><span class="va">f22</span> <span class="op">&lt;-</span> <span class="fl">0.19</span>  </span>
 <span><span class="va">s21</span> <span class="op">&lt;-</span> <span class="fl">0.72</span></span>
 <span><span class="va">s22</span> <span class="op">&lt;-</span> <span class="fl">0.77</span></span></code></pre></div>
 </div>
@@ -194,7 +194,7 @@ above into an ordered matrices for analysis and projecting.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Northern</span></span>
 <span><span class="op">(</span><span class="va">B1x</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">r11</span>, <span class="va">r12</span>, <span class="va">s11</span>, <span class="va">s12</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">f11</span>, <span class="va">f12</span>, <span class="va">s11</span>, <span class="va">s12</span><span class="op">)</span>,</span>
 <span>         nrow <span class="op">=</span> <span class="va">n_stages</span>,</span>
 <span>         ncol <span class="op">=</span> <span class="va">n_stages</span>,</span>
 <span>         byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
@@ -203,7 +203,7 @@ above into an ordered matrices for analysis and projecting.</p>
 <span><span class="co">#&gt; [2,] 0.72 0.77</span></span>
 <span><span class="co"># Southern</span></span>
 <span><span class="op">(</span><span class="va">B2x</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">r21</span>, <span class="va">r22</span>, <span class="va">s21</span>, <span class="va">s22</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">f21</span>, <span class="va">f22</span>, <span class="va">s21</span>, <span class="va">s22</span><span class="op">)</span>,</span>
 <span>         nrow <span class="op">=</span> <span class="va">n_stages</span>,</span>
 <span>         ncol <span class="op">=</span> <span class="va">n_stages</span>,</span>
 <span>         byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
@@ -325,7 +325,7 @@ project.</p>
 <span>      n_patches <span class="op">=</span> <span class="va">n_patches</span></span>
 <span>    <span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Deterministic spatial matrix model projections for patches structured population vector and movement then demography A projection matrix."</span></span>
+<span><span class="co">#&gt; [1] "Deterministic spatial matrix model projections for patches structured population vector and movement then demography A projection matrix.\n"</span></span>
 <span><span class="co">#&gt;       1       2         3         4         5         6         7         8</span></span>
 <span><span class="co">#&gt; [1,] 60  4.9400 13.468936 11.238229 10.900330 10.270267  9.726175  9.200632</span></span>
 <span><span class="co">#&gt; [2,] 19 51.8036 43.223956 41.924348 39.501028 37.408367 35.387046 33.476641</span></span>
@@ -415,7 +415,7 @@ project.</p>
 <span>  stage_names <span class="op">=</span> <span class="va">stage_names</span>,</span>
 <span>  patch_names <span class="op">=</span> <span class="va">patch_names</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<p><img src="getting-started_files/figure-html/unnamed-chunk-13-1.png" width="700"><img src="getting-started_files/figure-html/unnamed-chunk-13-2.png" width="700"></p>
 </div>
 <div class="section level5">
 <h5 id="sensitivity-and-elasticity-analyses">9. Sensitivity and elasticity analyses<a class="anchor" aria-label="anchor" href="#sensitivity-and-elasticity-analyses"></a>
@@ -670,7 +670,7 @@ project.</p>
 <span>      n_patches <span class="op">=</span> <span class="va">n_patches</span></span>
 <span>    <span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Deterministic spatial matrix model projections for stages structured population vector and movement then demography A projection matrix."</span></span>
+<span><span class="co">#&gt; [1] "Deterministic spatial matrix model projections for stages structured population vector and movement then demography A projection matrix.\n"</span></span>
 <span><span class="co">#&gt;        1      2       3        4        5        6        7        8        9</span></span>
 <span><span class="co">#&gt; [1,] 100 33.728 45.8752 51.52188 55.27576 57.16619 56.41182 56.61106 57.01488</span></span>
 <span><span class="co">#&gt; [2,]  90 28.180 34.9704 36.02828 34.98257 33.38963 32.34447 31.50141 30.72830</span></span>
@@ -734,7 +734,7 @@ project.</p>
 <span>  stage_names <span class="op">=</span> <span class="va">stage_names</span>,</span>
 <span>  patch_names <span class="op">=</span> <span class="va">patch_names</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
+<p><img src="getting-started_files/figure-html/unnamed-chunk-24-1.png" width="700"><img src="getting-started_files/figure-html/unnamed-chunk-24-2.png" width="700"></p>
 </div>
 <div class="section level5">
 <h5 id="sensitivity-and-elasticity-analyses-1">9. Sensitivity and elasticity analyses<a class="anchor" aria-label="anchor" href="#sensitivity-and-elasticity-analyses-1"></a>
@@ -771,7 +771,7 @@ project.</p>
 <span><span class="co">#&gt;  [3]  2.182849e-01+4.025870e-01i  2.182849e-01-4.025870e-01i</span></span>
 <span><span class="co">#&gt;  [5] -3.024940e-01+2.461757e-01i -3.024940e-01-2.461757e-01i</span></span>
 <span><span class="co">#&gt;  [7]  6.112978e-02+2.358721e-01i  6.112978e-02-2.358721e-01i</span></span>
-<span><span class="co">#&gt;  [9] -2.028494e-01+0.000000e+00i  1.791285e-15+0.000000e+00i</span></span>
+<span><span class="co">#&gt;  [9] -2.028494e-01+0.000000e+00i -2.481725e-15+0.000000e+00i</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $vectors</span></span>
 <span><span class="co">#&gt;                 [,1]           [,2]                    [,3]</span></span>
@@ -808,15 +808,15 @@ project.</p>
 <span><span class="co">#&gt;  [9,] -0.007352067+0.04513841i -0.007352067-0.04513841i -0.026975652+0i</span></span>
 <span><span class="co">#&gt; [10,] -0.699885399+0.00000000i -0.699885399+0.00000000i -0.612687917+0i</span></span>
 <span><span class="co">#&gt;                  [,10]</span></span>
-<span><span class="co">#&gt;  [1,] -5.224894e-16+0i</span></span>
-<span><span class="co">#&gt;  [2,] -3.630818e-17+0i</span></span>
-<span><span class="co">#&gt;  [3,]  1.699276e-16+0i</span></span>
-<span><span class="co">#&gt;  [4,]  1.250305e-16+0i</span></span>
-<span><span class="co">#&gt;  [5,] -2.213028e-17+0i</span></span>
-<span><span class="co">#&gt;  [6,] -1.216778e-15+0i</span></span>
-<span><span class="co">#&gt;  [7,]  1.660406e-15+0i</span></span>
+<span><span class="co">#&gt;  [1,] -2.152632e-16+0i</span></span>
+<span><span class="co">#&gt;  [2,]  5.083145e-17+0i</span></span>
+<span><span class="co">#&gt;  [3,]  8.319549e-17+0i</span></span>
+<span><span class="co">#&gt;  [4,] -1.860247e-16+0i</span></span>
+<span><span class="co">#&gt;  [5,] -3.341436e-16+0i</span></span>
+<span><span class="co">#&gt;  [6,]  1.981519e-15+0i</span></span>
+<span><span class="co">#&gt;  [7,] -1.381459e-15+0i</span></span>
 <span><span class="co">#&gt;  [8,] -7.071068e-01+0i</span></span>
-<span><span class="co">#&gt;  [9,] -1.566664e-15+0i</span></span>
+<span><span class="co">#&gt;  [9,]  1.464485e-15+0i</span></span>
 <span><span class="co">#&gt; [10,]  7.071068e-01+0i</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -834,31 +834,31 @@ project.</p>
 <span><span class="co">#&gt;  [3]  2.182849e-01+4.025870e-01i  2.182849e-01-4.025870e-01i</span></span>
 <span><span class="co">#&gt;  [5] -3.024940e-01+2.461757e-01i -3.024940e-01-2.461757e-01i</span></span>
 <span><span class="co">#&gt;  [7]  6.112978e-02+2.358721e-01i  6.112978e-02-2.358721e-01i</span></span>
-<span><span class="co">#&gt;  [9] -2.028494e-01+0.000000e+00i  1.718711e-15+0.000000e+00i</span></span>
+<span><span class="co">#&gt;  [9] -2.028494e-01+0.000000e+00i -1.560002e-16+0.000000e+00i</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $vectors</span></span>
 <span><span class="co">#&gt;               [,1]           [,2]                    [,3]</span></span>
-<span><span class="co">#&gt;  [1,] 0.2536597+0i  0.05633004+0i  0.62139103+0.00000000i</span></span>
-<span><span class="co">#&gt;  [2,] 0.2112455+0i -0.15794294+0i  0.29776448+0.07991527i</span></span>
-<span><span class="co">#&gt;  [3,] 0.3513929+0i  0.22206487+0i  0.25523002+0.40674126i</span></span>
-<span><span class="co">#&gt;  [4,] 0.2104240+0i -0.41498457+0i -0.08748875+0.03059607i</span></span>
-<span><span class="co">#&gt;  [5,] 0.3975824+0i  0.23494746+0i -0.20449932+0.23358264i</span></span>
-<span><span class="co">#&gt;  [6,] 0.2301052+0i -0.43212154+0i -0.07462378-0.04455451i</span></span>
-<span><span class="co">#&gt;  [7,] 0.4339490+0i  0.24456348+0i -0.29036465-0.03822100i</span></span>
-<span><span class="co">#&gt;  [8,] 0.2385797+0i -0.43920480+0i -0.05609084-0.06409096i</span></span>
-<span><span class="co">#&gt;  [9,] 0.4583715+0i  0.25062643+0i -0.22827625-0.15273184i</span></span>
-<span><span class="co">#&gt; [10,] 0.2385797+0i -0.43920480+0i -0.05609084-0.06409096i</span></span>
+<span><span class="co">#&gt;  [1,] 0.2536597+0i  0.05633004+0i -0.62139103+0.00000000i</span></span>
+<span><span class="co">#&gt;  [2,] 0.2112455+0i -0.15794294+0i -0.29776448-0.07991527i</span></span>
+<span><span class="co">#&gt;  [3,] 0.3513929+0i  0.22206487+0i -0.25523002-0.40674126i</span></span>
+<span><span class="co">#&gt;  [4,] 0.2104240+0i -0.41498457+0i  0.08748875-0.03059607i</span></span>
+<span><span class="co">#&gt;  [5,] 0.3975824+0i  0.23494746+0i  0.20449932-0.23358264i</span></span>
+<span><span class="co">#&gt;  [6,] 0.2301052+0i -0.43212154+0i  0.07462378+0.04455451i</span></span>
+<span><span class="co">#&gt;  [7,] 0.4339490+0i  0.24456348+0i  0.29036465+0.03822100i</span></span>
+<span><span class="co">#&gt;  [8,] 0.2385797+0i -0.43920480+0i  0.05609084+0.06409096i</span></span>
+<span><span class="co">#&gt;  [9,] 0.4583715+0i  0.25062643+0i  0.22827625+0.15273184i</span></span>
+<span><span class="co">#&gt; [10,] 0.2385797+0i -0.43920480+0i  0.05609084+0.06409096i</span></span>
 <span><span class="co">#&gt;                          [,4]                    [,5]                    [,6]</span></span>
-<span><span class="co">#&gt;  [1,]  0.62139103+0.00000000i -0.73133636+0.00000000i -0.73133636+0.00000000i</span></span>
-<span><span class="co">#&gt;  [2,]  0.29776448-0.07991527i -0.34822924-0.02619348i -0.34822924+0.02619348i</span></span>
-<span><span class="co">#&gt;  [3,]  0.25523002-0.40674126i  0.36773061-0.31024237i  0.36773061+0.31024237i</span></span>
-<span><span class="co">#&gt;  [4,] -0.08748875-0.03059607i  0.00293255+0.03054104i  0.00293255-0.03054104i</span></span>
-<span><span class="co">#&gt;  [5,] -0.20449932-0.23358264i  0.04310500+0.22484486i  0.04310500-0.22484486i</span></span>
-<span><span class="co">#&gt;  [6,] -0.07462378+0.04455451i  0.03221632-0.00719172i  0.03221632+0.00719172i</span></span>
-<span><span class="co">#&gt;  [7,] -0.29036465+0.03822100i  0.05929693-0.07000344i  0.05929693+0.07000344i</span></span>
-<span><span class="co">#&gt;  [8,] -0.05609084+0.06409096i  0.05822178+0.01743571i  0.05822178-0.01743571i</span></span>
-<span><span class="co">#&gt;  [9,] -0.22827625+0.15273184i  0.19892137+0.04362571i  0.19892137-0.04362571i</span></span>
-<span><span class="co">#&gt; [10,] -0.05609084+0.06409096i  0.05822178+0.01743571i  0.05822178-0.01743571i</span></span>
+<span><span class="co">#&gt;  [1,] -0.62139103+0.00000000i -0.73133636+0.00000000i -0.73133636+0.00000000i</span></span>
+<span><span class="co">#&gt;  [2,] -0.29776448+0.07991527i -0.34822924-0.02619348i -0.34822924+0.02619348i</span></span>
+<span><span class="co">#&gt;  [3,] -0.25523002+0.40674126i  0.36773061-0.31024237i  0.36773061+0.31024237i</span></span>
+<span><span class="co">#&gt;  [4,]  0.08748875+0.03059607i  0.00293255+0.03054104i  0.00293255-0.03054104i</span></span>
+<span><span class="co">#&gt;  [5,]  0.20449932+0.23358264i  0.04310500+0.22484486i  0.04310500-0.22484486i</span></span>
+<span><span class="co">#&gt;  [6,]  0.07462378-0.04455451i  0.03221632-0.00719172i  0.03221632+0.00719172i</span></span>
+<span><span class="co">#&gt;  [7,]  0.29036465-0.03822100i  0.05929693-0.07000344i  0.05929693+0.07000344i</span></span>
+<span><span class="co">#&gt;  [8,]  0.05609084-0.06409096i  0.05822178+0.01743571i  0.05822178-0.01743571i</span></span>
+<span><span class="co">#&gt;  [9,]  0.22827625-0.15273184i  0.19892137+0.04362571i  0.19892137-0.04362571i</span></span>
+<span><span class="co">#&gt; [10,]  0.05609084-0.06409096i  0.05822178+0.01743571i  0.05822178-0.01743571i</span></span>
 <span><span class="co">#&gt;                          [,7]                    [,8]            [,9]</span></span>
 <span><span class="co">#&gt;  [1,]  0.00548865-0.03369784i  0.00548865+0.03369784i -0.025230343+0i</span></span>
 <span><span class="co">#&gt;  [2,]  0.78374361+0.00000000i  0.78374361+0.00000000i -0.859571041+0i</span></span>
@@ -871,15 +871,15 @@ project.</p>
 <span><span class="co">#&gt;  [9,] -0.00613811+0.01230184i -0.00613811-0.01230184i  0.007893352+0i</span></span>
 <span><span class="co">#&gt; [10,] -0.18835824-0.05854553i -0.18835824+0.05854553i  0.168073829+0i</span></span>
 <span><span class="co">#&gt;                  [,10]</span></span>
-<span><span class="co">#&gt;  [1,] -5.295556e-15+0i</span></span>
+<span><span class="co">#&gt;  [1,] -1.095150e-16+0i</span></span>
 <span><span class="co">#&gt;  [2,] -9.481194e-01+0i</span></span>
-<span><span class="co">#&gt;  [3,]  1.193352e-15+0i</span></span>
-<span><span class="co">#&gt;  [4,] -4.231046e-15+0i</span></span>
-<span><span class="co">#&gt;  [5,]  7.478823e-16+0i</span></span>
+<span><span class="co">#&gt;  [3,] -1.888905e-16+0i</span></span>
+<span><span class="co">#&gt;  [4,]  2.562543e-16+0i</span></span>
+<span><span class="co">#&gt;  [5,]  2.341254e-16+0i</span></span>
 <span><span class="co">#&gt;  [6,]  1.156243e-01+0i</span></span>
-<span><span class="co">#&gt;  [7,]  1.177518e-15+0i</span></span>
+<span><span class="co">#&gt;  [7,] -5.441816e-16+0i</span></span>
 <span><span class="co">#&gt;  [8,]  1.849989e-01+0i</span></span>
-<span><span class="co">#&gt;  [9,]  1.767433e-15+0i</span></span>
+<span><span class="co">#&gt;  [9,]  2.425013e-16+0i</span></span>
 <span><span class="co">#&gt; [10,]  2.312486e-01+0i</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
