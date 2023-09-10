@@ -92,7 +92,8 @@
 #' A <- spmm.project.matrix(P, BB, MM, group_by, lh_order)  # BB %*% t(P) %*% MM %*% P 
 #' 
 #' @export
-spmm.project.matrix <- function(P, BB, MM, group_by = c("patches", "stages"), lh_order = c("demo", "move")) {
+spmm.project.matrix <- function(P, BB, MM, group_by = c("patches", "stages"), 
+                                lh_order = c("demo", "move")) {
   if (group_by == "patches" && lh_order == "demo") {
     A <- t(P) %*% MM %*% P %*% BB 
   } else if (group_by == "patches" && lh_order == "move") {

@@ -11,6 +11,7 @@
 #' 
 #' @param path path to xlsx workbook
 #' @param filename name of xlsx workbook
+#' @param ddf Density-dependent function parameters (see `?spmm.ddf.params`).
 #' @param plot optional; output plots from `auto.spmm`?
 #' @param ylabs optional; labels for y-axis labels
 #' @param xlabs optional; labels for x-axis labels
@@ -24,7 +25,7 @@
 #' https://ycphs.github.io/openxlsx/index.html, https://github.com/ycphs/openxlsx. 
 #' 
 #' @export
-auto.spmm <- function(path, filename, plot = FALSE, ylabs = NA, xlabs = NA) {
+auto.spmm <- function(path, filename, ddf = NA, plot = FALSE, ylabs = NA, xlabs = NA) {
   # source("C:/Users/caldridge/Documents/R/meta-pop-bio/R/auto.spmm.internal.R", local = TRUE)
   
   sheetNames <- openxlsx::getSheetNames(paste0(path, filename))
@@ -69,7 +70,8 @@ auto.spmm <- function(path, filename, plot = FALSE, ylabs = NA, xlabs = NA) {
       A = A,
       n_timesteps = n_timesteps,
       n_stages = n_stages,
-      n_patches = n_patches
+      n_patches = n_patches,
+      ddf = ddf
     )
   
   if (plot == TRUE) {

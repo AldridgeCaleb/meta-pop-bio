@@ -56,8 +56,8 @@ We now specify transition probabilities from one stage to the next (survival *s*
 Northern first.
 ```{r}
 # Northern
-r11 <- 0.00 
-r12 <- 0.26
+f11 <- 0.00 
+f12 <- 0.26
 s11 <- 0.72
 s12 <- 0.77
 ```
@@ -65,8 +65,8 @@ s12 <- 0.77
 Now Southern.
 ```{r}
 # Southern
-r21 <- 0.00
-r22 <- 0.19  
+f21 <- 0.00
+f22 <- 0.19  
 s21 <- 0.72
 s22 <- 0.77
 ```
@@ -76,13 +76,13 @@ Now we will construct demographic (Leslise-style) matrices for each of the patch
 ```{r}
 # Northern
 (B1x <-
-  matrix(c(r11, r12, s11, s12),
+  matrix(c(f11, f12, s11, s12),
          nrow = n_stages,
          ncol = n_stages,
          byrow = TRUE))
 # Southern
 (B2x <-
-  matrix(c(r21, r22, s21, s22),
+  matrix(c(f21, f22, s21, s22),
          nrow = n_stages,
          ncol = n_stages,
          byrow = TRUE))

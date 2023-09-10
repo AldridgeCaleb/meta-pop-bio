@@ -118,22 +118,8 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
     n_stages <- as.numeric(strsplit(comments, " +")[[2]][1])
     n_patches <- as.numeric(strsplit(comments, " +")[[3]][1])
     
-    # if ((dim(projections)[1] / n_stages) + 1 <= 4) {
-    #   graphics::par(
-    #     mfrow = c(n_patches + 1, 1),
-    #     mar = c(5, 5, 1.5, 0.5),
-    #     oma = rep(0.5, 4)
-    #   )
-    # } else if ((dim(projections)[1] / n_stages) + 1 > 4) {
-    #   graphics::par(
-    #     mfrow = c(4 + 1, n_patches - 4),
-    #     mar = c(5, 5, 1.5, 0.5),
-    #     oma = rep(0.5, 4)
-    #   )
-    # }
-    
     graphics::par(
-      mfrow = c(3, 2),
+      mfrow = c(n_patches / 2, 2),
       mar = c(5, 5, 1.5, 0.5),
       oma = rep(0.5, 4)
     )
@@ -165,22 +151,8 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
     n_patches <- as.numeric(strsplit(comments, " +")[[2]][1])
     n_stages <- as.numeric(strsplit(comments, " +")[[3]][1])
     
-    # if ((dim(projections)[1] / n_patches) + 1 <= 4) {
-    #   graphics::par(
-    #     mfrow = c(n_stages + 1, 1),
-    #     mar = c(5, 5, 1.5, 0.5),
-    #     oma = rep(0.5, 4)
-    #   )
-    # } else if ((dim(projections)[1] / n_patches) + 1 > 4) {
-    #   graphics::par(
-    #     mfrow = c(4 + 1, n_stages - 4),
-    #     mar = c(5, 5, 1.5, 0.5),
-    #     oma = rep(0.5, 4)
-    #   )
-    # }
-    
     graphics::par(
-      mfrow = c(3, 2),
+      mfrow = c(n_stages / 2, 2),
       mar = c(5, 5, 1.5, 0.5),
       oma = rep(0.5, 4)
     )

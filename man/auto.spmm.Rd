@@ -4,12 +4,14 @@
 \alias{auto.spmm}
 \title{automatically construct and analyze an spmm}
 \usage{
-auto.spmm(path, filename, plot = FALSE, ylabs = NA, xlabs = NA)
+auto.spmm(path, filename, ddf = NA, plot = FALSE, ylabs = NA, xlabs = NA)
 }
 \arguments{
 \item{path}{path to xlsx workbook}
 
 \item{filename}{name of xlsx workbook}
+
+\item{ddf}{Density-dependent function parameters (see `?spmm.ddf.params`).}
 
 \item{plot}{optional; output plots from `auto.spmm`?}
 

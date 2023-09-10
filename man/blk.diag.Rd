@@ -7,11 +7,11 @@
 blk.diag(matlist)
 }
 \arguments{
-\item{...}{Matrices, separated by commas, for constructing the block diagonal
-matrix.}
+\item{matlist}{List of matrices, separated by commas, for constructing the 
+block diagonal matrix.}
 }
 \description{
-Constructs a block matrix of of matrices. Matrices types for spatial matrix
+Constructs a block matrix of matrices. Matrices types for spatial matrix
 population models described in Hunter and Caswell (2005) and Lebreton (1996), 
 include demographic B and dispersal M for which block diagonal matrices are 
 constructed, BB and MM for demographic and dispersal respectively.

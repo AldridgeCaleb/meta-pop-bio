@@ -4,35 +4,35 @@
 \alias{spmm.project}
 \title{deterministic projection of spatial matrix population model}
 \usage{
-spmm.project(n, A, n_timesteps, n_stages, n_patches)
+spmm.project(n, A, n_timesteps, n_stages, n_patches, ddf = NA)
 }
 \arguments{
 \item{n}{Vector of stage and patch starting values. If structure for `n` is
-by patches, the vector sould order values for each stage within each patch 
-and "stack" patches. If structure for `n` is by stages, the vector sould 
+by patches, the vector sould order values for each stage within each patch
+and "stack" patches. If structure for `n` is by stages, the vector sould
 order values for each patch within each stage and "stack" stages.}
 
 \item{A}{The spatial population projection matrix constructed from the
-vec-permutation matrix P, block diagonal demographic matrix BB, and 
+vec-permutation matrix P, block diagonal demographic matrix BB, and
 block diagonal Movement matrix MM (see `spmm.project.matrix` for more details).}
 
-\item{n_timesteps}{The number of time steps into the future that should be 
+\item{n_timesteps}{The number of time steps into the future that should be
 projected.}
 
-\item{n_stages}{The number of stages (rows) in the metapopulation state matrix 
+\item{n_stages}{The number of stages (rows) in the metapopulation state matrix
 N.}
 
-\item{n_patches}{The number of patches (columns) in the metapopulation state 
+\item{n_patches}{The number of patches (columns) in the metapopulation state
 matrix N.}
 }
 \description{
 Produces deterministic future population sizes of stages s in patches p.
-Projections can be ordered with demography then movement (dispersal) or vice 
-versa using population vectors arranged by patches or stages as described in 
+Projections can be ordered with demography then movement (dispersal) or vice
+versa using population vectors arranged by patches or stages as described in
 Hunter and Caswell (2005) and Lebreton (1996).
 }
 \note{
-Ensure that the structural lh_orders of population vector `n` and projection 
+Ensure that the structural lh_orders of population vector `n` and projection
 matrix `A` are the same. Otherwise, projections may produce incorrect values!
 }
 \examples{
@@ -55,7 +55,7 @@ s11 <- 0.72
 s12 <- 0.77
 # Southern
 f21 <- 0.00
-f22 <- 0.19  
+f22 <- 0.19
 s21 <- 0.72
 s22 <- 0.77
 
@@ -86,14 +86,14 @@ group_by <- "patches"
 lh_order <- "move"
 
 # Projection matrix construction
-A <- spmm.project.matrix(P, BB, MM, group_by, lh_order)  # BB \%*\% t(P) \%*\% MM \%*\% P 
+A <- spmm.project.matrix(P, BB, MM, group_by, lh_order)  # BB \%*\% t(P) \%*\% MM \%*\% P
 
-# Initial stages within patches (patch group_by)  
+# Initial stages within patches (patch group_by)
 n <- c(
   50, 22,  # Northern patch adults and juveniles
   40, 17   # Southern patch adults and juveniles
 )
-comment(n) <- "patches"  # vec comment attr for group_by 
+comment(n) <- "patches"  # vec comment attr for group_by
 
 # Number of time steps to project into the future
 n_timesteps <- 50
@@ -103,20 +103,20 @@ projs <- spmm.project(n, A, n_timesteps, n_stages, n_patches)
 
 }
 \references{
-Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988). The New S Language. 
+Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988). The New S Language.
 Wadsworth & Brooks/Cole.
 
-Wootton, J.T., and Bell, D.A. (1992). A metapopulation model of the peregrine 
-falcon in California: viability and management strategies. Ecological 
+Wootton, J.T., and Bell, D.A. (1992). A metapopulation model of the peregrine
+falcon in California: viability and management strategies. Ecological
 Applications 2:307--321.
 
-Lebreton, J. D. (1996). Demographic models for subdivided populations: the 
+Lebreton, J. D. (1996). Demographic models for subdivided populations: the
 renewal equation approach. Theoretical Population Biology 49:291--313.
 
-Caswell, H. (2001). Matrix Population Models: Construction, analysis, and 
+Caswell, H. (2001). Matrix Population Models: Construction, analysis, and
 interpretation (2nd ed.). Sinauer Associates.
 
-Morris, W. F., and Doak, D. F. (2003). Quantitative Conservation Biology: 
+Morris, W. F., and Doak, D. F. (2003). Quantitative Conservation Biology:
 Theory and practice of population viability analysis. Sinauer Associates.
 
 Hunter, C. M. and Caswell, H. (2005). The use of vec-permutation matrix in
