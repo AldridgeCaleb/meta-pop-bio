@@ -21,6 +21,10 @@
 #' matrix N.
 #' @param ddf Density-dependent function parameters (see `?spmm.ddf.params`)
 #' @param H Harvest mortality. Currently only additive. 
+#' @param D A list of three vectors. The first two, `from` and `to`, identify
+#' where deterrence of movement is made. The third, `d`, contains the proportions
+#' by which movement is deterred. Currently deterrence is assumed equal for all
+#' stages.
 #'
 #' @note
 #' Ensure that the structural lh_orders of population vector `n` and projection
@@ -116,7 +120,7 @@
 spmm.project <-
   function(n, A, n_timesteps,
            n_stages, n_patches, 
-           ddf = NA, H = NA) {
+           ddf = NA, H = NA, D = NA) {
     try(if (is.null(comment(n)))
       stop(
         "Please specify structure of n as either patches or stages (e.g., comment(n) <- 'patches'.')"
@@ -164,6 +168,18 @@ spmm.project <-
           BB <- blk.diag(matlist)
           A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
+        if (!is.na(D)) {
+          matlist <- unblk.diag(MM, n_patches)
+          for (i in seq_along(matlist)) {
+            M <- matlist[[i]]
+            if (!is.identity.matrix(M)) {
+              M[D$from, D$to] <- M[D$from, D$to] * D$d
+            }
+            matlist[[i]] <- M
+          }
+          MM <- blk.diag(matlist)
+          A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
+        }
         mat[, t] <- as.vector(A %*% mat[, t - 1])
       }
       if (!is.null(rownames(n))) {
@@ -206,6 +222,18 @@ spmm.project <-
             matlist[[i]] <- B
           }
           BB <- blk.diag(matlist)
+          A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
+        }
+        if (!is.na(D)) {
+          matlist <- unblk.diag(MM, n_patches)
+          for (i in seq_along(matlist)) {
+            M <- matlist[[i]]
+            if (!is.identity.matrix(M)) {
+              M[D$from, D$to] <- M[D$from, D$to] * D$d
+            }
+            matlist[[i]] <- M
+          }
+          MM <- blk.diag(matlist)
           A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
         mat[, t] <- as.vector(A %*% mat[, t - 1])
@@ -252,6 +280,18 @@ spmm.project <-
           BB <- blk.diag(matlist)
           A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
+        if (!is.na(D)) {
+          matlist <- unblk.diag(MM, n_patches)
+          for (i in seq_along(matlist)) {
+            M <- matlist[[i]]
+            if (!is.identity.matrix(M)) {
+              M[D$from, D$to] <- M[D$from, D$to] * D$d
+            }
+            matlist[[i]] <- M
+          }
+          MM <- blk.diag(matlist)
+          A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
+        }
         mat[, t] <- as.vector(A %*% mat[, t - 1])
       }
       if (!is.null(rownames(n))) {
@@ -294,6 +334,18 @@ spmm.project <-
             matlist[[i]] <- B
           }
           BB <- blk.diag(matlist)
+          A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
+        }
+        if (!is.na(D)) {
+          matlist <- unblk.diag(MM, n_patches)
+          for (i in seq_along(matlist)) {
+            M <- matlist[[i]]
+            if (!is.identity.matrix(M)) {
+              M[D$from, D$to] <- M[D$from, D$to] * D$d
+            }
+            matlist[[i]] <- M
+          }
+          MM <- blk.diag(matlist)
           A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
         mat[, t] <- as.vector(A %*% mat[, t - 1])

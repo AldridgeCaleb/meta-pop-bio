@@ -105,11 +105,7 @@ dx2 <- 1 - dx1
               ncol = n_patches,
               byrow = TRUE))
 # Adults
-(Mx2 <- diag(
-  x = 1,
-  nrow = n_patches,
-  ncol = n_patches
-))
+(Mx2 <- diag(nrow = n_patches))
 # Block diagonal matrix
 (MM <- metapopbio::blk.diag(list(Mx1, Mx2)))
 ```
@@ -230,7 +226,7 @@ Mx1 <- matrix(c(0.75, 0.375, 0.25, 0.625),
               nrow = n_patches, ncol = n_patches, byrow = TRUE)
 # Adults
 Mx5 <- Mx4 <- Mx3 <- Mx2 <-
-  diag(x = 1, nrow = n_patches, ncol = n_patches)
+  diag(nrow = n_patches)
 
 # Block diagonal matrix
 (MM <- metapopbio::blk.diag(list(Mx1, Mx2, Mx3, Mx4, Mx5)))
