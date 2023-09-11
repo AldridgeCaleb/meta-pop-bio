@@ -4,7 +4,15 @@
 \alias{auto.spmm}
 \title{automatically construct and analyze an spmm}
 \usage{
-auto.spmm(path, filename, ddf = NA, plot = FALSE, ylabs = NA, xlabs = NA)
+auto.spmm(
+  path,
+  filename,
+  ddf = NA,
+  H = NA,
+  plot = FALSE,
+  ylabs = NA,
+  xlabs = NA
+)
 }
 \arguments{
 \item{path}{path to xlsx workbook}
@@ -13,13 +21,13 @@ auto.spmm(path, filename, ddf = NA, plot = FALSE, ylabs = NA, xlabs = NA)
 
 \item{ddf}{Density-dependent function parameters (see `?spmm.ddf.params`)}
 
+\item{H}{Harvest mortality. Currently only additive.}
+
 \item{plot}{optional; output plots from `auto.spmm`?}
 
 \item{ylabs}{optional; labels for y-axis labels}
 
 \item{xlabs}{optional; labels for x-axis labels}
-
-\item{H}{Harvest mortality. Currently only additive.}
 }
 \description{
 This function automates construction and analysis of a spatial 
