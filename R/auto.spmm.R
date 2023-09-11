@@ -11,7 +11,8 @@
 #' 
 #' @param path path to xlsx workbook
 #' @param filename name of xlsx workbook
-#' @param ddf Density-dependent function parameters (see `?spmm.ddf.params`).
+#' @param ddf Density-dependent function parameters (see `?spmm.ddf.params`)
+#' @param H Harvest mortality. Currently only additive. 
 #' @param plot optional; output plots from `auto.spmm`?
 #' @param ylabs optional; labels for y-axis labels
 #' @param xlabs optional; labels for x-axis labels
@@ -71,7 +72,8 @@ auto.spmm <- function(path, filename, ddf = NA, plot = FALSE, ylabs = NA, xlabs 
       n_timesteps = n_timesteps,
       n_stages = n_stages,
       n_patches = n_patches,
-      ddf = ddf
+      ddf = ddf,
+      H = H
     )
   
   if (plot == TRUE) {

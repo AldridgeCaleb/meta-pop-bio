@@ -19,6 +19,8 @@
 #' N.
 #' @param n_patches The number of patches (columns) in the metapopulation state
 #' matrix N.
+#' @param ddf Density-dependent function parameters (see `?spmm.ddf.params`)
+#' @param H Harvest mortality. Currently only additive. 
 #'
 #' @note
 #' Ensure that the structural lh_orders of population vector `n` and projection
@@ -113,7 +115,8 @@
 #' @export
 spmm.project <-
   function(n, A, n_timesteps,
-           n_stages, n_patches, ddf = NA) {
+           n_stages, n_patches, 
+           ddf = NA, H = NA) {
     try(if (is.null(comment(n)))
       stop(
         "Please specify structure of n as either patches or stages (e.g., comment(n) <- 'patches'.')"
@@ -146,6 +149,16 @@ spmm.project <-
             if (ddf$s_type == "logistic") {
               B[-1, ] <- B[-1, ] * logistic_adjustment(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
+          }
+          BB <- blk.diag(matlist)
+          A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
+        }
+        if (!is.na(H)) {
+          matlist <- unblk.diag(BB, n_stages)
+          for (i in seq_along(matlist)) {
+            B <- matlist[[i]]
+            M <- -log(B[-1, ])
+            B[-1, ] <- exp(-(M + H))
             matlist[[i]] <- B
           }
           BB <- blk.diag(matlist)
@@ -184,6 +197,17 @@ spmm.project <-
           BB <- blk.diag(matlist)
           A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
+        if (!is.na(H)) {
+          matlist <- unblk.diag(BB, n_stages)
+          for (i in seq_along(matlist)) {
+            B <- matlist[[i]]
+            M <- -log(B[-1, ])
+            B[-1, ] <- exp(-(M + H))
+            matlist[[i]] <- B
+          }
+          BB <- blk.diag(matlist)
+          A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
+        }
         mat[, t] <- as.vector(A %*% mat[, t - 1])
       }
       if (!is.null(rownames(n))) {
@@ -217,6 +241,17 @@ spmm.project <-
           BB <- blk.diag(matlist)
           A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
+        if (!is.na(H)) {
+          matlist <- unblk.diag(BB, n_stages)
+          for (i in seq_along(matlist)) {
+            B <- matlist[[i]]
+            M <- -log(B[-1, ])
+            B[-1, ] <- exp(-(M + H))
+            matlist[[i]] <- B
+          }
+          BB <- blk.diag(matlist)
+          A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
+        }
         mat[, t] <- as.vector(A %*% mat[, t - 1])
       }
       if (!is.null(rownames(n))) {
@@ -245,6 +280,17 @@ spmm.project <-
             if (ddf$s_type == "logistic") {
               B[-1, ] <- B[-1, ] * logistic_adjustment(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
+            matlist[[i]] <- B
+          }
+          BB <- blk.diag(matlist)
+          A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
+        }
+        if (!is.na(H)) {
+          matlist <- unblk.diag(BB, n_stages)
+          for (i in seq_along(matlist)) {
+            B <- matlist[[i]]
+            M <- -log(B[-1, ])
+            B[-1, ] <- exp(-(M + H))
             matlist[[i]] <- B
           }
           BB <- blk.diag(matlist)

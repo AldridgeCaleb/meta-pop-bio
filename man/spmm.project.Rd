@@ -4,7 +4,7 @@
 \alias{spmm.project}
 \title{deterministic projection of spatial matrix population model}
 \usage{
-spmm.project(n, A, n_timesteps, n_stages, n_patches, ddf = NA)
+spmm.project(n, A, n_timesteps, n_stages, n_patches, ddf = NA, H = NA)
 }
 \arguments{
 \item{n}{Vector of stage and patch starting values. If structure for `n` is
@@ -24,6 +24,10 @@ N.}
 
 \item{n_patches}{The number of patches (columns) in the metapopulation state
 matrix N.}
+
+\item{ddf}{Density-dependent function parameters (see `?spmm.ddf.params`)}
+
+\item{H}{Harvest mortality. Currently only additive.}
 }
 \description{
 Produces deterministic future population sizes of stages s in patches p.
