@@ -65,7 +65,7 @@ Hunter and Caswell (2005) and Lebreton (1996).</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">spmm.project</span><span class="op">(</span><span class="va">n</span>, <span class="va">A</span>, <span class="va">n_timesteps</span>, <span class="va">n_stages</span>, <span class="va">n_patches</span>, ddf <span class="op">=</span> <span class="cn">NA</span>, H <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">spmm.project</span><span class="op">(</span><span class="va">n</span>, <span class="va">A</span>, <span class="va">n_timesteps</span>, <span class="va">n_stages</span>, <span class="va">n_patches</span>, ddf <span class="op">=</span> <span class="cn">NA</span>, H <span class="op">=</span> <span class="cn">NA</span>, D <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -104,6 +104,13 @@ matrix N.</p></dd>
 
 <dt>H</dt>
 <dd><p>Harvest mortality. Currently only additive.</p></dd>
+
+
+<dt>D</dt>
+<dd><p>A list of three vectors. The first two, `from` and `to`, identify
+where deterrence of movement is made. The third, `d`, contains the proportions
+by which movement is deterred. Currently deterrence is assumed equal for all
+stages.</p></dd>
 
 </dl></div>
     <div class="section level2">

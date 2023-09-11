@@ -246,11 +246,7 @@ specified for adult movement.</p>
 <span><span class="co">#&gt; [1,] 0.73 0.27</span></span>
 <span><span class="co">#&gt; [2,] 0.27 0.73</span></span>
 <span><span class="co"># Adults</span></span>
-<span><span class="op">(</span><span class="va">Mx2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  nrow <span class="op">=</span> <span class="va">n_patches</span>,</span>
-<span>  ncol <span class="op">=</span> <span class="va">n_patches</span></span>
-<span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">(</span><span class="va">Mx2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="va">n_patches</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2]</span></span>
 <span><span class="co">#&gt; [1,]    1    0</span></span>
 <span><span class="co">#&gt; [2,]    0    1</span></span>
@@ -583,7 +579,7 @@ specified for adult movement.</p>
 <span>              nrow <span class="op">=</span> <span class="va">n_patches</span>, ncol <span class="op">=</span> <span class="va">n_patches</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co"># Adults</span></span>
 <span><span class="va">Mx5</span> <span class="op">&lt;-</span> <span class="va">Mx4</span> <span class="op">&lt;-</span> <span class="va">Mx3</span> <span class="op">&lt;-</span> <span class="va">Mx2</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span>, nrow <span class="op">=</span> <span class="va">n_patches</span>, ncol <span class="op">=</span> <span class="va">n_patches</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="va">n_patches</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Block diagonal matrix</span></span>
 <span><span class="op">(</span><span class="va">MM</span> <span class="op">&lt;-</span> <span class="fu">metapopbio</span><span class="fu">::</span><span class="fu"><a href="../reference/blk.diag.html">blk.diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Mx1</span>, <span class="va">Mx2</span>, <span class="va">Mx3</span>, <span class="va">Mx4</span>, <span class="va">Mx5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
