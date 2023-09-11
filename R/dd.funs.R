@@ -1,5 +1,5 @@
 ##' @name dd.funs
-##' @aliases dd.rec.logistic
+##' @aliases dd.surv.logistic
 ##' @aliases dd.rec.Ricker
 ##' @aliases dd.rec.BevertonHolt
 ##'
@@ -19,10 +19,10 @@
 ##' @export
 dd.funs <- function(N, r, K) {identity(c(N, r, K))}
 ##'
-##' @rdname dd.rec.logistic
-##' @return \code{sum1(x,y)} returns x+y
+##' @rdname dd.surv.logistic
+##' @return \code{dd.surv.logistic(N, r, K)}
 ##' @examples
-##' dd.rec.logistic(100, 0.62, 200)
+##' dd.surv.logistic(100, 0.62, 200)
 ##' @export
 dd.surv.logistic <- function(N, r, K) {
   N <- sum(N)
@@ -40,7 +40,7 @@ dd.rec.Ricker <- function(N, r, K) {
 }
 ##'
 ##' @rdname dd.rec.BevertonHolt
-##' @return \code{prod1(x,y)} returns x*y
+##' @return \code{dd.rec.BevertonHolt(N, r, K)}
 ##' @examples
 ##' dd.rec.BevertonHolt(100, 0.62, 200)
 ##' @export

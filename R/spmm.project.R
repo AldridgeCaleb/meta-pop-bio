@@ -147,7 +147,7 @@ spmm.project <-
               B[1, ] <- B[1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
             if (ddf$s_type == "logistic") {
-              B[-1, ] <- B[-1, ] * logistic_adjustment(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[-1, ] <- B[-1, ] * dd.surv.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
           }
           BB <- blk.diag(matlist)
@@ -190,7 +190,7 @@ spmm.project <-
               B[1, ] <- B[1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
             if (ddf$s_type == "logistic") {
-              B[-1, ] <- B[-1, ] * logistic_adjustment(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[-1, ] <- B[-1, ] * dd.surv.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
             matlist[[i]] <- B
           }
@@ -234,7 +234,7 @@ spmm.project <-
               B[1, ] <- B[1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
             if (ddf$s_type == "logistic") {
-              B[-1, ] <- B[-1, ] * logistic_adjustment(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[-1, ] <- B[-1, ] * dd.surv.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
             matlist[[i]] <- B
           }
@@ -278,7 +278,7 @@ spmm.project <-
               B[1, ] <- B[1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
             if (ddf$s_type == "logistic") {
-              B[-1, ] <- B[-1, ] * logistic_adjustment(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[-1, ] <- B[-1, ] * dd.surv.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
             matlist[[i]] <- B
           }
