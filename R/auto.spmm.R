@@ -80,8 +80,8 @@ auto.spmm <- function(path, filename, ddf = NA, H = NA,
   if (plot == TRUE) {
     p <- metapopbio::spmm.plot(
       projections = projs,
-      ylabs = if(!is.na(ylabs)){"Value"},
-      xlabs = if(!is.na(xlabs)){"Time"},
+      ylabs = ifelse(is.na(ylabs), "Value", ylabs),
+      xlabs = ifelse(is.na(xlabs), "Time", xlabs),
       stage_names = stage_names,
       patch_names = patch_names
     )
