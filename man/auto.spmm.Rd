@@ -9,6 +9,7 @@ auto.spmm(
   filename,
   ddf = NA,
   H = NA,
+  D = NA,
   plot = FALSE,
   ylabs = NA,
   xlabs = NA
