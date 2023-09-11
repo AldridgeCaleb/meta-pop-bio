@@ -2,7 +2,7 @@
 % Please edit documentation in R/dd.funs.R
 \name{dd.funs}
 \alias{dd.funs}
-\alias{dd.rec.logistic}
+\alias{dd.surv.logistic}
 \alias{dd.rec.Ricker}
 \alias{dd.rec.BevertonHolt}
 \title{density-dependent recruitment functions}
