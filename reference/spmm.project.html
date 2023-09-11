@@ -65,7 +65,7 @@ Hunter and Caswell (2005) and Lebreton (1996).</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">spmm.project</span><span class="op">(</span><span class="va">n</span>, <span class="va">A</span>, <span class="va">n_timesteps</span>, <span class="va">n_stages</span>, <span class="va">n_patches</span>, ddf <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">spmm.project</span><span class="op">(</span><span class="va">n</span>, <span class="va">A</span>, <span class="va">n_timesteps</span>, <span class="va">n_stages</span>, <span class="va">n_patches</span>, ddf <span class="op">=</span> <span class="cn">NA</span>, H <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -96,6 +96,14 @@ N.</p></dd>
 <dt>n_patches</dt>
 <dd><p>The number of patches (columns) in the metapopulation state
 matrix N.</p></dd>
+
+
+<dt>ddf</dt>
+<dd><p>Density-dependent function parameters (see `?spmm.ddf.params`)</p></dd>
+
+
+<dt>H</dt>
+<dd><p>Harvest mortality. Currently only additive.</p></dd>
 
 </dl></div>
     <div class="section level2">
