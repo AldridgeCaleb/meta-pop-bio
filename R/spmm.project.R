@@ -159,14 +159,26 @@ spmm.project <-
         }
         if (!is.na(H)) {
           matlist <- unblk.diag(BB, n_stages)
-          for (i in seq_along(matlist)) {
-            B <- matlist[[i]]
-            M <- -log(B[-1, ])
-            B[-1, ] <- exp(-(M + H))
-            matlist[[i]] <- B
+          if (length(H) == 1) {
+            for (i in seq_along(matlist)) {
+              B <- matlist[[i]]
+              M <- -log(B[-1,])
+              B[-1,] <- exp(-(M + H))
+              matlist[[i]] <- B
+            }
+          } else if (length(H) == length(matlist)) {
+            for (i in seq_along(matlist)) {
+              B <- matlist[[i]]
+              M <- -log(B[-1,])
+              B[-1,] <- exp(-(M + H[i]))
+              matlist[[i]] <- B
+            } 
+          } else {
+            print("H == 1 | H == n_patches")
           }
           BB <- blk.diag(matlist)
-          A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
+          A <-
+            spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
         if (!is.na(D)) {
           matlist <- unblk.diag(MM, n_patches)
@@ -215,14 +227,26 @@ spmm.project <-
         }
         if (!is.na(H)) {
           matlist <- unblk.diag(BB, n_stages)
-          for (i in seq_along(matlist)) {
-            B <- matlist[[i]]
-            M <- -log(B[-1, ])
-            B[-1, ] <- exp(-(M + H))
-            matlist[[i]] <- B
+          if (length(H) == 1) {
+            for (i in seq_along(matlist)) {
+              B <- matlist[[i]]
+              M <- -log(B[-1,])
+              B[-1,] <- exp(-(M + H))
+              matlist[[i]] <- B
+            }
+          } else if (length(H) == length(matlist)) {
+            for (i in seq_along(matlist)) {
+              B <- matlist[[i]]
+              M <- -log(B[-1,])
+              B[-1,] <- exp(-(M + H[i]))
+              matlist[[i]] <- B
+            } 
+          } else {
+            print("H == 1 | H == n_patches")
           }
           BB <- blk.diag(matlist)
-          A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
+          A <-
+            spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
         if (!is.na(D)) {
           matlist <- unblk.diag(MM, n_patches)
@@ -271,14 +295,26 @@ spmm.project <-
         }
         if (!is.na(H)) {
           matlist <- unblk.diag(BB, n_stages)
-          for (i in seq_along(matlist)) {
-            B <- matlist[[i]]
-            M <- -log(B[-1, ])
-            B[-1, ] <- exp(-(M + H))
-            matlist[[i]] <- B
+          if (length(H) == 1) {
+            for (i in seq_along(matlist)) {
+              B <- matlist[[i]]
+              M <- -log(B[-1,])
+              B[-1,] <- exp(-(M + H))
+              matlist[[i]] <- B
+            }
+          } else if (length(H) == length(matlist)) {
+            for (i in seq_along(matlist)) {
+              B <- matlist[[i]]
+              M <- -log(B[-1,])
+              B[-1,] <- exp(-(M + H[i]))
+              matlist[[i]] <- B
+            } 
+          } else {
+            print("H == 1 | H == n_patches")
           }
           BB <- blk.diag(matlist)
-          A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
+          A <-
+            spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
         if (!is.na(D)) {
           matlist <- unblk.diag(MM, n_patches)
@@ -327,14 +363,26 @@ spmm.project <-
         }
         if (!is.na(H)) {
           matlist <- unblk.diag(BB, n_stages)
-          for (i in seq_along(matlist)) {
-            B <- matlist[[i]]
-            M <- -log(B[-1, ])
-            B[-1, ] <- exp(-(M + H))
-            matlist[[i]] <- B
+          if (length(H) == 1) {
+            for (i in seq_along(matlist)) {
+              B <- matlist[[i]]
+              M <- -log(B[-1,])
+              B[-1,] <- exp(-(M + H))
+              matlist[[i]] <- B
+            }
+          } else if (length(H) == length(matlist)) {
+            for (i in seq_along(matlist)) {
+              B <- matlist[[i]]
+              M <- -log(B[-1,])
+              B[-1,] <- exp(-(M + H[i]))
+              matlist[[i]] <- B
+            } 
+          } else {
+            print("H == 1 | H == n_patches")
           }
           BB <- blk.diag(matlist)
-          A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
+          A <-
+            spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
         if (!is.na(D)) {
           matlist <- unblk.diag(MM, n_patches)

@@ -65,6 +65,7 @@ spmm.readxl <- function(path, filename) {
         colNames = TRUE
       )[, 1]
     )
+  comment(n) <- group_by
   
   # demographics matrices
   stage_idx <- grep("stage", sheetNames)
