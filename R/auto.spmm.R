@@ -26,7 +26,8 @@
 #' https://ycphs.github.io/openxlsx/index.html, https://github.com/ycphs/openxlsx. 
 #' 
 #' @export
-auto.spmm <- function(path, filename, ddf = NA, plot = FALSE, ylabs = NA, xlabs = NA) {
+auto.spmm <- function(path, filename, ddf = NA, H = NA,
+                      plot = FALSE, ylabs = NA, xlabs = NA) {
   # source("C:/Users/caldridge/Documents/R/meta-pop-bio/R/auto.spmm.internal.R", local = TRUE)
   
   sheetNames <- openxlsx::getSheetNames(paste0(path, filename))
