@@ -119,7 +119,7 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
     n_patches <- as.numeric(strsplit(comments, " +")[[3]][1])
     
     graphics::par(
-      mfrow = c(n_patches / 2, 2),
+      mfrow = c(min(round(n_patches / 2, 0), 3), 2),
       mar = c(5, 5, 1.5, 0.5),
       oma = rep(0.5, 4)
     )
@@ -152,7 +152,7 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
     n_stages <- as.numeric(strsplit(comments, " +")[[3]][1])
     
     graphics::par(
-      mfrow = c(n_stages / 2, 2),
+      mfrow = c(min(round(n_patches / 2, 0), 3), 2),
       mar = c(5, 5, 1.5, 0.5),
       oma = rep(0.5, 4)
     )
