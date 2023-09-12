@@ -160,12 +160,10 @@ spmm.project <-
         if (!is.na(H)) {
           matlist <- unblk.diag(BB, n_stages)
           if (length(H) == 1) {
-            for (i in seq_along(matlist)) {
-              B <- matlist[[i]]
-              M <- -log(B[-1,])
-              B[-1,] <- exp(-(M + H))
-              matlist[[i]] <- B
-            }
+            B <- matlist[[i]]
+            M <- -log(B[-1, ])
+            B[-1, ] <- exp(-(M + H))
+            matlist[[i]] <- B
           } else if (length(H) == length(matlist)) {
             for (i in seq_along(matlist)) {
               B <- matlist[[i]]
