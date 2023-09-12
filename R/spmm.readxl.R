@@ -92,6 +92,8 @@ spmm.readxl <- function(path, filename) {
              )
            ))
   }
+  MM <- blk.diag(mget(sheetNames[stage_idx]))
+  BB <- blk.diag(mget(sheetNames[patch_idx]))
   return(
     list(
       n_stages = n_stages,
@@ -102,7 +104,9 @@ spmm.readxl <- function(path, filename) {
       stage_names = stage_names,
       patch_names = patch_names,
       n = n,
-      mget(sheetNames[-1])
+      mget(sheetNames[-1]),
+      MM = MM,
+      BB = BB
     )
   )
 }
