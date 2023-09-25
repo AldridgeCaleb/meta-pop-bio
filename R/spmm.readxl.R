@@ -67,7 +67,7 @@ spmm.readxl <- function(path, filename) {
     )
   comment(n) <- group_by
   
-  # demographics matrices
+  # movement matrices
   stage_idx <- grep("stage", sheetNames)
   for (i in stage_idx) {
     as.matrix(assign(
@@ -79,8 +79,9 @@ spmm.readxl <- function(path, filename) {
       )
     ))
   }
-  
-  # movement matrices
+  # mget(sheetNames[stage_idx])
+
+  # demographic matrices
   patch_idx <- grep("patch", sheetNames)
   for (i in patch_idx) {
     assign(sheetNames[i],
@@ -92,8 +93,12 @@ spmm.readxl <- function(path, filename) {
              )
            ))
   }
-  MM <- blk.diag(mget(sheetNames[stage_idx]))
-  BB <- blk.diag(mget(sheetNames[patch_idx]))
+  
+  B_list <- lapply(mget(sheetNames[patch_idx]), function(x) as.matrix(x))
+  BB <- blk.diag(B_list)
+  M_list <- lapply(mget(sheetNames[stage_idx]), function(x) as.matrix(x))
+  MM <- blk.diag(M_list)
+  
   return(
     list(
       n_stages = n_stages,

@@ -20,11 +20,15 @@
 #' @param n_patches The number of patches (columns) in the metapopulation state
 #' matrix N.
 #' @param ddf Density-dependent function parameters (see `?spmm.ddf.params`)
-#' @param H Harvest mortality. Currently only additive. 
+#' @param H Harvest mortality. Currently additive mortality assumed. 
 #' @param D A list of three vectors. The first two, `from` and `to`, identify
 #' where deterrence of movement is made. The third, `d`, contains the proportions
 #' by which movement is deterred. Currently deterrence is assumed equal for all
 #' stages.
+#' @param P vec-permutation matrix -- required if ddf, H, or D given
+#' @param BB block diagonal demographic matrix -- required if ddf, H, or D given
+#' @param MM block diagonal movement (dispersal) matrix -- required if ddf, H, 
+#' or D given 
 #'
 #' @note
 #' Ensure that the structural lh_orders of population vector `n` and projection
@@ -120,7 +124,10 @@
 spmm.project <-
   function(n, A, n_timesteps,
            n_stages, n_patches, 
-           ddf = NA, H = NA, D = NA) {
+           ddf = NULL, 
+           H = NULL, 
+           D = NULL,
+           P, BB, MM) {
     try(if (is.null(comment(n)))
       stop(
         "Please specify structure of n as either patches or stages (e.g., comment(n) <- 'patches'.')"
@@ -141,55 +148,59 @@ spmm.project <-
         stop("Length of n and n_stages × n_patches are not equal.")
       })
       for (t in 2:n_timesteps) {
-        if (!is.na(ddf)){
+        if (!is.null(ddf)){
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
-            B <- matlist[[i]]
+            B <- matlist[i]
             if (ddf$f_type == "Ricker") {
-              B[1, ] <- B[1, ] * dd.rec.Ricker(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][1, ] <- B[[1]][1, ] * dd.rec.Ricker(mat[, t - 1], ddf$r[i], ddf$K[i])
             } else if (ddf$f_type == "Beverton-Holt") {
-              B[1, ] <- B[1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][1, ] <- B[[1]][1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
             if (ddf$s_type == "logistic") {
-              B[-1, ] <- B[-1, ] * dd.surv.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][-1, ] <- B[[1]][-1, ] * dd.surv.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
           }
           BB <- blk.diag(matlist)
           A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
-        if (!is.na(H)) {
+        if (!is.null(H)) {
           matlist <- unblk.diag(BB, n_stages)
-          if (length(H) == 1) {
-            B <- matlist[[i]]
-            M <- -log(B[-1, ])
-            B[-1, ] <- exp(-(M + H))
-            matlist[[i]] <- B
-          } else if (length(H) == length(matlist)) {
-            for (i in seq_along(matlist)) {
-              B <- matlist[[i]]
-              M <- -log(B[-1,])
-              B[-1,] <- exp(-(M + H[i]))
-              matlist[[i]] <- B
-            } 
-          } else {
-            print("H == 1 | H == n_patches")
+          for (i in seq_along(matlist)) {
+            if (length(H) == 1) {
+              B <- matlist[i]
+              M <- -log(B[[1]][-1,])
+              B[[1]][-1,] <- exp(-(M + H))
+              matlist[i] <- B
+            } else if (length(H) == dim(matlist[[1]])[1]) {
+              for (i in seq_along(matlist)) {
+                B <- matlist[i]
+                M <- -log(B[[1]][-1, ])
+                B[[1]][-1, ] <- exp(-(M + H[i]))
+                matlist[i] <- B
+              }
+            } else {
+              print("H == 1 | H == n_patches")
+            }
           }
           BB <- blk.diag(matlist)
           A <-
             spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
-        if (!is.na(D)) {
+        if (!is.null(D)) {
           matlist <- unblk.diag(MM, n_patches)
           for (i in seq_along(matlist)) {
-            M <- matlist[[i]]
+            M <- matlist[i]
             if (!is.identity.matrix(M)) {
               M[D$from, D$to] <- M[D$from, D$to] * D$d
             }
-            matlist[[i]] <- M
+            matlist[i] <- M
           }
           MM <- blk.diag(matlist)
           A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
+        
+        # Projection to next t
         mat[, t] <- as.vector(A %*% mat[, t - 1])
       }
       if (!is.null(rownames(n))) {
@@ -206,58 +217,62 @@ spmm.project <-
       })
       
       for (t in 2:n_timesteps) {
-        if (!is.na(ddf)){
+        if (!is.null(ddf)){
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
-            B <- matlist[[i]]
+            B <- matlist[i]
             if (ddf$f_type == "Ricker") {
-              B[1, ] <- B[1, ] * dd.rec.Ricker(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][1, ] <- B[[1]][1, ] * dd.rec.Ricker(mat[, t - 1], ddf$r[i], ddf$K[i])
             } else if (ddf$f_type == "Beverton-Holt") {
-              B[1, ] <- B[1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][1, ] <- B[[1]][1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
             if (ddf$s_type == "logistic") {
-              B[-1, ] <- B[-1, ] * dd.surv.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][-1, ] <- B[[1]][-1, ] * dd.surv.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
-            matlist[[i]] <- B
+            matlist[i] <- B
           }
           BB <- blk.diag(matlist)
           A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
-        if (!is.na(H)) {
+        if (!is.null(H)) {
           matlist <- unblk.diag(BB, n_stages)
-          if (length(H) == 1) {
-            for (i in seq_along(matlist)) {
-              B <- matlist[[i]]
-              M <- -log(B[-1,])
-              B[-1,] <- exp(-(M + H))
-              matlist[[i]] <- B
+          for (i in seq_along(matlist)) {
+            if (length(H) == 1) {
+              for (i in seq_along(matlist)) {
+                B <- matlist[i]
+                M <- -log(B[[1]][-1, ])
+                B[[1]][-1, ] <- exp(-(M + H))
+                matlist[i] <- B
+              }
+            } else if (length(H) == dim(matlist[[1]])[1]) {
+              for (i in seq_along(matlist)) {
+                B <- matlist[i]
+                M <- -log(B[[1]][-1, ])
+                B[[1]][-1, ] <- exp(-(M + H[i]))
+                matlist[i] <- B
+              }
+            } else {
+              print("H == 1 | H == n_patches")
             }
-          } else if (length(H) == length(matlist)) {
-            for (i in seq_along(matlist)) {
-              B <- matlist[[i]]
-              M <- -log(B[-1,])
-              B[-1,] <- exp(-(M + H[i]))
-              matlist[[i]] <- B
-            } 
-          } else {
-            print("H == 1 | H == n_patches")
           }
           BB <- blk.diag(matlist)
           A <-
             spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
-        if (!is.na(D)) {
+        if (!is.null(D)) {
           matlist <- unblk.diag(MM, n_patches)
           for (i in seq_along(matlist)) {
-            M <- matlist[[i]]
+            M <- matlist[i]
             if (!is.identity.matrix(M)) {
               M[D$from, D$to] <- M[D$from, D$to] * D$d
             }
-            matlist[[i]] <- M
+            matlist[i] <- M
           }
           MM <- blk.diag(matlist)
           A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
+        
+        # Projection to next t
         mat[, t] <- as.vector(A %*% mat[, t - 1])
       }
       if (!is.null(rownames(n))) {
@@ -274,58 +289,62 @@ spmm.project <-
       })
       
       for (t in 2:n_timesteps) {
-        if (!is.na(ddf)){
+        if (!is.null(ddf)){
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
-            B <- matlist[[i]]
+            B <- matlist[i]
             if (ddf$f_type == "Ricker") {
-              B[1, ] <- B[1, ] * dd.rec.Ricker(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][1, ] <- B[[1]][1, ] * dd.rec.Ricker(mat[, t - 1], ddf$r[i], ddf$K[i])
             } else if (ddf$f_type == "Beverton-Holt") {
-              B[1, ] <- B[1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][1, ] <- B[[1]][1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
             if (ddf$s_type == "logistic") {
-              B[-1, ] <- B[-1, ] * dd.surv.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][-1, ] <- B[[1]][-1, ] * dd.surv.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
-            matlist[[i]] <- B
+            matlist[i] <- B
           }
           BB <- blk.diag(matlist)
           A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
-        if (!is.na(H)) {
+        if (!is.null(H)) {
           matlist <- unblk.diag(BB, n_stages)
-          if (length(H) == 1) {
-            for (i in seq_along(matlist)) {
-              B <- matlist[[i]]
-              M <- -log(B[-1,])
-              B[-1,] <- exp(-(M + H))
-              matlist[[i]] <- B
+          for (i in seq_along(matlist)) {
+            if (length(H) == 1) {
+              for (i in seq_along(matlist)) {
+                B <- matlist[i]
+                M <- -log(B[[1]][-1, ])
+                B[[1]][-1, ] <- exp(-(M + H))
+                matlist[i] <- B
+              }
+            } else if (length(H) == dim(matlist[[1]])[1]) {
+              for (i in seq_along(matlist)) {
+                B <- matlist[i]
+                M <- -log(B[[1]][-1, ])
+                B[[1]][-1, ] <- exp(-(M + H[i]))
+                matlist[i] <- B
+              }
+            } else {
+              print("H == 1 | H == n_patches")
             }
-          } else if (length(H) == length(matlist)) {
-            for (i in seq_along(matlist)) {
-              B <- matlist[[i]]
-              M <- -log(B[-1,])
-              B[-1,] <- exp(-(M + H[i]))
-              matlist[[i]] <- B
-            } 
-          } else {
-            print("H == 1 | H == n_patches")
           }
           BB <- blk.diag(matlist)
           A <-
             spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
-        if (!is.na(D)) {
+        if (!is.null(D)) {
           matlist <- unblk.diag(MM, n_patches)
           for (i in seq_along(matlist)) {
-            M <- matlist[[i]]
+            M <- matlist[i]
             if (!is.identity.matrix(M)) {
               M[D$from, D$to] <- M[D$from, D$to] * D$d
             }
-            matlist[[i]] <- M
+            matlist[i] <- M
           }
           MM <- blk.diag(matlist)
           A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
+        
+        # Projection to next t
         mat[, t] <- as.vector(A %*% mat[, t - 1])
       }
       if (!is.null(rownames(n))) {
@@ -342,58 +361,62 @@ spmm.project <-
       })
       
       for (t in 2:n_timesteps) {
-        if (!is.na(ddf)){
+        if (!is.null(ddf)){
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
-            B <- matlist[[i]]
+            B <- matlist[i]
             if (ddf$f_type == "Ricker") {
-              B[1, ] <- B[1, ] * dd.rec.Ricker(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][1, ] <- B[[1]][1, ] * dd.rec.Ricker(mat[, t - 1], ddf$r[i], ddf$K[i])
             } else if (ddf$f_type == "Beverton-Holt") {
-              B[1, ] <- B[1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][1, ] <- B[[1]][1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
             if (ddf$s_type == "logistic") {
-              B[-1, ] <- B[-1, ] * dd.surv.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][-1, ] <- B[[1]][-1, ] * dd.surv.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
-            matlist[[i]] <- B
+            matlist[i] <- B
           }
           BB <- blk.diag(matlist)
           A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
-        if (!is.na(H)) {
+        if (!is.null(H)) {
           matlist <- unblk.diag(BB, n_stages)
-          if (length(H) == 1) {
-            for (i in seq_along(matlist)) {
-              B <- matlist[[i]]
-              M <- -log(B[-1,])
-              B[-1,] <- exp(-(M + H))
-              matlist[[i]] <- B
+          for (i in seq_along(matlist)) {
+            if (length(H) == 1) {
+              for (i in seq_along(matlist)) {
+                B <- matlist[i]
+                M <- -log(B[[1]][-1, ])
+                B[[1]][-1, ] <- exp(-(M + H))
+                matlist[i] <- B
+              }
+            } else if (length(H) == dim(matlist[[1]])[1]) {
+              for (i in seq_along(matlist)) {
+                B <- matlist[i]
+                M <- -log(B[[1]][-1, ])
+                B[[1]][-1, ] <- exp(-(M + H[i]))
+                matlist[i] <- B
+              }
+            } else {
+              print("H == 1 | H == n_patches")
             }
-          } else if (length(H) == length(matlist)) {
-            for (i in seq_along(matlist)) {
-              B <- matlist[[i]]
-              M <- -log(B[-1,])
-              B[-1,] <- exp(-(M + H[i]))
-              matlist[[i]] <- B
-            } 
-          } else {
-            print("H == 1 | H == n_patches")
           }
           BB <- blk.diag(matlist)
           A <-
             spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
-        if (!is.na(D)) {
+        if (!is.null(D)) {
           matlist <- unblk.diag(MM, n_patches)
           for (i in seq_along(matlist)) {
-            M <- matlist[[i]]
+            M <- matlist[i]
             if (!is.identity.matrix(M)) {
               M[D$from, D$to] <- M[D$from, D$to] * D$d
             }
-            matlist[[i]] <- M
+            matlist[i] <- M
           }
           MM <- blk.diag(matlist)
           A <- spmm.project.matrix(ddf$P, ddf$BB, ddf$MM, group_by, lh_order)
         }
+        
+        # Projection to next t
         mat[, t] <- as.vector(A %*% mat[, t - 1])
       }
       if (!is.null(rownames(n))) {

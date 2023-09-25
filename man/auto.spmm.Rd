@@ -22,7 +22,12 @@ auto.spmm(
 
 \item{ddf}{Density-dependent function parameters (see `?spmm.ddf.params`)}
 
-\item{H}{Harvest mortality. Currently only additive.}
+\item{H}{Harvest mortality. Currently additive mortality assumed.}
+
+\item{D}{A list of three vectors. The first two, `from` and `to`, identify
+where deterrence of movement is made. The third, `d`, contains the proportions
+by which movement is deterred. Currently deterrence is assumed equal for all
+stages.}
 
 \item{plot}{optional; output plots from `auto.spmm`?}
 

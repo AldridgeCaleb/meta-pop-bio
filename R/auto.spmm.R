@@ -12,7 +12,11 @@
 #' @param path path to xlsx workbook
 #' @param filename name of xlsx workbook
 #' @param ddf Density-dependent function parameters (see `?spmm.ddf.params`)
-#' @param H Harvest mortality. Currently only additive. 
+#' @param H Harvest mortality. Currently additive mortality assumed. 
+#' @param D A list of three vectors. The first two, `from` and `to`, identify
+#' where deterrence of movement is made. The third, `d`, contains the proportions
+#' by which movement is deterred. Currently deterrence is assumed equal for all
+#' stages.
 #' @param plot optional; output plots from `auto.spmm`?
 #' @param ylabs optional; labels for y-axis labels
 #' @param xlabs optional; labels for x-axis labels
@@ -53,6 +57,7 @@ auto.spmm <- function(path, filename, ddf = NA, H = NA, D = NA,
     assign(sheetNames[i], as.matrix(get(sheetNames[i])[[1]]))
   }
   
+  # if ()
   BB <- metapopbio::blk.diag(mget(sheetNames[patch_idx]))
   
   MM <- metapopbio::blk.diag(mget(sheetNames[stage_idx]))
