@@ -65,19 +65,7 @@ Hunter and Caswell (2005) and Lebreton (1996).</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">spmm.project</span><span class="op">(</span></span>
-<span>  <span class="va">n</span>,</span>
-<span>  <span class="va">A</span>,</span>
-<span>  <span class="va">n_timesteps</span>,</span>
-<span>  <span class="va">n_stages</span>,</span>
-<span>  <span class="va">n_patches</span>,</span>
-<span>  ddf <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  H <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  D <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  <span class="va">P</span>,</span>
-<span>  <span class="va">BB</span>,</span>
-<span>  <span class="va">MM</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">spmm.project</span><span class="op">(</span><span class="va">n</span>, <span class="va">A</span>, <span class="va">n_timesteps</span>, <span class="va">n_stages</span>, <span class="va">n_patches</span>, <span class="va">ddf</span>, <span class="va">H</span>, <span class="va">D</span>, <span class="va">P</span>, <span class="va">BB</span>, <span class="va">MM</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -115,7 +103,9 @@ matrix N.</p></dd>
 
 
 <dt>H</dt>
-<dd><p>Harvest mortality. Currently additive mortality assumed.</p></dd>
+<dd><p>Additive (harvest) mortality. Can be element (applies to all) or a 
+vector of added mortality equal in length to demographic matrix of row × 
+column.</p></dd>
 
 
 <dt>D</dt>
@@ -212,7 +202,8 @@ spatial matrix population models. Ecological Modelling 188:15--21.</p>
 <span class="r-in"><span><span class="va">lh_order</span> <span class="op">&lt;-</span> <span class="st">"move"</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Projection matrix construction</span></span></span>
-<span class="r-in"><span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu"><a href="spmm.project.matrix.html">spmm.project.matrix</a></span><span class="op">(</span><span class="va">P</span>, <span class="va">BB</span>, <span class="va">MM</span>, <span class="va">group_by</span>, <span class="va">lh_order</span><span class="op">)</span>  <span class="co"># BB %*% t(P) %*% MM %*% P</span></span></span>
+<span class="r-in"><span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu"><a href="spmm.project.matrix.html">spmm.project.matrix</a></span><span class="op">(</span>P <span class="op">=</span> <span class="va">P</span>, BB <span class="op">=</span> <span class="va">BB</span>, MM <span class="op">=</span> <span class="va">MM</span>,</span></span>
+<span class="r-in"><span>group_by <span class="op">=</span> <span class="va">group_by</span>, lh_order <span class="op">=</span> <span class="va">lh_order</span><span class="op">)</span>  <span class="co"># BB %*% t(P) %*% MM %*% P</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Initial stages within patches (patch group_by)</span></span></span>
 <span class="r-in"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
@@ -228,7 +219,7 @@ spatial matrix population models. Ecological Modelling 188:15--21.</p>
 <span class="r-in"><span><span class="va">projs</span> <span class="op">&lt;-</span> <span class="fu">spmm.project</span><span class="op">(</span><span class="va">n</span>, <span class="va">A</span>, <span class="va">n_timesteps</span>, <span class="va">n_stages</span>, <span class="va">n_patches</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Error in spmm.project(n, A, n_timesteps, n_stages, n_patches) : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   object 'group_by' not found</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Deterministic spatial matrix model projections for patches structured population vector and movement then demography A projection matrix.\n"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Deterministic spatial matrix model projections for patches structured population vector and movement then demography A projection matrix."</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
