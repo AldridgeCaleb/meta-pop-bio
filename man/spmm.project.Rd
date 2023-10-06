@@ -4,19 +4,7 @@
 \alias{spmm.project}
 \title{deterministic projection of spatial matrix population model}
 \usage{
-spmm.project(
-  n,
-  A,
-  n_timesteps,
-  n_stages,
-  n_patches,
-  ddf = NULL,
-  H = NULL,
-  D = NULL,
-  P,
-  BB,
-  MM
-)
+spmm.project(n, A, n_timesteps, n_stages, n_patches, ddf, H, D, P, BB, MM)
 }
 \arguments{
 \item{n}{Vector of stage and patch starting values. If structure for `n` is
@@ -116,7 +104,8 @@ group_by <- "patches"
 lh_order <- "move"
 
 # Projection matrix construction
-A <- spmm.project.matrix(P, BB, MM, group_by, lh_order)  # BB \%*\% t(P) \%*\% MM \%*\% P
+A <- spmm.project.matrix(P = P, BB = BB, MM = MM,
+group_by = group_by, lh_order = lh_order)  # BB \%*\% t(P) \%*\% MM \%*\% P
 
 # Initial stages within patches (patch group_by)
 n <- c(
