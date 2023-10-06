@@ -94,6 +94,7 @@
 #' @export
 spmm.project.matrix <- function(P, BB, MM, group_by = c("patches", "stages"), 
                                 lh_order = c("demo", "move")) {
+  A <- NULL  # Initialize A to NULL
   if (group_by == "patches" && lh_order == "demo") {
     A <- t(P) %*% MM %*% P %*% BB 
   } else if (group_by == "patches" && lh_order == "move") {
@@ -102,7 +103,9 @@ spmm.project.matrix <- function(P, BB, MM, group_by = c("patches", "stages"),
     A <- MM %*% P %*% BB %*% t(P)
   } else if (group_by == "stages" && lh_order == "move") {
     A <- P %*% BB %*% t(P) %*% MM
+  } else {
+    stop("Invalid combination of group_by and lh_order.")  # Default case
   }
   comment(A) <- paste(group_by, lh_order)
   return(A)
-} 
+}

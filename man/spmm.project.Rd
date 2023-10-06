@@ -39,7 +39,9 @@ matrix N.}
 
 \item{ddf}{Density-dependent function parameters (see `?spmm.ddf.params`)}
 
-\item{H}{Harvest mortality. Currently additive mortality assumed.}
+\item{H}{Additive (harvest) mortality. Can be element (applies to all) or a 
+vector of added mortality equal in length to demographic matrix of row × 
+column.}
 
 \item{D}{A list of three vectors. The first two, `from` and `to`, identify
 where deterrence of movement is made. The third, `d`, contains the proportions
