@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Getting started with the metapopbio package">
 <meta property="og:description" content="metapopbio">
@@ -81,7 +81,7 @@
                         <h4 data-toc-skip class="author">Caleb A.
 Aldridge</h4>
             
-            <h4 data-toc-skip class="date">2023-10-06</h4>
+            <h4 data-toc-skip class="date">2024-02-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/AldridgeCaleb/meta-pop-bio/blob/HEAD/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
       <div class="d-none name"><code>getting-started.Rmd</code></div>
@@ -114,8 +114,8 @@ hyperstate matrix models (Roth and Caswell 2016). Additionally, Hanski’s
 (1994) incidence function <span class="math inline">\(J_{i}=\frac{1}{1+\Bigl(1+\bigl[\frac{y'}{S_{i}}\bigr]^2\Bigr)\frac{e}{A_{i}^x}}\)</span>
 and a metapopulation version of the
 <strong>S</strong>usceptible–<strong>I</strong>nfected–<strong>R</strong>ecovered
-model (SIR model) are also being considered. Other suggestions can be
-submitted in email to <a href="mailto:caleb.a.aldridge@gmail.com" class="email">caleb.a.aldridge@gmail.com</a> or as an issue on the
+model (SIR model), also referred to as a patch model, are also being
+considered. Other suggestions can be submitted in email to <a href="mailto:caleb.a.aldridge@gmail.com" class="email">caleb.a.aldridge@gmail.com</a> or as an issue on the
 package’s GitHub repository (<a href="https://github.com/AldridgeCaleb/meta-pop-bio/issues" class="external-link uri">https://github.com/AldridgeCaleb/meta-pop-bio/issues</a>).</p>
 </div>
 <div class="section level2">
@@ -767,7 +767,7 @@ project.</p>
 <span><span class="co">#&gt;  [3]  2.182849e-01+4.025870e-01i  2.182849e-01-4.025870e-01i</span></span>
 <span><span class="co">#&gt;  [5] -3.024940e-01+2.461757e-01i -3.024940e-01-2.461757e-01i</span></span>
 <span><span class="co">#&gt;  [7]  6.112978e-02+2.358721e-01i  6.112978e-02-2.358721e-01i</span></span>
-<span><span class="co">#&gt;  [9] -2.028494e-01+0.000000e+00i -2.481725e-15+0.000000e+00i</span></span>
+<span><span class="co">#&gt;  [9] -2.028494e-01+0.000000e+00i  1.791285e-15+0.000000e+00i</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $vectors</span></span>
 <span><span class="co">#&gt;                 [,1]           [,2]                    [,3]</span></span>
@@ -804,15 +804,15 @@ project.</p>
 <span><span class="co">#&gt;  [9,] -0.007352067+0.04513841i -0.007352067-0.04513841i -0.026975652+0i</span></span>
 <span><span class="co">#&gt; [10,] -0.699885399+0.00000000i -0.699885399+0.00000000i -0.612687917+0i</span></span>
 <span><span class="co">#&gt;                  [,10]</span></span>
-<span><span class="co">#&gt;  [1,] -2.152632e-16+0i</span></span>
-<span><span class="co">#&gt;  [2,]  5.083145e-17+0i</span></span>
-<span><span class="co">#&gt;  [3,]  8.319549e-17+0i</span></span>
-<span><span class="co">#&gt;  [4,] -1.860247e-16+0i</span></span>
-<span><span class="co">#&gt;  [5,] -3.341436e-16+0i</span></span>
-<span><span class="co">#&gt;  [6,]  1.981519e-15+0i</span></span>
-<span><span class="co">#&gt;  [7,] -1.381459e-15+0i</span></span>
+<span><span class="co">#&gt;  [1,] -5.224894e-16+0i</span></span>
+<span><span class="co">#&gt;  [2,] -3.630818e-17+0i</span></span>
+<span><span class="co">#&gt;  [3,]  1.699276e-16+0i</span></span>
+<span><span class="co">#&gt;  [4,]  1.250305e-16+0i</span></span>
+<span><span class="co">#&gt;  [5,] -2.213028e-17+0i</span></span>
+<span><span class="co">#&gt;  [6,] -1.216778e-15+0i</span></span>
+<span><span class="co">#&gt;  [7,]  1.660406e-15+0i</span></span>
 <span><span class="co">#&gt;  [8,] -7.071068e-01+0i</span></span>
-<span><span class="co">#&gt;  [9,]  1.464485e-15+0i</span></span>
+<span><span class="co">#&gt;  [9,] -1.566664e-15+0i</span></span>
 <span><span class="co">#&gt; [10,]  7.071068e-01+0i</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -830,31 +830,31 @@ project.</p>
 <span><span class="co">#&gt;  [3]  2.182849e-01+4.025870e-01i  2.182849e-01-4.025870e-01i</span></span>
 <span><span class="co">#&gt;  [5] -3.024940e-01+2.461757e-01i -3.024940e-01-2.461757e-01i</span></span>
 <span><span class="co">#&gt;  [7]  6.112978e-02+2.358721e-01i  6.112978e-02-2.358721e-01i</span></span>
-<span><span class="co">#&gt;  [9] -2.028494e-01+0.000000e+00i -1.560002e-16+0.000000e+00i</span></span>
+<span><span class="co">#&gt;  [9] -2.028494e-01+0.000000e+00i  1.718711e-15+0.000000e+00i</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $vectors</span></span>
 <span><span class="co">#&gt;               [,1]           [,2]                    [,3]</span></span>
-<span><span class="co">#&gt;  [1,] 0.2536597+0i  0.05633004+0i -0.62139103+0.00000000i</span></span>
-<span><span class="co">#&gt;  [2,] 0.2112455+0i -0.15794294+0i -0.29776448-0.07991527i</span></span>
-<span><span class="co">#&gt;  [3,] 0.3513929+0i  0.22206487+0i -0.25523002-0.40674126i</span></span>
-<span><span class="co">#&gt;  [4,] 0.2104240+0i -0.41498457+0i  0.08748875-0.03059607i</span></span>
-<span><span class="co">#&gt;  [5,] 0.3975824+0i  0.23494746+0i  0.20449932-0.23358264i</span></span>
-<span><span class="co">#&gt;  [6,] 0.2301052+0i -0.43212154+0i  0.07462378+0.04455451i</span></span>
-<span><span class="co">#&gt;  [7,] 0.4339490+0i  0.24456348+0i  0.29036465+0.03822100i</span></span>
-<span><span class="co">#&gt;  [8,] 0.2385797+0i -0.43920480+0i  0.05609084+0.06409096i</span></span>
-<span><span class="co">#&gt;  [9,] 0.4583715+0i  0.25062643+0i  0.22827625+0.15273184i</span></span>
-<span><span class="co">#&gt; [10,] 0.2385797+0i -0.43920480+0i  0.05609084+0.06409096i</span></span>
+<span><span class="co">#&gt;  [1,] 0.2536597+0i  0.05633004+0i  0.62139103+0.00000000i</span></span>
+<span><span class="co">#&gt;  [2,] 0.2112455+0i -0.15794294+0i  0.29776448+0.07991527i</span></span>
+<span><span class="co">#&gt;  [3,] 0.3513929+0i  0.22206487+0i  0.25523002+0.40674126i</span></span>
+<span><span class="co">#&gt;  [4,] 0.2104240+0i -0.41498457+0i -0.08748875+0.03059607i</span></span>
+<span><span class="co">#&gt;  [5,] 0.3975824+0i  0.23494746+0i -0.20449932+0.23358264i</span></span>
+<span><span class="co">#&gt;  [6,] 0.2301052+0i -0.43212154+0i -0.07462378-0.04455451i</span></span>
+<span><span class="co">#&gt;  [7,] 0.4339490+0i  0.24456348+0i -0.29036465-0.03822100i</span></span>
+<span><span class="co">#&gt;  [8,] 0.2385797+0i -0.43920480+0i -0.05609084-0.06409096i</span></span>
+<span><span class="co">#&gt;  [9,] 0.4583715+0i  0.25062643+0i -0.22827625-0.15273184i</span></span>
+<span><span class="co">#&gt; [10,] 0.2385797+0i -0.43920480+0i -0.05609084-0.06409096i</span></span>
 <span><span class="co">#&gt;                          [,4]                    [,5]                    [,6]</span></span>
-<span><span class="co">#&gt;  [1,] -0.62139103+0.00000000i -0.73133636+0.00000000i -0.73133636+0.00000000i</span></span>
-<span><span class="co">#&gt;  [2,] -0.29776448+0.07991527i -0.34822924-0.02619348i -0.34822924+0.02619348i</span></span>
-<span><span class="co">#&gt;  [3,] -0.25523002+0.40674126i  0.36773061-0.31024237i  0.36773061+0.31024237i</span></span>
-<span><span class="co">#&gt;  [4,]  0.08748875+0.03059607i  0.00293255+0.03054104i  0.00293255-0.03054104i</span></span>
-<span><span class="co">#&gt;  [5,]  0.20449932+0.23358264i  0.04310500+0.22484486i  0.04310500-0.22484486i</span></span>
-<span><span class="co">#&gt;  [6,]  0.07462378-0.04455451i  0.03221632-0.00719172i  0.03221632+0.00719172i</span></span>
-<span><span class="co">#&gt;  [7,]  0.29036465-0.03822100i  0.05929693-0.07000344i  0.05929693+0.07000344i</span></span>
-<span><span class="co">#&gt;  [8,]  0.05609084-0.06409096i  0.05822178+0.01743571i  0.05822178-0.01743571i</span></span>
-<span><span class="co">#&gt;  [9,]  0.22827625-0.15273184i  0.19892137+0.04362571i  0.19892137-0.04362571i</span></span>
-<span><span class="co">#&gt; [10,]  0.05609084-0.06409096i  0.05822178+0.01743571i  0.05822178-0.01743571i</span></span>
+<span><span class="co">#&gt;  [1,]  0.62139103+0.00000000i -0.73133636+0.00000000i -0.73133636+0.00000000i</span></span>
+<span><span class="co">#&gt;  [2,]  0.29776448-0.07991527i -0.34822924-0.02619348i -0.34822924+0.02619348i</span></span>
+<span><span class="co">#&gt;  [3,]  0.25523002-0.40674126i  0.36773061-0.31024237i  0.36773061+0.31024237i</span></span>
+<span><span class="co">#&gt;  [4,] -0.08748875-0.03059607i  0.00293255+0.03054104i  0.00293255-0.03054104i</span></span>
+<span><span class="co">#&gt;  [5,] -0.20449932-0.23358264i  0.04310500+0.22484486i  0.04310500-0.22484486i</span></span>
+<span><span class="co">#&gt;  [6,] -0.07462378+0.04455451i  0.03221632-0.00719172i  0.03221632+0.00719172i</span></span>
+<span><span class="co">#&gt;  [7,] -0.29036465+0.03822100i  0.05929693-0.07000344i  0.05929693+0.07000344i</span></span>
+<span><span class="co">#&gt;  [8,] -0.05609084+0.06409096i  0.05822178+0.01743571i  0.05822178-0.01743571i</span></span>
+<span><span class="co">#&gt;  [9,] -0.22827625+0.15273184i  0.19892137+0.04362571i  0.19892137-0.04362571i</span></span>
+<span><span class="co">#&gt; [10,] -0.05609084+0.06409096i  0.05822178+0.01743571i  0.05822178-0.01743571i</span></span>
 <span><span class="co">#&gt;                          [,7]                    [,8]            [,9]</span></span>
 <span><span class="co">#&gt;  [1,]  0.00548865-0.03369784i  0.00548865+0.03369784i -0.025230343+0i</span></span>
 <span><span class="co">#&gt;  [2,]  0.78374361+0.00000000i  0.78374361+0.00000000i -0.859571041+0i</span></span>
@@ -867,15 +867,15 @@ project.</p>
 <span><span class="co">#&gt;  [9,] -0.00613811+0.01230184i -0.00613811-0.01230184i  0.007893352+0i</span></span>
 <span><span class="co">#&gt; [10,] -0.18835824-0.05854553i -0.18835824+0.05854553i  0.168073829+0i</span></span>
 <span><span class="co">#&gt;                  [,10]</span></span>
-<span><span class="co">#&gt;  [1,] -1.095150e-16+0i</span></span>
+<span><span class="co">#&gt;  [1,] -5.295556e-15+0i</span></span>
 <span><span class="co">#&gt;  [2,] -9.481194e-01+0i</span></span>
-<span><span class="co">#&gt;  [3,] -1.888905e-16+0i</span></span>
-<span><span class="co">#&gt;  [4,]  2.562543e-16+0i</span></span>
-<span><span class="co">#&gt;  [5,]  2.341254e-16+0i</span></span>
+<span><span class="co">#&gt;  [3,]  1.193352e-15+0i</span></span>
+<span><span class="co">#&gt;  [4,] -4.231046e-15+0i</span></span>
+<span><span class="co">#&gt;  [5,]  7.478823e-16+0i</span></span>
 <span><span class="co">#&gt;  [6,]  1.156243e-01+0i</span></span>
-<span><span class="co">#&gt;  [7,] -5.441816e-16+0i</span></span>
+<span><span class="co">#&gt;  [7,]  1.177518e-15+0i</span></span>
 <span><span class="co">#&gt;  [8,]  1.849989e-01+0i</span></span>
-<span><span class="co">#&gt;  [9,]  2.425013e-16+0i</span></span>
+<span><span class="co">#&gt;  [9,]  1.767433e-15+0i</span></span>
 <span><span class="co">#&gt; [10,]  2.312486e-01+0i</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
