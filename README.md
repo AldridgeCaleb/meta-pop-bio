@@ -18,7 +18,7 @@ library(metapopbio)
 Please report issues or bugs to https://github.com/AldridgeCaleb/meta-pop-bio/issues or email caleb.a.aldridge at gmail.com
 
 ## Roadmap
-Current plans include support for classic metapopulation models of Gotelli (1991; 2008) *and others* (e.g., mainland--island model, internal colonization, and rescue effect) and hyperstate matrix models (Roth and Caswell 2016). Additionally, Hanski's (1994) incidence function and a metapopulation version of the **S**usceptible--**I**nfected--**R**ecovered model (SIR model) are also being considered. Other suggestions can be submitted in email to caleb.a.aldridge at gmail.com or as an issue on the package's GitHub repository (https://github.com/AldridgeCaleb/meta-pop-bio/issues).
+Current plans include support for classic metapopulation models of Gotelli (1991; 2008) *and others* (e.g., mainland--island model, internal colonization, and rescue effect) and hyperstate matrix models (Roth and Caswell 2016). Additionally, Hanski's (1994) incidence function and a metapopulation version of the **S**usceptible--**I**nfected--**R**ecovered model (SIR model), also referred to as a patch model, are also being considered. Other suggestions can be submitted in email to caleb.a.aldridge at gmail.com or as an issue on the package's GitHub repository (https://github.com/AldridgeCaleb/meta-pop-bio/issues).
 
 ## Contributing
 
