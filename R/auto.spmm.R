@@ -68,10 +68,10 @@ auto.spmm <- function(path, filename, plot = FALSE, ylabs = NA, xlabs = NA, ... 
   if (!exists("ddf")) {
     ddf <- NA
   } 
-  if (!exists(H)) {
+  if (!exists("H")) {
     H <- NA 
   }
-  if (!exists(D)) {
+  if (!exists("D")) {
     D <- NA
   }
   
