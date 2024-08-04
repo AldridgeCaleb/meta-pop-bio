@@ -11,15 +11,10 @@
 #' 
 #' @param path path to xlsx workbook
 #' @param filename name of xlsx workbook
-#' @param ddf Density-dependent function parameters (see `?spmm.ddf.params`)
-#' @param H Harvest mortality. Currently additive mortality assumed. 
-#' @param D A list of three vectors. The first two, `from` and `to`, identify
-#' where deterrence of movement is made. The third, `d`, contains the proportions
-#' by which movement is deterred. Currently deterrence is assumed equal for all
-#' stages.
 #' @param plot optional; output plots from `auto.spmm`?
 #' @param ylabs optional; labels for y-axis labels
 #' @param xlabs optional; labels for x-axis labels
+#' @param ... optional; additional arguments passed to `spmm.project`
 #' 
 #' @note Workbook should follow template found in extdata. Objects can be 
 #' assigned from the list using the unpacking / destructuring assignment "%<-%" 
@@ -30,8 +25,7 @@
 #' https://ycphs.github.io/openxlsx/index.html, https://github.com/ycphs/openxlsx. 
 #' 
 #' @export
-auto.spmm <- function(path, filename, ddf = NA, H = NA, D = NA,
-                      plot = FALSE, ylabs = NA, xlabs = NA) {
+auto.spmm <- function(path, filename, plot = FALSE, ylabs = NA, xlabs = NA, ... ) {
   # source("C:/Users/caldridge/Documents/R/meta-pop-bio/R/auto.spmm.internal.R", local = TRUE)
   
   sheetNames <- openxlsx::getSheetNames(paste0(path, filename))
