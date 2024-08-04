@@ -4,6 +4,7 @@
 roxygen2::roxygenise()  # builds NAMESPACE and man files
 # 3. commit and push to GitHub (again)
 # 4. download from GitHub (may have to remove from library prior)
+
 # 5. run check
 devtools::check()
 # 6. build site locally
