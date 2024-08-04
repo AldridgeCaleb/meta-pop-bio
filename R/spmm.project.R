@@ -20,17 +20,17 @@
 #' @param n_patches The number of patches (columns) in the metapopulation state
 #' matrix N.
 #' @param ddf Density-dependent function parameters (see `?spmm.ddf.params`)
-#' @param H Additive (harvest) mortality. Can be element (applies to all) or a 
+#' @param harv Additive (harvest) mortality. Can be element (applies to all) or a 
 #' vector of added mortality equal in length to demographic matrix of row × 
 #' column. 
-#' @param D A list of three vectors. The first two, `from` and `to`, identify
+#' @param deter A list of three vectors. The first two, `from` and `to`, identify
 #' where deterrence of movement is made. The third, `d`, contains the proportions
 #' by which movement is deterred. Currently deterrence is assumed equal for all
 #' stages.
-#' @param P vec-permutation matrix -- required if ddf, H, or D given
-#' @param BB block diagonal demographic matrix -- required if ddf, H, or D given
-#' @param MM block diagonal movement (dispersal) matrix -- required if ddf, H, 
-#' or D given 
+#' @param P vec-permutation matrix -- required if ddf, harv, or deter given
+#' @param BB block diagonal demographic matrix -- required if ddf, harv, or deter given
+#' @param MM block diagonal movement (dispersal) matrix -- required if ddf, harv, 
+#' or deter given 
 #'
 #' @note
 #' Ensure that the structural lh_orders of population vector `n` and projection
@@ -127,18 +127,8 @@
 spmm.project <-
   function(n, A, n_timesteps,
            n_stages, n_patches, 
-           ddf = NA, H = NA, D = NA,
+           ddf = NA, harv = NA, deter = NA,
            P, BB, MM) {
-    
-    if (is.na(ddf)) {
-      ddf <- NULL
-    } 
-    if (is.na(H)) {
-      H <- NULL 
-    }
-    if (is.na(D)) {
-      D <- NULL
-    }
     
     try(if (is.null(comment(n)))
       stop("Please specify structure of n as either patches or stages (e.g., comment(n) <- 'patches'.')")
@@ -160,22 +150,22 @@ spmm.project <-
         stop("Length of n and n_stages × n_patches are not equal.")
       })
       
-      if (!is.null(H)) {
+      if (!is.na(harv)) {
         matlist <- unblk.diag(BB, n_stages)
         for (i in seq_along(matlist)) {
           B <- matlist[i]
           M <-
             -log(B[[1]][-1, ])  # Transform survival probabilities to mortality rates
-          if (length(H) == 1) {
-            M <- M + H  # Add constant H to all mortality rates
-          } else if (length(H) == length(M)) {
-            M <- M + H  # Add vector H to mortality rates element-wise
-          } else if (length(H) == dim(M)[1]) {
-            H <- rep(H, each = nrow(M))
-            M <- M + H
+          if (length(harv) == 1) {
+            M <- M + harv  # Add constant harv to all mortality rates
+          } else if (length(harv) == length(M)) {
+            M <- M + harv  # Add vector harv to mortality rates element-wise
+          } else if (length(harv) == dim(M)[1]) {
+            harv <- rep(harv, each = nrow(M))
+            M <- M + harv
           } else {
             stop(
-              "Length of H must be either 1 or equal to the number of non-diagonal elements in the demographic matrix."
+              "Length of harv must be either 1 or equal to the number of non-diagonal elements in the demographic matrix."
             )
           }
           B[[1]][-1, ] <- exp(-M)  # Transform back to survival probabilities
@@ -186,12 +176,12 @@ spmm.project <-
                                  group_by = group_by, lh_order = A_lh_order)
       }
       
-      if (!is.null(D)) {
+      if (!is.na(deter)) {
         matlist <- unblk.diag(MM, n_patches)
         for (i in seq_along(matlist)) {
           M <- matlist[i]
           if (!is.identity.matrix(M)) {
-            M[D$from, D$to] <- M[D$from, D$to] * D$d
+            M[deter$from, deter$to] <- M[deter$from, deter$to] * deter$d
           }
           matlist[i] <- M
         }
@@ -201,7 +191,7 @@ spmm.project <-
       }
       
       for (t in 2:n_timesteps) {
-        if (!is.null(ddf)){
+        if (!is.na(ddf)){
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
             B <- matlist[i]
@@ -236,22 +226,22 @@ spmm.project <-
         stop("Length of n and n_stages × n_patches are not equal.")
       })
       
-      if (!is.null(H)) {
+      if (!is.na(harv)) {
         matlist <- unblk.diag(BB, n_stages)
         for (i in seq_along(matlist)) {
           B <- matlist[i]
           M <-
             -log(B[[1]][-1, ])  # Transform survival probabilities to mortality rates
-          if (length(H) == 1) {
-            M <- M + H  # Add constant H to all mortality rates
-          } else if (length(H) == length(M)) {
-            M <- M + H  # Add vector H to mortality rates element-wise
-          } else if (length(H) == dim(M)[1]) {
-            H <- rep(H, each = nrow(M))
-            M <- M + H
+          if (length(harv) == 1) {
+            M <- M + harv  # Add constant harv to all mortality rates
+          } else if (length(harv) == length(M)) {
+            M <- M + harv  # Add vector harv to mortality rates element-wise
+          } else if (length(harv) == dim(M)[1]) {
+            harv <- rep(harv, each = nrow(M))
+            M <- M + harv
           } else {
             stop(
-              "Length of H must be either 1 or equal to the number of non-diagonal elements in the demographic matrix."
+              "Length of harv must be either 1 or equal to the number of non-diagonal elements in the demographic matrix."
             )
           }
           B[[1]][-1, ] <- exp(-M)  # Transform back to survival probabilities
@@ -262,12 +252,12 @@ spmm.project <-
                                  group_by = group_by, lh_order = A_lh_order)
       }
       
-      if (!is.null(D)) {
+      if (!is.na(deter)) {
         matlist <- unblk.diag(MM, n_patches)
         for (i in seq_along(matlist)) {
           M <- matlist[i]
           if (!is.identity.matrix(M)) {
-            M[D$from, D$to] <- M[D$from, D$to] * D$d
+            M[deter$from, deter$to] <- M[deter$from, deter$to] * deter$d
           }
           matlist[i] <- M
         }
@@ -278,7 +268,7 @@ spmm.project <-
       
       for (t in 2:n_timesteps) {
         
-        if (!is.null(ddf)){
+        if (!is.na(ddf)){
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
             B <- matlist[i]
@@ -314,22 +304,22 @@ spmm.project <-
         stop("Length of n and n_stages × n_patches are not equal.")
       })
       
-      if (!is.null(H)) {
+      if (!is.na(harv)) {
         matlist <- unblk.diag(BB, n_stages)
         for (i in seq_along(matlist)) {
           B <- matlist[i]
           M <-
             -log(B[[1]][-1, ])  # Transform survival probabilities to mortality rates
-          if (length(H) == 1) {
-            M <- M + H  # Add constant H to all mortality rates
-          } else if (length(H) == length(M)) {
-            M <- M + H  # Add vector H to mortality rates element-wise
-          } else if (length(H) == dim(M)[1]) {
-            H <- rep(H, each = nrow(M))
-            M <- M + H
+          if (length(harv) == 1) {
+            M <- M + harv  # Add constant harv to all mortality rates
+          } else if (length(harv) == length(M)) {
+            M <- M + harv  # Add vector harv to mortality rates element-wise
+          } else if (length(harv) == dim(M)[1]) {
+            harv <- rep(harv, each = nrow(M))
+            M <- M + harv
           } else {
             stop(
-              "Length of H must be either 1 or equal to the number of non-diagonal elements in the demographic matrix."
+              "Length of harv must be either 1 or equal to the number of non-diagonal elements in the demographic matrix."
             )
           }
           B[[1]][-1, ] <- exp(-M)  # Transform back to survival probabilities
@@ -340,12 +330,12 @@ spmm.project <-
                                  group_by = group_by, lh_order = A_lh_order)
       }
       
-      if (!is.null(D)) {
+      if (!is.na(deter)) {
         matlist <- unblk.diag(MM, n_patches)
         for (i in seq_along(matlist)) {
           M <- matlist[i]
           if (!is.identity.matrix(M)) {
-            M[D$from, D$to] <- M[D$from, D$to] * D$d
+            M[deter$from, deter$to] <- M[deter$from, deter$to] * deter$d
           }
           matlist[i] <- M
         }
@@ -355,7 +345,7 @@ spmm.project <-
       }
       
       for (t in 2:n_timesteps) {
-        if (!is.null(ddf)){
+        if (!is.na(ddf)){
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
             B <- matlist[i]
@@ -391,22 +381,22 @@ spmm.project <-
         stop("Length of n and n_stages × n_patches are not equal.")
       })
       
-      if (!is.null(H)) {
+      if (!is.na(harv)) {
         matlist <- unblk.diag(BB, n_stages)
         for (i in seq_along(matlist)) {
           B <- matlist[i]
           M <-
             -log(B[[1]][-1, ])  # Transform survival probabilities to mortality rates
-          if (length(H) == 1) {
-            M <- M + H  # Add constant H to all mortality rates
-          } else if (length(H) == length(M)) {
-            M <- M + H  # Add vector H to mortality rates element-wise
-          } else if (length(H) == dim(M)[1]) {
-            H <- rep(H, each = nrow(M))
-            M <- M + H
+          if (length(harv) == 1) {
+            M <- M + harv  # Add constant harv to all mortality rates
+          } else if (length(harv) == length(M)) {
+            M <- M + harv  # Add vector harv to mortality rates element-wise
+          } else if (length(harv) == dim(M)[1]) {
+            harv <- rep(harv, each = nrow(M))
+            M <- M + harv
           } else {
             stop(
-              "Length of H must be either 1 or equal to the number of non-diagonal elements in the demographic matrix."
+              "Length of harv must be either 1 or equal to the number of non-diagonal elements in the demographic matrix."
             )
           }
           B[[1]][-1, ] <- exp(-M)  # Transform back to survival probabilities
@@ -417,12 +407,12 @@ spmm.project <-
                                  group_by = group_by, lh_order = A_lh_order)
       }
       
-      if (!is.null(D)) {
+      if (!is.na(deter)) {
         matlist <- unblk.diag(MM, n_patches)
         for (i in seq_along(matlist)) {
           M <- matlist[i]
           if (!is.identity.matrix(M)) {
-            M[D$from, D$to] <- M[D$from, D$to] * D$d
+            M[deter$from, deter$to] <- M[deter$from, deter$to] * deter$d
           }
           matlist[i] <- M
         }
@@ -432,7 +422,7 @@ spmm.project <-
       }
       
       for (t in 2:n_timesteps) {
-        if (!is.null(ddf)){
+        if (!is.na(ddf)){
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
             B <- matlist[i]

@@ -68,11 +68,11 @@ auto.spmm <- function(path, filename, plot = FALSE, ylabs = NA, xlabs = NA, ... 
   if (!exists("ddf")) {
     ddf <- NA
   } 
-  if (!exists("H")) {
-    H <- NA 
+  if (!exists("harv")) {
+    harv <- NA 
   }
-  if (!exists("D")) {
-    D <- NA
+  if (!exists("deter")) {
+    deter <- NA
   }
   
   projs <-
@@ -83,11 +83,11 @@ auto.spmm <- function(path, filename, plot = FALSE, ylabs = NA, xlabs = NA, ... 
       n_stages = n_stages,
       n_patches = n_patches,
       ddf = ddf,
-      H = H,
-      D = D,
+      harv = harv,
+      deter = deter,
       P = P,
       BB = BB,
-      MM= MM
+      MM = MM
     )
   
   if (plot == TRUE) {

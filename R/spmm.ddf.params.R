@@ -2,7 +2,7 @@
 #' 
 #' @param f_type Either Ricker or Beverton-Holt type density dependence on 
 #' recruitment.
-#' @param s_type Currently implments only logistic type density dependence on 
+#' @param s_type Currently implements only logistic type density dependence on 
 #' survival.
 #' @param stages Number of stages being modeled.
 #' @param P Vec-permutation matrix.
