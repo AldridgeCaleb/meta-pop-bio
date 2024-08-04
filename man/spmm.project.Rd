@@ -4,7 +4,19 @@
 \alias{spmm.project}
 \title{deterministic projection of spatial matrix population model}
 \usage{
-spmm.project(n, A, n_timesteps, n_stages, n_patches, ddf, H, D, P, BB, MM)
+spmm.project(
+  n,
+  A,
+  n_timesteps,
+  n_stages,
+  n_patches,
+  ddf = NULL,
+  H = NULL,
+  D = NULL,
+  P,
+  BB,
+  MM
+)
 }
 \arguments{
 \item{n}{Vector of stage and patch starting values. If structure for `n` is

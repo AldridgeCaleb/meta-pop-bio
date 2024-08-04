@@ -4,16 +4,7 @@
 \alias{auto.spmm}
 \title{automatically construct and analyze an spmm}
 \usage{
-auto.spmm(
-  path,
-  filename,
-  ddf = NA,
-  H = NA,
-  D = NA,
-  plot = FALSE,
-  ylabs = NA,
-  xlabs = NA
-)
+auto.spmm(path, filename, ddf, H, D, plot = FALSE, ylabs = NA, xlabs = NA)
 }
 \arguments{
 \item{path}{path to xlsx workbook}
@@ -38,8 +29,8 @@ stages.}
 \description{
 This function automates construction and analysis of a spatial 
 population matrix model, from construction of the vec-permutation matrix to
-plotting. THe user provides a `path` and `filename` for a spmm formatted
-Excel Workbook (xlsx). 
+plotting. The user provides a `path` and `filename` for a spmm formatted
+Excel Workbook (.xlsx). 
 
 Future plans include a "report" option that would include an RMarkdown (.Rmd)
 and Word Document (.docx) as outputs. Additionally, I am exploring the ability
