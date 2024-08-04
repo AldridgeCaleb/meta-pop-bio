@@ -11,8 +11,8 @@ spmm.project(
   n_stages,
   n_patches,
   ddf = NA,
-  H = NA,
-  D = NA,
+  harv = NA,
+  deter = NA,
   P,
   BB,
   MM
@@ -39,21 +39,21 @@ matrix N.}
 
 \item{ddf}{Density-dependent function parameters (see `?spmm.ddf.params`)}
 
-\item{H}{Additive (harvest) mortality. Can be element (applies to all) or a 
+\item{harv}{Additive (harvest) mortality. Can be element (applies to all) or a 
 vector of added mortality equal in length to demographic matrix of row × 
 column.}
 
-\item{D}{A list of three vectors. The first two, `from` and `to`, identify
+\item{deter}{A list of three vectors. The first two, `from` and `to`, identify
 where deterrence of movement is made. The third, `d`, contains the proportions
 by which movement is deterred. Currently deterrence is assumed equal for all
 stages.}
 
-\item{P}{vec-permutation matrix -- required if ddf, H, or D given}
+\item{P}{vec-permutation matrix -- required if ddf, harv, or deter given}
 
-\item{BB}{block diagonal demographic matrix -- required if ddf, H, or D given}
+\item{BB}{block diagonal demographic matrix -- required if ddf, harv, or deter given}
 
-\item{MM}{block diagonal movement (dispersal) matrix -- required if ddf, H, 
-or D given}
+\item{MM}{block diagonal movement (dispersal) matrix -- required if ddf, harv, 
+or deter given}
 }
 \description{
 Produces deterministic future population sizes of stages s in patches p.

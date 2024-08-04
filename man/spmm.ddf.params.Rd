@@ -19,7 +19,7 @@ spmm.ddf.params(
 \item{f_type}{Either Ricker or Beverton-Holt type density dependence on 
 recruitment.}
 
-\item{s_type}{Currently implments only logistic type density dependence on 
+\item{s_type}{Currently implements only logistic type density dependence on 
 survival.}
 
 \item{stages}{Number of stages being modeled.}
