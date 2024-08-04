@@ -1,81 +1,29 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/404.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/articles/getting-started.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/articles/using-auto.spmm.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/articles/using-spmm.readxl.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/index.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/auto.spmm.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/blk.diag.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/dd.funs.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/is.identity.matrix.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.ddf.params.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.demo.elas.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.demo.sens.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.eig.lambda.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.move.elas.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.move.sens.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.plot.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.project.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.project.matrix.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.project.matrix.sens.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.readxl.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/unblk.diag.html</loc>
-  </url>
-  <url>
-    <loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/vec.perm.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/404.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/LICENSE-text.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/articles/getting-started.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/articles/index.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/articles/using-auto.spmm.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/articles/using-spmm.readxl.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/authors.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/index.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/auto.spmm.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/blk.diag.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/dd.funs.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/index.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/is.identity.matrix.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.ddf.params.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.demo.elas.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.demo.sens.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.eig.lambda.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.move.elas.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.move.sens.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.plot.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.project.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.project.matrix.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.project.matrix.sens.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/spmm.readxl.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/unblk.diag.html</loc></url>
+<url><loc>https://aldridgecaleb.github.io/meta-pop-bio/reference/vec.perm.html</loc></url>
 </urlset>
+
