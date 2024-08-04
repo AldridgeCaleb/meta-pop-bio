@@ -3,7 +3,8 @@
 # 2. run roxygenise
 roxygen2::roxygenise()  # builds NAMESPACE and man files
 # 3. commit and push to GitHub (again)
-# 4. download from GitHub (may have to remove from library prior)
+# 4. download from GitHub (may have to remove from library and restart R)
+remove.packages("metapopbio")
 devtools::install_github("AldridgeCaleb/meta-pop-bio")
 library(metapopbio)
 # 5. run check
