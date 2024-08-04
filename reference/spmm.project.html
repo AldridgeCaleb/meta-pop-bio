@@ -59,8 +59,8 @@ Hunter and Caswell (2005) and Lebreton (1996).</p>
 <span>  <span class="va">n_stages</span>,</span>
 <span>  <span class="va">n_patches</span>,</span>
 <span>  ddf <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>  H <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>  D <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  harv <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  deter <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  <span class="va">P</span>,</span>
 <span>  <span class="va">BB</span>,</span>
 <span>  <span class="va">MM</span></span>
@@ -103,13 +103,13 @@ matrix N.</p></dd>
 <dd><p>Density-dependent function parameters (see `?spmm.ddf.params`)</p></dd>
 
 
-<dt id="arg-h">H<a class="anchor" aria-label="anchor" href="#arg-h"></a></dt>
+<dt id="arg-harv">harv<a class="anchor" aria-label="anchor" href="#arg-harv"></a></dt>
 <dd><p>Additive (harvest) mortality. Can be element (applies to all) or a
 vector of added mortality equal in length to demographic matrix of row ×
 column.</p></dd>
 
 
-<dt id="arg-d">D<a class="anchor" aria-label="anchor" href="#arg-d"></a></dt>
+<dt id="arg-deter">deter<a class="anchor" aria-label="anchor" href="#arg-deter"></a></dt>
 <dd><p>A list of three vectors. The first two, `from` and `to`, identify
 where deterrence of movement is made. The third, `d`, contains the proportions
 by which movement is deterred. Currently deterrence is assumed equal for all
@@ -117,16 +117,16 @@ stages.</p></dd>
 
 
 <dt id="arg-p">P<a class="anchor" aria-label="anchor" href="#arg-p"></a></dt>
-<dd><p>vec-permutation matrix – required if ddf, H, or D given</p></dd>
+<dd><p>vec-permutation matrix – required if ddf, harv, or deter given</p></dd>
 
 
 <dt id="arg-bb">BB<a class="anchor" aria-label="anchor" href="#arg-bb"></a></dt>
-<dd><p>block diagonal demographic matrix – required if ddf, H, or D given</p></dd>
+<dd><p>block diagonal demographic matrix – required if ddf, harv, or deter given</p></dd>
 
 
 <dt id="arg-mm">MM<a class="anchor" aria-label="anchor" href="#arg-mm"></a></dt>
-<dd><p>block diagonal movement (dispersal) matrix – required if ddf, H,
-or D given</p></dd>
+<dd><p>block diagonal movement (dispersal) matrix – required if ddf, harv,
+or deter given</p></dd>
 
 </dl></div>
     <div class="section level2">
