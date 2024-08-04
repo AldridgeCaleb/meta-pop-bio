@@ -4,7 +4,16 @@
 \alias{auto.spmm}
 \title{automatically construct and analyze an spmm}
 \usage{
-auto.spmm(path, filename, ddf, H, D, plot = FALSE, ylabs = NA, xlabs = NA)
+auto.spmm(
+  path,
+  filename,
+  ddf = NA,
+  H = NA,
+  D = NA,
+  plot = FALSE,
+  ylabs = NA,
+  xlabs = NA
+)
 }
 \arguments{
 \item{path}{path to xlsx workbook}
