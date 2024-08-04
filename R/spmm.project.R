@@ -127,16 +127,16 @@
 spmm.project <-
   function(n, A, n_timesteps,
            n_stages, n_patches, 
-           ddf, H, D,
+           ddf = NULL, H = NULL, D = NULL,
            P, BB, MM) {
     
-    if (missing(ddf)) {
+    if (missing(ddf) | is.na(ddf)) {
       ddf <- NULL
     } 
-    if (missing(H)) {
+    if (missing(H) | is.na(H)) {
       H <- NULL 
     }
-    if (missing(D)) {
+    if (missing(D) | is.na(D)) {
       D <- NULL
     }
     

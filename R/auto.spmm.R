@@ -2,8 +2,8 @@
 #' 
 #' @description This function automates construction and analysis of a spatial 
 #' population matrix model, from construction of the vec-permutation matrix to
-#' plotting. THe user provides a `path` and `filename` for a spmm formatted
-#' Excel Workbook (xlsx). 
+#' plotting. The user provides a `path` and `filename` for a spmm formatted
+#' Excel Workbook (.xlsx). 
 #' 
 #' Future plans include a "report" option that would include an RMarkdown (.Rmd)
 #' and Word Document (.docx) as outputs. Additionally, I am exploring the ability
@@ -30,7 +30,7 @@
 #' https://ycphs.github.io/openxlsx/index.html, https://github.com/ycphs/openxlsx. 
 #' 
 #' @export
-auto.spmm <- function(path, filename, ddf = NA, H = NA, D = NA,
+auto.spmm <- function(path, filename, ddf, H, D,
                       plot = FALSE, ylabs = NA, xlabs = NA) {
   # source("C:/Users/caldridge/Documents/R/meta-pop-bio/R/auto.spmm.internal.R", local = TRUE)
   
@@ -40,7 +40,7 @@ auto.spmm <- function(path, filename, ddf = NA, H = NA, D = NA,
   
   tmp <- spmm.readxl(path, filename)
   
-  c(n_stages, n_patches, group_by, lh_order, n_timesteps, stage_names, patch_names, n, matrices) %<-% tmp
+  c(n_stages, n_patches, group_by, lh_order, n_timesteps, stage_names, patch_names, n, matrices) %<-% tmp[1:9]
   
   P <-
     metapopbio::vec.perm(n_stages = n_stages,
@@ -71,6 +71,16 @@ auto.spmm <- function(path, filename, ddf = NA, H = NA, D = NA,
       lh_order = lh_order
     )
   
+  if (missing(ddf) | is.na(ddf)) {
+    ddf <- NULL
+  } 
+  if (missing(H) | is.na(H)) {
+    H <- NULL 
+  }
+  if (missing(D) | is.na(D)) {
+    D <- NULL
+  }
+  
   projs <-
     metapopbio::spmm.project(
       n = n,
@@ -79,7 +89,11 @@ auto.spmm <- function(path, filename, ddf = NA, H = NA, D = NA,
       n_stages = n_stages,
       n_patches = n_patches,
       ddf = ddf,
-      H = H
+      H = H,
+      D = D,
+      P = P,
+      BB = BB,
+      MM= MM
     )
   
   if (plot == TRUE) {
