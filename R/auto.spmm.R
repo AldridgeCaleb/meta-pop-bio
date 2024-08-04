@@ -30,7 +30,7 @@
 #' https://ycphs.github.io/openxlsx/index.html, https://github.com/ycphs/openxlsx. 
 #' 
 #' @export
-auto.spmm <- function(path, filename, ddf, H, D,
+auto.spmm <- function(path, filename, ddf = NA, H = NA, D = NA,
                       plot = FALSE, ylabs = NA, xlabs = NA) {
   # source("C:/Users/caldridge/Documents/R/meta-pop-bio/R/auto.spmm.internal.R", local = TRUE)
   
