@@ -61,16 +61,7 @@ to "update" a spmm as a convenience function.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">auto.spmm</span><span class="op">(</span></span>
-<span>  <span class="va">path</span>,</span>
-<span>  <span class="va">filename</span>,</span>
-<span>  ddf <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>  H <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>  D <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>  plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  ylabs <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>  xlabs <span class="op">=</span> <span class="cn">NA</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">auto.spmm</span><span class="op">(</span><span class="va">path</span>, <span class="va">filename</span>, plot <span class="op">=</span> <span class="cn">FALSE</span>, ylabs <span class="op">=</span> <span class="cn">NA</span>, xlabs <span class="op">=</span> <span class="cn">NA</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -85,21 +76,6 @@ to "update" a spmm as a convenience function.</p>
 <dd><p>name of xlsx workbook</p></dd>
 
 
-<dt id="arg-ddf">ddf<a class="anchor" aria-label="anchor" href="#arg-ddf"></a></dt>
-<dd><p>Density-dependent function parameters (see `?spmm.ddf.params`)</p></dd>
-
-
-<dt id="arg-h">H<a class="anchor" aria-label="anchor" href="#arg-h"></a></dt>
-<dd><p>Harvest mortality. Currently additive mortality assumed.</p></dd>
-
-
-<dt id="arg-d">D<a class="anchor" aria-label="anchor" href="#arg-d"></a></dt>
-<dd><p>A list of three vectors. The first two, `from` and `to`, identify
-where deterrence of movement is made. The third, `d`, contains the proportions
-by which movement is deterred. Currently deterrence is assumed equal for all
-stages.</p></dd>
-
-
 <dt id="arg-plot">plot<a class="anchor" aria-label="anchor" href="#arg-plot"></a></dt>
 <dd><p>optional; output plots from `auto.spmm`?</p></dd>
 
@@ -110,6 +86,10 @@ stages.</p></dd>
 
 <dt id="arg-xlabs">xlabs<a class="anchor" aria-label="anchor" href="#arg-xlabs"></a></dt>
 <dd><p>optional; labels for x-axis labels</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>optional; additional arguments passed to `spmm.project`</p></dd>
 
 </dl></div>
     <div class="section level2">
