@@ -130,13 +130,13 @@ spmm.project <-
            ddf = NA, H = NA, D = NA,
            P, BB, MM) {
     
-    if (missing(ddf) | is.na(ddf)) {
+    if (is.na(ddf)) {
       ddf <- NULL
     } 
-    if (missing(H) | is.na(H)) {
+    if (is.na(H)) {
       H <- NULL 
     }
-    if (missing(D) | is.na(D)) {
+    if (is.na(D)) {
       D <- NULL
     }
     

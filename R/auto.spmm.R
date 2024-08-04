@@ -65,14 +65,14 @@ auto.spmm <- function(path, filename, plot = FALSE, ylabs = NA, xlabs = NA, ... 
       lh_order = lh_order
     )
   
-  if (missing(ddf) | is.na(ddf)) {
-    ddf <- NULL
+  if (!exists("ddf")) {
+    ddf <- NA
   } 
-  if (missing(H) | is.na(H)) {
-    H <- NULL 
+  if (!exists(H)) {
+    H <- NA 
   }
-  if (missing(D) | is.na(D)) {
-    D <- NULL
+  if (!exists(D)) {
+    D <- NA
   }
   
   projs <-
