@@ -4,36 +4,20 @@
 \alias{auto.spmm}
 \title{automatically construct and analyze an spmm}
 \usage{
-auto.spmm(
-  path,
-  filename,
-  ddf = NA,
-  H = NA,
-  D = NA,
-  plot = FALSE,
-  ylabs = NA,
-  xlabs = NA
-)
+auto.spmm(path, filename, plot = FALSE, ylabs = NA, xlabs = NA, ...)
 }
 \arguments{
 \item{path}{path to xlsx workbook}
 
 \item{filename}{name of xlsx workbook}
 
-\item{ddf}{Density-dependent function parameters (see `?spmm.ddf.params`)}
-
-\item{H}{Harvest mortality. Currently additive mortality assumed.}
-
-\item{D}{A list of three vectors. The first two, `from` and `to`, identify
-where deterrence of movement is made. The third, `d`, contains the proportions
-by which movement is deterred. Currently deterrence is assumed equal for all
-stages.}
-
 \item{plot}{optional; output plots from `auto.spmm`?}
 
 \item{ylabs}{optional; labels for y-axis labels}
 
 \item{xlabs}{optional; labels for x-axis labels}
+
+\item{...}{optional; additional arguments passed to `spmm.project`}
 }
 \description{
 This function automates construction and analysis of a spatial 

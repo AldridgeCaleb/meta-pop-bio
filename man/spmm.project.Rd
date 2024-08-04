@@ -10,9 +10,9 @@ spmm.project(
   n_timesteps,
   n_stages,
   n_patches,
-  ddf = NA,
-  H = NA,
-  D = NA,
+  ddf = NULL,
+  H = NULL,
+  D = NULL,
   P,
   BB,
   MM
