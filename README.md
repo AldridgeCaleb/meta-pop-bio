@@ -7,9 +7,9 @@ The functionality to date is largely based on Hunter and Caswell (2005) to const
 
 ## Installation
 ```r
-install.packages(devtools)
+install.packages("devtools")
 devtools::install_github("AldridgeCaleb/meta-pop-bio")
-library(metapopbio)
+library("metapopbio")
 ```
 
 ## Usage (placeholder)
