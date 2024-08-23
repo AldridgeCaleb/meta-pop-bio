@@ -40,7 +40,7 @@ spmm.readxl <- function(path, filename) {
       openxlsx::read.xlsx(
         xlsxFile = paste0(path, filename),
         sheet = "metadata",
-        rows = c(6:250),
+        rows = c(7:250),
         cols = c(1),
         colNames = TRUE
       )[, 1]
@@ -50,21 +50,21 @@ spmm.readxl <- function(path, filename) {
       openxlsx::read.xlsx(
         xlsxFile = paste0(path, filename),
         sheet = "metadata",
-        rows = c(6:250),
+        rows = c(7:10000),
         cols = c(2),
         colNames = TRUE
       )[, 1]
     )
   n <-
-    as.vector(
+    as.vector(as.matrix(
       openxlsx::read.xlsx(
         xlsxFile = paste0(path, filename),
         sheet = "metadata",
-        rows = c(6:250),
-        cols = c(3),
+        rows = c(7:10000),
+        cols = c(3:252),
         colNames = TRUE
       )[, 1]
-    )
+    ))
   comment(n) <- group_by
   
   # movement matrices
