@@ -1,6 +1,6 @@
 Package: metapopbio
-Version: 0.0.2
-Date: 2023-09-07
+Version: 0.0.3
+Date: 2024-08-23
 Title: Construction and Analysis of Metapopulation Models
 Authors@R: c(person("Caleb A. Aldrdge", role = c("aut", "cre"), email = "caleb.a.aldridge@gmail.com"))
 Author: Caleb A. Aldridge [aut, cre]
