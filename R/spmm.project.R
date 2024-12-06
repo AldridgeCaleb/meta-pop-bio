@@ -34,7 +34,7 @@
 #'
 #' @note
 #' Ensure that the structural lh_orders of population vector `n` and projection
-#' matrix `A` are the same. Otherwise, projections may produce incorrect values!
+#' matrix `A` are the same. Otherwise, projections may produce incorrect values! 
 #'
 #' @references
 #' Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988). The New S Language.
@@ -112,8 +112,8 @@
 #'
 #' # Initial stages within patches (patch group_by)
 #' n <- c(
-#'   50, 22,  # Northern patch adults and juveniles
-#'   40, 17   # Southern patch adults and juveniles
+#'   50, 22,  # Northern patch juveniles (row 1, column 1) and adults (row 2, column 1)
+#'   40, 17   # Southern patch juveniles (row 1, column 2) and adults (row 2, column 2)
 #' )
 #' comment(n) <- "patches"  # vec comment attr for group_by
 #'
@@ -196,13 +196,16 @@ spmm.project <-
           for (i in seq_along(matlist)) {
             B <- matlist[i]
             if (ddf$f_type == "Ricker") {
-              B[[1]][1, ] <- B[[1]][1, ] * dd.rec.Ricker(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][1, ] <- dd.rec.Ricker(mat[, t - 1], ddf$a[i], ddf$b[i], theta)
             } 
             if (ddf$f_type == "Beverton-Holt") {
-              B[[1]][1, ] <- B[[1]][1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][1, ] <- dd.rec.BevertonHolt(mat[, t - 1], ddf$a[i], ddf$b[i], theta)
             }
             if (ddf$s_type == "logistic") {
-              B[[1]][-1, ] <- B[[1]][-1, ] * dd.surv.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][1, ] <- dd.surv.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
+            }
+            if (ddf$s_type == "ddExponential") {
+              B[[1]][1, ] <- dd.surv.exponential(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
           }
           BB <- blk.diag(matlist)
@@ -211,7 +214,11 @@ spmm.project <-
         }
 
         # Projection to next t
-        mat[, t] <- as.vector(A %*% mat[, t - 1])
+        if (all(mat[, t - 1]%%1==0)) {
+          mat[, t] <- floor(as.vector(A %*% mat[, t - 1]))
+        } else {
+          mat[, t] <- as.vector(A %*% mat[, t - 1]) 
+        }
       }
       if (!is.null(rownames(n))) {
         rownames(mat) <- rownames(n)
@@ -273,7 +280,8 @@ spmm.project <-
           for (i in seq_along(matlist)) {
             B <- matlist[i]
             if (ddf$f_type == "Ricker") {
-              B[[1]][1, ] <- B[[1]][1, ] * dd.rec.Ricker(mat[, t - 1], ddf$r[i], ddf$K[i])
+              a <- B[[1]][1, ]
+              B[[1]][1, ] <- dd.rec.Ricker(mat[, t - 1], a, b)
             } 
             if (ddf$f_type == "Beverton-Holt") {
               B[[1]][1, ] <- B[[1]][1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
@@ -289,7 +297,11 @@ spmm.project <-
         }
         
         # Projection to next t
-        mat[, t] <- as.vector(A %*% mat[, t - 1])
+        if (all(mat[, t - 1]%%1==0)) {
+          mat[, t] <- floor(as.vector(A %*% mat[, t - 1]))
+        } else {
+          mat[, t] <- as.vector(A %*% mat[, t - 1]) 
+        }
       }
       if (!is.null(rownames(n))) {
         rownames(mat) <- rownames(n)
@@ -366,7 +378,11 @@ spmm.project <-
         }
         
         # Projection to next t
-        mat[, t] <- as.vector(A %*% mat[, t - 1])
+        if (all(mat[, t - 1]%%1==0)) {
+          mat[, t] <- floor(as.vector(A %*% mat[, t - 1]))
+        } else {
+          mat[, t] <- as.vector(A %*% mat[, t - 1]) 
+        }
       }
       if (!is.null(rownames(n))) {
         rownames(mat) <- rownames(n)
@@ -443,7 +459,11 @@ spmm.project <-
         }
         
         # Projection to next t
-        mat[, t] <- as.vector(A %*% mat[, t - 1])
+        if (all(mat[, t - 1]%%1==0)) {
+          mat[, t] <- floor(as.vector(A %*% mat[, t - 1]))
+        } else {
+          mat[, t] <- as.vector(A %*% mat[, t - 1]) 
+        }
       }
       if (!is.null(rownames(n))) {
         rownames(mat) <- rownames(n)

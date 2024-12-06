@@ -1,4 +1,4 @@
-##' @title ensity dependent logistic growth
+##' @title Density dependent logistic growth
 ##' 
 ##' @description
 ##' Modifies growth of population in time *t + 1* by the population size in 
