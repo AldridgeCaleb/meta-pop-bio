@@ -2,10 +2,10 @@
 
 export(auto.spmm)
 export(blk.diag)
-export(dd.funs)
+export(dd.growth.exponential)
+export(dd.growth.logistic)
 export(dd.rec.BevertonHolt)
 export(dd.rec.Ricker)
-export(dd.surv.logistic)
 export(is.identity.matrix)
 export(spmm.ddf.params)
 export(spmm.demo.elas)

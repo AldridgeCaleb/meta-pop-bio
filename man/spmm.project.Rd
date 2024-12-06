@@ -121,8 +121,8 @@ group_by = group_by, lh_order = lh_order)  # BB \%*\% t(P) \%*\% MM \%*\% P
 
 # Initial stages within patches (patch group_by)
 n <- c(
-  50, 22,  # Northern patch adults and juveniles
-  40, 17   # Southern patch adults and juveniles
+  50, 22,  # Northern patch juveniles (row 1, column 1) and adults (row 2, column 1)
+  40, 17   # Southern patch juveniles (row 1, column 2) and adults (row 2, column 2)
 )
 comment(n) <- "patches"  # vec comment attr for group_by
 
