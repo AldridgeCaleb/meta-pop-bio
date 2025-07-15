@@ -1,11 +1,11 @@
 pandoc: 3.1.11
-pkgdown: 2.1.1
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   getting-started: getting-started.html
   using-auto.spmm: using-auto.spmm.html
   using-spmm.readxl: using-spmm.readxl.html
-last_built: 2024-12-06T21:06Z
+last_built: 2025-07-15T20:31Z
 urls:
   reference: https://aldridgecaleb.github.io/meta-pop-bio/reference
   article: https://aldridgecaleb.github.io/meta-pop-bio/articles
