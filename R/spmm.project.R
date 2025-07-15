@@ -150,7 +150,7 @@ spmm.project <-
         stop("Length of n and n_stages × n_patches are not equal.")
       })
       
-      if (!is.na(harv)) {
+      if (any(!is.na(harv))) {
         matlist <- unblk.diag(BB, n_stages)
         for (i in seq_along(matlist)) {
           B <- matlist[i]
