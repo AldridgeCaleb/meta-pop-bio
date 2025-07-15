@@ -156,16 +156,15 @@ spmm.project <-
           B <- matlist[i]
           M <-
             -log(B[[1]][-1, ])  # Transform survival probabilities to mortality rates
-          if (length(harv) == 1) {
+          if (is.vector(harv) & length(harv) == 1) {
             M <- M + harv  # Add constant harv to all mortality rates
-          } else if (length(harv) == length(M)) {
-            M <- M + harv  # Add vector harv to mortality rates element-wise
-          } else if (length(harv) == dim(M)[1]) {
-            harv <- rep(harv, each = nrow(M))
-            M <- M + harv
+          } else if (is.vector(harv) & length(harv) == length(matlist)){
+            M <- M + harv[i]
+          } else if (is.list(harv) & dim(harv[[i]]) == dim(matlist[[i]])) {
+            M <- M + harv[[i]]  # Add list of harv mortality rates matrix-wise
           } else {
             stop(
-              "Length of harv must be either 1 or equal to the number of non-diagonal elements in the demographic matrix."
+              "Harvest mortality must be: a vector length == 1 if universally applied, a vector length == n_patches or n_stages (corresponding to group_by) if differential across grouping, or a list of matrices == length(BB) (corresponding to group_by) with dim(matrix) == dim(BB[[]]) if differential across grouping and in matrix elements."
             )
           }
           B[[1]][-1, ] <- exp(-M)  # Transform back to survival probabilities
