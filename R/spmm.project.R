@@ -154,7 +154,8 @@
 spmm.project <-
   function(n, A, n_timesteps,
            n_stages, n_patches, 
-           ddf = NA, mod_mort = NA, mod_move = NA,
+           ddf = NA, mod_mort = NA, 
+           mod_rec = NA, mod_move = NA,
            P, BB, MM) {
 
 # Initial error handling --------------------------------------------------
