@@ -59,8 +59,8 @@ Hunter and Caswell (2005) and Lebreton (1996).</p>
 <span>  <span class="va">n_stages</span>,</span>
 <span>  <span class="va">n_patches</span>,</span>
 <span>  ddf <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>  harv <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>  deter <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  mod_mort <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  mod_move <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  <span class="va">P</span>,</span>
 <span>  <span class="va">BB</span>,</span>
 <span>  <span class="va">MM</span></span>
@@ -103,30 +103,60 @@ matrix N.</p></dd>
 <dd><p>Density-dependent function parameters (see `?spmm.ddf.params`)</p></dd>
 
 
-<dt id="arg-harv">harv<a class="anchor" aria-label="anchor" href="#arg-harv"></a></dt>
-<dd><p>Additive (harvest) mortality. Can be element (applies to all) or a
-vector of added mortality equal in length to demographic matrix of row ×
-column.</p></dd>
+<dt id="arg-mod-mort">mod_mort<a class="anchor" aria-label="anchor" href="#arg-mod-mort"></a></dt>
+<dd><p>Optional modification to survival rates via additive mortality.
+Can be used to increase mortality (decrease survival) across one or more
+demographic matrices. This argument accepts one of the following forms:
+  - **Single numeric value**: A scalar applied uniformly to all non-recruitment
+  elements across all demographic matrices (i.e., same additive mortality everywhere).
+  - **Numeric vector**: A vector of length equal to either `n_patches` or `n_stages`,
+  depending on `group_by`. Each value is applied to the corresponding demographic
+  matrix in the list.
+  - **List of matrices**: A list of the same length as the number of demographic
+  matrices (`n_patches` or `n_stages`), with each matrix matching the dimensions
+  of its corresponding demographic matrix (excluding the recruitment row). This
+  allows specifying element-wise additive mortality for each matrix.
+Use a single value for uniform mortality, a vector for matrix-wise variation,
+or a list of matrices for full element-wise control.</p></dd>
 
 
-<dt id="arg-deter">deter<a class="anchor" aria-label="anchor" href="#arg-deter"></a></dt>
-<dd><p>A list of three vectors. The first two, `from` and `to`, identify
-where deterrence of movement is made. The third, `d`, contains the proportions
-by which movement is deterred. Currently deterrence is assumed equal for all
-stages.</p></dd>
+<dt id="arg-mod-move">mod_move<a class="anchor" aria-label="anchor" href="#arg-mod-move"></a></dt>
+<dd><p>Optional modification to movement. A list containing three vectors:
+  - `from`: indices of origin patches,
+  - `to`: indices of destination patches,
+  - `d`: corresponding proportions by which movement is reduced.
+Currently modifications are currently applied equally across all stages.</p></dd>
 
 
 <dt id="arg-p">P<a class="anchor" aria-label="anchor" href="#arg-p"></a></dt>
-<dd><p>vec-permutation matrix – required if ddf, harv, or deter given</p></dd>
+<dd><p>(optional) vec-permutation matrix – required if ddf, mod_mort, or mod_move given</p></dd>
 
 
 <dt id="arg-bb">BB<a class="anchor" aria-label="anchor" href="#arg-bb"></a></dt>
-<dd><p>block diagonal demographic matrix – required if ddf, harv, or deter given</p></dd>
+<dd><p>(optional) block diagonal demographic matrix – required if ddf, mod_mort, or mod_move given</p></dd>
 
 
 <dt id="arg-mm">MM<a class="anchor" aria-label="anchor" href="#arg-mm"></a></dt>
-<dd><p>block diagonal movement (dispersal) matrix – required if ddf, harv,
-or deter given</p></dd>
+<dd><p>(optional) block diagonal movement (dispersal) matrix – required if ddf, mod_mort,
+or mod_move given</p></dd>
+
+
+<dt id="arg-mod-rec">mod_rec<a class="anchor" aria-label="anchor" href="#arg-mod-rec"></a></dt>
+<dd><p>Optional modification to recruitment rates via additive effects.
+This argument can be specified in one of three forms, similar to `mod_mort`:
+  - **Single numeric value**: A scalar applied uniformly to the recruitment row
+  (top row) of all demographic matrices.
+  - **Numeric vector**: A vector of length equal to either `n_patches` or `n_stages`
+  (depending on `group_by`), where each value modifies the recruitment row across
+  the entire corresponding demographic matrix.
+  - **List of numeric vectors**: A list of length equal to the number of
+  demographic matrices (`n_patches` or `n_stages`), where each list element is
+  a vector of length equal to the number of columns (`ncol`) in the demographic
+  matrix. This allows element-wise modification of recruitment rates within each
+  matrix.
+Use a single value for uniform recruitment modification, a vector for matrix-wise
+differences, or a list of vectors for full element-wise control across recruitment
+elements.</p></dd>
 
 </dl></div>
     <div class="section level2">
