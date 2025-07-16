@@ -43,8 +43,7 @@ spmm.readxl <- function(path, filename) {
         rows = c(7:250),
         cols = c(1),
         colNames = TRUE
-      )[, 1]
-    )
+      )[, 1])
   patch_names <-
     as.vector(
       openxlsx::read.xlsx(
@@ -53,18 +52,15 @@ spmm.readxl <- function(path, filename) {
         rows = c(7:10000),
         cols = c(2),
         colNames = TRUE
-      )[, 1]
-    )
-  n <-
-    as.vector(as.matrix(
-      openxlsx::read.xlsx(
-        xlsxFile = paste0(path, filename),
-        sheet = "metadata",
-        rows = c(7:10000),
-        cols = c(3:252),
-        colNames = TRUE
-      )[, 1]
-    ))
+      )[, 1])
+  n <- as.vector(t(
+    openxlsx::read.xlsx(
+      xlsxFile = paste0(path, filename),
+      sheet = "metadata",
+      rows = c(7:10000),
+      cols = c(3:252),
+      colNames = TRUE
+    )[, ncol(dat):1]))
   comment(n) <- group_by
   
   # movement matrices

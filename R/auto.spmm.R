@@ -68,11 +68,14 @@ auto.spmm <- function(path, filename, plot = FALSE, ylabs = NA, xlabs = NA, ... 
   if (!exists("ddf")) {
     ddf <- NA
   } 
-  if (!exists("harv")) {
-    harv <- NA 
+  if (!exists("mod_mort")) {
+    mod_mort <- NA 
   }
-  if (!exists("deter")) {
-    deter <- NA
+  if (!exists("mod_rec")) {
+    mod_rec <- NA
+  }
+  if (!exists("mod_move")) {
+    mod_move <- NA
   }
   
   projs <-
@@ -83,8 +86,9 @@ auto.spmm <- function(path, filename, plot = FALSE, ylabs = NA, xlabs = NA, ... 
       n_stages = n_stages,
       n_patches = n_patches,
       ddf = ddf,
-      harv = harv,
-      deter = deter,
+      mod_mort = mod_mort,
+      mod_rec = mod_rec,
+      mod_move = mod_move,
       P = P,
       BB = BB,
       MM = MM
