@@ -543,7 +543,7 @@ spmm.project <-
         group_by,
         "structured population vector and",
         A_TYPE,
-        "A projection matrix. Currently, mod_move argument is ignored; please modify manually."
+        "A projection matrix. The arg mod_move is currently ignored; please modify manually."
       )
     )
     if (group_by == "patches") {
