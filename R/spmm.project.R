@@ -20,17 +20,44 @@
 #' @param n_patches The number of patches (columns) in the metapopulation state
 #' matrix N.
 #' @param ddf Density-dependent function parameters (see `?spmm.ddf.params`)
-#' @param harv Additive (harvest) mortality. Can be element (applies to all) or a 
-#' vector of added mortality equal in length to demographic matrix of row × 
-#' column. 
-#' @param deter A list of three vectors. The first two, `from` and `to`, identify
-#' where deterrence of movement is made. The third, `d`, contains the proportions
-#' by which movement is deterred. Currently deterrence is assumed equal for all
-#' stages.
-#' @param P vec-permutation matrix -- required if ddf, harv, or deter given
-#' @param BB block diagonal demographic matrix -- required if ddf, harv, or deter given
-#' @param MM block diagonal movement (dispersal) matrix -- required if ddf, harv, 
-#' or deter given 
+#' @param mod_mort Optional modification to survival rates via additive mortality. 
+#' Can be used to increase mortality (decrease survival) across one or more 
+#' demographic matrices. This argument accepts one of the following forms:
+#'   - **Single numeric value**: A scalar applied uniformly to all non-recruitment 
+#'   elements across all demographic matrices (i.e., same additive mortality everywhere).
+#'   - **Numeric vector**: A vector of length equal to either `n_patches` or `n_stages`, 
+#'   depending on `group_by`. Each value is applied to the corresponding demographic 
+#'   matrix in the list.
+#'   - **List of matrices**: A list of the same length as the number of demographic 
+#'   matrices (`n_patches` or `n_stages`), with each matrix matching the dimensions 
+#'   of its corresponding demographic matrix (excluding the recruitment row). This 
+#'   allows specifying element-wise additive mortality for each matrix.
+#' Use a single value for uniform mortality, a vector for matrix-wise variation, 
+#' or a list of matrices for full element-wise control.
+#' @param mod_rec Optional modification to recruitment rates via additive effects. 
+#' This argument can be specified in one of three forms, similar to `mod_mort`:
+#'   - **Single numeric value**: A scalar applied uniformly to the recruitment row 
+#'   (top row) of all demographic matrices.
+#'   - **Numeric vector**: A vector of length equal to either `n_patches` or `n_stages` 
+#'   (depending on `group_by`), where each value modifies the recruitment row across 
+#'   the entire corresponding demographic matrix.
+#'   - **List of numeric vectors**: A list of length equal to the number of 
+#'   demographic matrices (`n_patches` or `n_stages`), where each list element is 
+#'   a vector of length equal to the number of columns (`ncol`) in the demographic 
+#'   matrix. This allows element-wise modification of recruitment rates within each 
+#'   matrix.
+#' Use a single value for uniform recruitment modification, a vector for matrix-wise 
+#' differences, or a list of vectors for full element-wise control across recruitment 
+#' elements.
+#' @param mod_move Optional modification to movement. A list containing three vectors:
+#'   - `from`: indices of origin patches,
+#'   - `to`: indices of destination patches,
+#'   - `d`: corresponding proportions by which movement is reduced.
+#' Currently modifications are currently applied equally across all stages.
+#' @param P (optional) vec-permutation matrix -- required if ddf, mod_mort, or mod_move given
+#' @param BB (optional) block diagonal demographic matrix -- required if ddf, mod_mort, or mod_move given
+#' @param MM (optional) block diagonal movement (dispersal) matrix -- required if ddf, mod_mort, 
+#' or mod_move given 
 #'
 #' @note
 #' Ensure that the structural lh_orders of population vector `n` and projection
@@ -127,8 +154,13 @@
 spmm.project <-
   function(n, A, n_timesteps,
            n_stages, n_patches, 
-           ddf = NA, harv = NA, deter = NA,
+           ddf = NA, mod_mort = NA, mod_move = NA,
            P, BB, MM) {
+
+# Initial error handling --------------------------------------------------
+    lh_order <- comment(A)
+    group_by <- strsplit(lh_order, " +")[[1]][1]
+    A_lh_order <- strsplit(lh_order, " +")[[1]][2]
     
     try(if (is.null(comment(n)))
       stop("Please specify structure of n as either patches or stages (e.g., comment(n) <- 'patches'.')")
@@ -138,10 +170,7 @@ spmm.project <-
       stop("Structure of n and A are not the same; both should include either 'patches' or 'stages'.")
     )
     
-    lh_order <- comment(A)
-    group_by <- strsplit(lh_order, " +")[[1]][1]
-    A_lh_order <- strsplit(lh_order, " +")[[1]][2]
-    
+# LH ORDER: patches - demo ------------------------------------------------
     if (lh_order == "patches demo") {
       mat <- matrix(nrow = n_stages * n_patches, ncol = n_timesteps)
       tryCatch({
@@ -149,46 +178,56 @@ spmm.project <-
       }, error = function(e) {
         stop("Length of n and n_stages × n_patches are not equal.")
       })
-      
-      if (any(!is.na(harv))) {
+## Mortality modification
+      if (any(!is.na(mod_mort))) {
         matlist <- unblk.diag(BB, n_stages)
+        if (is.vector(mod_mort) &&
+            length(mod_mort) > 1 && length(mod_mort) != length(matlist)) {
+          stop("mod_mort vector must be length 1 or equal to the number of demographic matrices.")
+        } else if (is.list(mod_mort)) {
+          if (length(mod_mort) != length(matlist)) {
+            stop("mod_mort list length must match number of demographic matrices.")
+          } for (j in seq_along(mod_mort)) {
+            if (!all(dim(mod_mort[[j]]) == dim(matlist[[j]]))) {
+              stop(paste("mod_mort matrix at index", j, "does not match dimensions of the demographic matrix."))
+            }
+          }
+        }
         for (i in seq_along(matlist)) {
           B <- matlist[i]
-          M <-
-            -log(B[[1]][-1, ])  # Transform survival probabilities to mortality rates
-          if (is.vector(harv) & length(harv) == 1) {
-            M <- M + harv  # Add constant harv to all mortality rates
-          } else if (is.vector(harv) & length(harv) == length(matlist)){
-            M <- M + harv[i]
-          } else if (is.list(harv) & dim(harv[[i]]) == dim(matlist[[i]])) {
-            M <- M + harv[[i]]  # Add list of harv mortality rates matrix-wise
-          } else {
-            stop(
-              "Harvest mortality must be: a vector length == 1 if universally applied, a vector length == n_patches or n_stages (corresponding to group_by) if differential across grouping, or a list of matrices == length(BB) (corresponding to group_by) with dim(matrix) == dim(BB[[]]) if differential across grouping and in matrix elements."
-            )
+          M <- -log(B[[1]][-1, ])  # Transform survival probabilities to mortality rates
+          if (is.vector(mod_mort) && length(mod_mort) == 1) {
+            M <- M + mod_mort
+          } else if (is.vector(mod_mort) &&
+                     length(mod_mort) == length(matlist)) {
+            M <- M + mod_mort[i]
+          } else if (is.list(mod_mort)) {
+            M <- M + mod_mort[[i]]
           }
-          B[[1]][-1, ] <- exp(-M)  # Transform back to survival probabilities
+          B[[1]][-1, ] <- exp(-M)
           matlist[i] <- B
         }
         BB <- blk.diag(matlist)
         A <- spmm.project.matrix(P = P, BB = BB, MM = MM,
-                                 group_by = group_by, lh_order = A_lh_order)
+                                 group_by = group_by, 
+                                 lh_order = A_lh_order)
       }
-      
-      if (!is.na(deter)) {
-        matlist <- unblk.diag(MM, n_patches)
-        for (i in seq_along(matlist)) {
-          M <- matlist[i]
-          if (!is.identity.matrix(M)) {
-            M[deter$from, deter$to] <- M[deter$from, deter$to] * deter$d
-          }
-          matlist[i] <- M
-        }
-        MM <- blk.diag(matlist)
-        A <- spmm.project.matrix(P = P, BB = BB, MM = MM,
-                                 group_by = group_by, lh_order = A_lh_order)
-      }
-      
+## Movement modification
+      # if (!is.na(mod_move)) {
+      #   matlist <- unblk.diag(MM, n_patches)
+      #   for (i in seq_along(matlist)) {
+      #     M <- matlist[i]
+      #     if (!is.identity.matrix(M)) {
+      #       M[mod_move$from, mod_move$to] <- M[mod_move$from, mod_move$to] * mod_move$d
+      #     }
+      #     matlist[i] <- M
+      #   }
+      #   MM <- blk.diag(matlist)
+      #   A <- spmm.project.matrix(P = P, BB = BB, MM = MM,
+      #                            group_by = group_by, 
+      #                            lh_order = A_lh_order)
+      # }
+## Density-dependence
       for (t in 2:n_timesteps) {
         if (!is.na(ddf)){
           matlist <- unblk.diag(BB, n_stages)
@@ -211,8 +250,7 @@ spmm.project <-
           A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
                                    group_by = group_by, lh_order = A_lh_order)
         }
-
-        # Projection to next t
+## Projection
         if (all(mat[, t - 1]%%1==0)) {
           mat[, t] <- floor(as.vector(A %*% mat[, t - 1]))
         } else {
@@ -224,6 +262,7 @@ spmm.project <-
       }
       colnames(mat) <- paste(1:n_timesteps)
       
+# LH ORDER: patches - move ------------------------------------------------
     } else if (lh_order == "patches move") {
       mat <- matrix(nrow = n_stages * n_patches, ncol = n_timesteps)
       tryCatch({
@@ -231,48 +270,56 @@ spmm.project <-
       }, error = function(e) {
         stop("Length of n and n_stages × n_patches are not equal.")
       })
-      
-      if (any(!is.na(harv))) {
+## Mortality modification
+      if (any(!is.na(mod_mort))) {
         matlist <- unblk.diag(BB, n_stages)
+        if (is.vector(mod_mort) &&
+            length(mod_mort) > 1 && length(mod_mort) != length(matlist)) {
+          stop("mod_mort vector must be length 1 or equal to the number of demographic matrices.")
+        } else if (is.list(mod_mort)) {
+          if (length(mod_mort) != length(matlist)) {
+            stop("mod_mort list length must match number of demographic matrices.")
+          } for (j in seq_along(mod_mort)) {
+            if (!all(dim(mod_mort[[j]]) == dim(matlist[[j]]))) {
+              stop(paste("mod_mort matrix at index", j, "does not match dimensions of the demographic matrix."))
+            }
+          }
+        }
         for (i in seq_along(matlist)) {
           B <- matlist[i]
-          M <-
-            -log(B[[1]][-1, ])  # Transform survival probabilities to mortality rates
-          if (is.vector(harv) & length(harv) == 1) {
-            M <- M + harv  # Add constant harv to all mortality rates
-          } else if (is.vector(harv) & length(harv) == length(matlist)){
-            M <- M + harv[i]
-          } else if (is.list(harv) & dim(harv[[i]]) == dim(matlist[[i]])) {
-            M <- M + harv[[i]]  # Add list of harv mortality rates matrix-wise
-          } else {
-            stop(
-              "Harvest mortality must be: a vector length == 1 if universally applied, a vector length == n_patches or n_stages (corresponding to group_by) if differential across grouping, or a list of matrices == length(BB) (corresponding to group_by) with dim(matrix) == dim(BB[[]]) if differential across grouping and in matrix elements."
-            )
+          M <- -log(B[[1]][-1, ])  # Transform survival probabilities to mortality rates
+          if (is.vector(mod_mort) && length(mod_mort) == 1) {
+            M <- M + mod_mort
+          } else if (is.vector(mod_mort) &&
+                     length(mod_mort) == length(matlist)) {
+            M <- M + mod_mort[i]
+          } else if (is.list(mod_mort)) {
+            M <- M + mod_mort[[i]]
           }
-          B[[1]][-1, ] <- exp(-M)  # Transform back to survival probabilities
+          B[[1]][-1, ] <- exp(-M)
           matlist[i] <- B
         }
         BB <- blk.diag(matlist)
-        A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
-                                 group_by = group_by, lh_order = A_lh_order)
-      }
-      
-      if (!is.na(deter)) {
-        matlist <- unblk.diag(MM, n_patches)
-        for (i in seq_along(matlist)) {
-          M <- matlist[i]
-          if (!is.identity.matrix(M)) {
-            M[deter$from, deter$to] <- M[deter$from, deter$to] * deter$d
-          }
-          matlist[i] <- M
-        }
-        MM <- blk.diag(matlist)
         A <- spmm.project.matrix(P = P, BB = BB, MM = MM,
-                                 group_by = group_by, lh_order = A_lh_order)
+                                 group_by = group_by, 
+                                 lh_order = A_lh_order)
       }
-      
+## Movement modification      
+      # if (!is.na(mod_move)) {
+      #   matlist <- unblk.diag(MM, n_patches)
+      #   for (i in seq_along(matlist)) {
+      #     M <- matlist[i]
+      #     if (!is.identity.matrix(M)) {
+      #       M[mod_move$from, mod_move$to] <- M[mod_move$from, mod_move$to] * mod_move$d
+      #     }
+      #     matlist[i] <- M
+      #   }
+      #   MM <- blk.diag(matlist)
+      #   A <- spmm.project.matrix(P = P, BB = BB, MM = MM,
+      #                            group_by = group_by, lh_order = A_lh_order)
+      # }
+## Density-dependence      
       for (t in 2:n_timesteps) {
-        
         if (!is.na(ddf)){
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
@@ -293,8 +340,7 @@ spmm.project <-
           A <- spmm.project.matrix(P = P, BB = BB, MM = MM,
                                    group_by = group_by, lh_order = A_lh_order)
         }
-        
-        # Projection to next t
+## Projection
         if (all(mat[, t - 1]%%1==0)) {
           mat[, t] <- floor(as.vector(A %*% mat[, t - 1]))
         } else {
@@ -306,6 +352,7 @@ spmm.project <-
       }
       colnames(mat) <- paste(1:n_timesteps)
       
+# LH ORDER: stages - demo -------------------------------------------------
     } else if (lh_order == "stages demo") {
       mat <- matrix(nrow = n_patches * n_stages, ncol = n_timesteps)
       tryCatch({
@@ -313,46 +360,55 @@ spmm.project <-
       }, error = function(e) {
         stop("Length of n and n_stages × n_patches are not equal.")
       })
-      
-      if (any(!is.na(harv))) {
+## Mortality modification      
+      if (any(!is.na(mod_mort))) {
         matlist <- unblk.diag(BB, n_stages)
+        if (is.vector(mod_mort) &&
+            length(mod_mort) > 1 && length(mod_mort) != length(matlist)) {
+          stop("mod_mort vector must be length 1 or equal to the number of demographic matrices.")
+        } else if (is.list(mod_mort)) {
+          if (length(mod_mort) != length(matlist)) {
+            stop("mod_mort list length must match number of demographic matrices.")
+          } for (j in seq_along(mod_mort)) {
+            if (!all(dim(mod_mort[[j]]) == dim(matlist[[j]]))) {
+              stop(paste("mod_mort matrix at index", j, "does not match dimensions of the demographic matrix."))
+            }
+          }
+        }
         for (i in seq_along(matlist)) {
           B <- matlist[i]
-          M <-
-            -log(B[[1]][-1, ])  # Transform survival probabilities to mortality rates
-          if (is.vector(harv) & length(harv) == 1) {
-            M <- M + harv  # Add constant harv to all mortality rates
-          } else if (is.vector(harv) & length(harv) == length(matlist)){
-            M <- M + harv[i]
-          } else if (is.list(harv) & dim(harv[[i]]) == dim(matlist[[i]])) {
-            M <- M + harv[[i]]  # Add list of harv mortality rates matrix-wise
-          } else {
-            stop(
-              "Harvest mortality must be: a vector length == 1 if universally applied, a vector length == n_patches or n_stages (corresponding to group_by) if differential across grouping, or a list of matrices == length(BB) (corresponding to group_by) with dim(matrix) == dim(BB[[]]) if differential across grouping and in matrix elements."
-            )
+          M <- -log(B[[1]][-1, ])  # Transform survival probabilities to mortality rates
+          if (is.vector(mod_mort) && length(mod_mort) == 1) {
+            M <- M + mod_mort
+          } else if (is.vector(mod_mort) &&
+                     length(mod_mort) == length(matlist)) {
+            M <- M + mod_mort[i]
+          } else if (is.list(mod_mort)) {
+            M <- M + mod_mort[[i]]
           }
-          B[[1]][-1, ] <- exp(-M)  # Transform back to survival probabilities
+          B[[1]][-1, ] <- exp(-M)
           matlist[i] <- B
         }
         BB <- blk.diag(matlist)
         A <- spmm.project.matrix(P = P, BB = BB, MM = MM,
-                                 group_by = group_by, lh_order = A_lh_order)
+                                 group_by = group_by, 
+                                 lh_order = A_lh_order)
       }
-      
-      if (!is.na(deter)) {
-        matlist <- unblk.diag(MM, n_patches)
-        for (i in seq_along(matlist)) {
-          M <- matlist[i]
-          if (!is.identity.matrix(M)) {
-            M[deter$from, deter$to] <- M[deter$from, deter$to] * deter$d
-          }
-          matlist[i] <- M
-        }
-        MM <- blk.diag(matlist)
-        A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
-                                 group_by = group_by, lh_order = A_lh_order)
-      }
-      
+## Movement modification      
+      # if (!is.na(mod_move)) {
+      #   matlist <- unblk.diag(MM, n_patches)
+      #   for (i in seq_along(matlist)) {
+      #     M <- matlist[i]
+      #     if (!is.identity.matrix(M)) {
+      #       M[mod_move$from, mod_move$to] <- M[mod_move$from, mod_move$to] * mod_move$d
+      #     }
+      #     matlist[i] <- M
+      #   }
+      #   MM <- blk.diag(matlist)
+      #   A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
+      #                            group_by = group_by, lh_order = A_lh_order)
+      # }
+## Density-dependence      
       for (t in 2:n_timesteps) {
         if (!is.na(ddf)){
           matlist <- unblk.diag(BB, n_stages)
@@ -373,8 +429,7 @@ spmm.project <-
           A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
                                    group_by = group_by, lh_order = A_lh_order)
         }
-        
-        # Projection to next t
+## Projection
         if (all(mat[, t - 1]%%1==0)) {
           mat[, t] <- floor(as.vector(A %*% mat[, t - 1]))
         } else {
@@ -385,7 +440,8 @@ spmm.project <-
         rownames(mat) <- rownames(n)
       }
       colnames(mat) <- paste(1:n_timesteps)
-      
+
+# LH ORDER: stages - move -------------------------------------------------
     } else if (lh_order == "stages move") {
       mat <- matrix(nrow = n_patches * n_stages, ncol = n_timesteps)
       tryCatch({
@@ -393,46 +449,55 @@ spmm.project <-
       }, error = function(e) {
         stop("Length of n and n_stages × n_patches are not equal.")
       })
-      
-      if (any(!is.na(harv))) {
+## Mortality modificaiton      
+      if (any(!is.na(mod_mort))) {
         matlist <- unblk.diag(BB, n_stages)
+        if (is.vector(mod_mort) &&
+            length(mod_mort) > 1 && length(mod_mort) != length(matlist)) {
+          stop("mod_mort vector must be length 1 or equal to the number of demographic matrices.")
+        } else if (is.list(mod_mort)) {
+          if (length(mod_mort) != length(matlist)) {
+            stop("mod_mort list length must match number of demographic matrices.")
+          } for (j in seq_along(mod_mort)) {
+            if (!all(dim(mod_mort[[j]]) == dim(matlist[[j]]))) {
+              stop(paste("mod_mort matrix at index", j, "does not match dimensions of the demographic matrix."))
+            }
+          }
+        }
         for (i in seq_along(matlist)) {
           B <- matlist[i]
-          M <-
-            -log(B[[1]][-1, ])  # Transform survival probabilities to mortality rates
-          if (is.vector(harv) & length(harv) == 1) {
-            M <- M + harv  # Add constant harv to all mortality rates
-          } else if (is.vector(harv) & length(harv) == length(matlist)){
-            M <- M + harv[i]
-          } else if (is.list(harv) & dim(harv[[i]]) == dim(matlist[[i]])) {
-            M <- M + harv[[i]]  # Add list of harv mortality rates matrix-wise
-          } else {
-            stop(
-              "Harvest mortality must be: a vector length == 1 if universally applied, a vector length == n_patches or n_stages (corresponding to group_by) if differential across grouping, or a list of matrices == length(BB) (corresponding to group_by) with dim(matrix) == dim(BB[[]]) if differential across grouping and in matrix elements."
-            )
+          M <- -log(B[[1]][-1, ])  # Transform survival probabilities to mortality rates
+          if (is.vector(mod_mort) && length(mod_mort) == 1) {
+            M <- M + mod_mort
+          } else if (is.vector(mod_mort) &&
+                     length(mod_mort) == length(matlist)) {
+            M <- M + mod_mort[i]
+          } else if (is.list(mod_mort)) {
+            M <- M + mod_mort[[i]]
           }
-          B[[1]][-1, ] <- exp(-M)  # Transform back to survival probabilities
+          B[[1]][-1, ] <- exp(-M)
           matlist[i] <- B
         }
         BB <- blk.diag(matlist)
-        A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
-                                 group_by = group_by, lh_order = A_lh_order)
+        A <- spmm.project.matrix(P = P, BB = BB, MM = MM,
+                                 group_by = group_by, 
+                                 lh_order = A_lh_order)
       }
-      
-      if (!is.na(deter)) {
-        matlist <- unblk.diag(MM, n_patches)
-        for (i in seq_along(matlist)) {
-          M <- matlist[i]
-          if (!is.identity.matrix(M)) {
-            M[deter$from, deter$to] <- M[deter$from, deter$to] * deter$d
-          }
-          matlist[i] <- M
-        }
-        MM <- blk.diag(matlist)
-        A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
-                                 group_by = group_by, lh_order = A_lh_order)
-      }
-      
+## Movement modification      
+      # if (!is.null(mod_move)) {
+      #   matlist <- unblk.diag(MM, n_patches)
+      #   for (i in seq_along(matlist)) {
+      #     M <- matlist[i]
+      #     if (!is.identity.matrix(M)) {
+      #       M[mod_move$from, mod_move$to] <- M[mod_move$from, mod_move$to] * mod_move$d
+      #     }
+      #     matlist[i] <- M
+      #   }
+      #   MM <- blk.diag(matlist)
+      #   A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
+      #                            group_by = group_by, lh_order = A_lh_order)
+      # }
+## Density-dependence      
       for (t in 2:n_timesteps) {
         if (!is.na(ddf)){
           matlist <- unblk.diag(BB, n_stages)
@@ -453,8 +518,7 @@ spmm.project <-
           A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
                                    group_by = group_by, lh_order = A_lh_order)
         }
-        
-        # Projection to next t
+## Projection
         if (all(mat[, t - 1]%%1==0)) {
           mat[, t] <- floor(as.vector(A %*% mat[, t - 1]))
         } else {
@@ -465,9 +529,9 @@ spmm.project <-
         rownames(mat) <- rownames(n)
       }
       colnames(mat) <- paste(1:n_timesteps)
-      
     }
-    
+
+# Package output ----------------------------------------------------------
     if (A_lh_order == "move") {
       A_TYPE <- "movement then demography"
     } else if (A_lh_order == "demo") {
@@ -479,7 +543,7 @@ spmm.project <-
         group_by,
         "structured population vector and",
         A_TYPE,
-        "A projection matrix."
+        "A projection matrix. Currently, mod_move argument is ignored; please modify manually."
       )
     )
     if (group_by == "patches") {
