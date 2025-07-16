@@ -11,8 +11,8 @@ spmm.project(
   n_stages,
   n_patches,
   ddf = NA,
-  harv = NA,
-  deter = NA,
+  mod_mort = NA,
+  mod_move = NA,
   P,
   BB,
   MM
@@ -39,21 +39,49 @@ matrix N.}
 
 \item{ddf}{Density-dependent function parameters (see `?spmm.ddf.params`)}
 
-\item{harv}{Additive (harvest) mortality. Can be element (applies to all) or a 
-vector of added mortality equal in length to demographic matrix of row × 
-column.}
+\item{mod_mort}{Optional modification to survival rates via additive mortality. 
+Can be used to increase mortality (decrease survival) across one or more 
+demographic matrices. This argument accepts one of the following forms:
+  - **Single numeric value**: A scalar applied uniformly to all non-recruitment 
+  elements across all demographic matrices (i.e., same additive mortality everywhere).
+  - **Numeric vector**: A vector of length equal to either `n_patches` or `n_stages`, 
+  depending on `group_by`. Each value is applied to the corresponding demographic 
+  matrix in the list.
+  - **List of matrices**: A list of the same length as the number of demographic 
+  matrices (`n_patches` or `n_stages`), with each matrix matching the dimensions 
+  of its corresponding demographic matrix (excluding the recruitment row). This 
+  allows specifying element-wise additive mortality for each matrix.
+Use a single value for uniform mortality, a vector for matrix-wise variation, 
+or a list of matrices for full element-wise control.}
 
-\item{deter}{A list of three vectors. The first two, `from` and `to`, identify
-where deterrence of movement is made. The third, `d`, contains the proportions
-by which movement is deterred. Currently deterrence is assumed equal for all
-stages.}
+\item{mod_move}{Optional modification to movement. A list containing three vectors:
+  - `from`: indices of origin patches,
+  - `to`: indices of destination patches,
+  - `d`: corresponding proportions by which movement is reduced.
+Currently modifications are currently applied equally across all stages.}
 
-\item{P}{vec-permutation matrix -- required if ddf, harv, or deter given}
+\item{P}{(optional) vec-permutation matrix -- required if ddf, mod_mort, or mod_move given}
 
-\item{BB}{block diagonal demographic matrix -- required if ddf, harv, or deter given}
+\item{BB}{(optional) block diagonal demographic matrix -- required if ddf, mod_mort, or mod_move given}
 
-\item{MM}{block diagonal movement (dispersal) matrix -- required if ddf, harv, 
-or deter given}
+\item{MM}{(optional) block diagonal movement (dispersal) matrix -- required if ddf, mod_mort, 
+or mod_move given}
+
+\item{mod_rec}{Optional modification to recruitment rates via additive effects. 
+This argument can be specified in one of three forms, similar to `mod_mort`:
+  - **Single numeric value**: A scalar applied uniformly to the recruitment row 
+  (top row) of all demographic matrices.
+  - **Numeric vector**: A vector of length equal to either `n_patches` or `n_stages` 
+  (depending on `group_by`), where each value modifies the recruitment row across 
+  the entire corresponding demographic matrix.
+  - **List of numeric vectors**: A list of length equal to the number of 
+  demographic matrices (`n_patches` or `n_stages`), where each list element is 
+  a vector of length equal to the number of columns (`ncol`) in the demographic 
+  matrix. This allows element-wise modification of recruitment rates within each 
+  matrix.
+Use a single value for uniform recruitment modification, a vector for matrix-wise 
+differences, or a list of vectors for full element-wise control across recruitment 
+elements.}
 }
 \description{
 Produces deterministic future population sizes of stages s in patches p.
