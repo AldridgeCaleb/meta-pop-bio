@@ -54,13 +54,13 @@ spmm.readxl <- function(path, filename) {
         colNames = TRUE
       )[, 1])
   n <- as.vector(t(
-    openxlsx::read.xlsx(
+    rev(openxlsx::read.xlsx(
       xlsxFile = paste0(path, filename),
       sheet = "metadata",
       rows = c(7:10000),
       cols = c(3:252),
       colNames = TRUE
-    )[, ncol(dat):1]))
+    ))))
   comment(n) <- group_by
   
   # movement matrices
