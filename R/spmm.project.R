@@ -184,10 +184,14 @@ spmm.project <-
         if (is.vector(mod_mort) &&
             length(mod_mort) > 1 && length(mod_mort) != length(matlist)) {
           stop("mod_mort vector must be length 1 or equal to the number of demographic matrices.")
-        } else if (is.list(mod_mort)) {
+        } 
+        
+        if (is.list(mod_mort)) {
           if (length(mod_mort) != length(matlist)) {
             stop("mod_mort list length must match number of demographic matrices.")
-          } for (j in seq_along(mod_mort)) {
+          } 
+          
+          for (j in seq_along(mod_mort)) {
             if (!all(dim(mod_mort[[j]]) == dim(matlist[[j]]))) {
               stop(paste("mod_mort matrix at index", j, "does not match dimensions of the demographic matrix."))
             }
@@ -276,10 +280,14 @@ spmm.project <-
         if (is.vector(mod_mort) &&
             length(mod_mort) > 1 && length(mod_mort) != length(matlist)) {
           stop("mod_mort vector must be length 1 or equal to the number of demographic matrices.")
-        } else if (is.list(mod_mort)) {
+        } 
+        
+        if (is.list(mod_mort)) {
           if (length(mod_mort) != length(matlist)) {
             stop("mod_mort list length must match number of demographic matrices.")
-          } for (j in seq_along(mod_mort)) {
+          } 
+          
+          for (j in seq_along(mod_mort)) {
             if (!all(dim(mod_mort[[j]]) == dim(matlist[[j]]))) {
               stop(paste("mod_mort matrix at index", j, "does not match dimensions of the demographic matrix."))
             }
@@ -366,10 +374,14 @@ spmm.project <-
         if (is.vector(mod_mort) &&
             length(mod_mort) > 1 && length(mod_mort) != length(matlist)) {
           stop("mod_mort vector must be length 1 or equal to the number of demographic matrices.")
-        } else if (is.list(mod_mort)) {
+        } 
+        
+        if (is.list(mod_mort)) {
           if (length(mod_mort) != length(matlist)) {
             stop("mod_mort list length must match number of demographic matrices.")
-          } for (j in seq_along(mod_mort)) {
+          } 
+          
+          for (j in seq_along(mod_mort)) {
             if (!all(dim(mod_mort[[j]]) == dim(matlist[[j]]))) {
               stop(paste("mod_mort matrix at index", j, "does not match dimensions of the demographic matrix."))
             }
@@ -455,10 +467,14 @@ spmm.project <-
         if (is.vector(mod_mort) &&
             length(mod_mort) > 1 && length(mod_mort) != length(matlist)) {
           stop("mod_mort vector must be length 1 or equal to the number of demographic matrices.")
-        } else if (is.list(mod_mort)) {
+        } 
+        
+        if (is.list(mod_mort)) {
           if (length(mod_mort) != length(matlist)) {
             stop("mod_mort list length must match number of demographic matrices.")
-          } for (j in seq_along(mod_mort)) {
+          } 
+          
+          for (j in seq_along(mod_mort)) {
             if (!all(dim(mod_mort[[j]]) == dim(matlist[[j]]))) {
               stop(paste("mod_mort matrix at index", j, "does not match dimensions of the demographic matrix."))
             }
