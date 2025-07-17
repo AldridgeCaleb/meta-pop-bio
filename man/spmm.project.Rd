@@ -12,6 +12,7 @@ spmm.project(
   n_patches,
   ddf = NA,
   mod_mort = NA,
+  mod_rec = NA,
   mod_move = NA,
   P,
   BB,
@@ -54,19 +55,6 @@ demographic matrices. This argument accepts one of the following forms:
 Use a single value for uniform mortality, a vector for matrix-wise variation, 
 or a list of matrices for full element-wise control.}
 
-\item{mod_move}{Optional modification to movement. A list containing three vectors:
-  - `from`: indices of origin patches,
-  - `to`: indices of destination patches,
-  - `d`: corresponding proportions by which movement is reduced.
-Currently modifications are currently applied equally across all stages.}
-
-\item{P}{(optional) vec-permutation matrix -- required if ddf, mod_mort, or mod_move given}
-
-\item{BB}{(optional) block diagonal demographic matrix -- required if ddf, mod_mort, or mod_move given}
-
-\item{MM}{(optional) block diagonal movement (dispersal) matrix -- required if ddf, mod_mort, 
-or mod_move given}
-
 \item{mod_rec}{Optional modification to recruitment rates via additive effects. 
 This argument can be specified in one of three forms, similar to `mod_mort`:
   - **Single numeric value**: A scalar applied uniformly to the recruitment row 
@@ -82,6 +70,27 @@ This argument can be specified in one of three forms, similar to `mod_mort`:
 Use a single value for uniform recruitment modification, a vector for matrix-wise 
 differences, or a list of vectors for full element-wise control across recruitment 
 elements.}
+
+\item{mod_move}{Optional modification to movement. This si specified as a data.frame
+that must contain columns:
+    - `stage`: the index of the stage to which the modification applies,
+    - `triangle`: either `"lower"` or `"upper"`, specifying which half of the 
+    movement matrix to modify,
+    - `at`: the column index of the movement matrix where modification is applied,
+    - `d_perc`: the proportional change (e.g., `0.5` for 50% reduction, `1.5` 
+    for 50% increase) to apply to all off-diagonal elements in the specified 
+    triangle and column.
+After applying the modification, the corresponding column is re-normalized to 
+ensure they sum to 1. Note: specific patch-to-patch modifications using `from`
+and `to` columns is being developed for future functionality.
+Currently modifications are currently applied equally across all stages.}
+
+\item{P}{(optional) vec-permutation matrix -- required if ddf, mod_mort, or mod_move given}
+
+\item{BB}{(optional) block diagonal demographic matrix -- required if ddf, mod_mort, or mod_move given}
+
+\item{MM}{(optional) block diagonal movement (dispersal) matrix -- required if ddf, mod_mort, 
+or mod_move given}
 }
 \description{
 Produces deterministic future population sizes of stages s in patches p.
