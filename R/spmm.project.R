@@ -342,7 +342,7 @@ spmm.project <-
                                  group_by = group_by, 
                                  lh_order = A_lh_order)
       }
-      ## Movement modification
+## Movement modification
       if (all(!is.na(mod_move)) && is.data.frame(mod_move)) {
         matlist <- unblk.diag(MM, n_patches)
         for (i in seq_along(matlist)) {
@@ -458,7 +458,7 @@ spmm.project <-
                                  group_by = group_by, 
                                  lh_order = A_lh_order)
       }
-      ## Movement modification
+## Movement modification
       if (all(!is.na(mod_move)) && is.data.frame(mod_move)) {
         matlist <- unblk.diag(MM, n_patches)
         for (i in seq_along(matlist)) {
@@ -573,7 +573,7 @@ spmm.project <-
                                  group_by = group_by, 
                                  lh_order = A_lh_order)
       }
-      ## Movement modification
+## Movement modification
       if (all(!is.na(mod_move)) && is.data.frame(mod_move)) {
         matlist <- unblk.diag(MM, n_patches)
         for (i in seq_along(matlist)) {
