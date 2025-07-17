@@ -217,7 +217,7 @@ spmm.project <-
           } else if (is.list(mod_mort)) {
             M <- M + mod_mort[[i]]
           }
-          B[[i]][-1, ] <- exp(-M)
+          B[[1]][-1, ] <- exp(-M)
           matlist[i] <- B
         }
         BB <- blk.diag(matlist)
@@ -334,7 +334,7 @@ spmm.project <-
           } else if (is.list(mod_mort)) {
             M <- M + mod_mort[[i]]
           }
-          B[[i]][-1, ] <- exp(-M)
+          B[[1]][-1, ] <- exp(-M)
           matlist[i] <- B
         }
         BB <- blk.diag(matlist)
@@ -450,7 +450,7 @@ spmm.project <-
           } else if (is.list(mod_mort)) {
             M <- M + mod_mort[[i]]
           }
-          B[[i]][-1, ] <- exp(-M)
+          B[[1]][-1, ] <- exp(-M)
           matlist[i] <- B
         }
         BB <- blk.diag(matlist)
@@ -565,7 +565,7 @@ spmm.project <-
           } else if (is.list(mod_mort)) {
             M <- M + mod_mort[[i]]
           }
-          B[[i]][-1, ] <- exp(-M)
+          B[[1]][-1, ] <- exp(-M)
           matlist[i] <- B
         }
         BB <- blk.diag(matlist)
