@@ -201,7 +201,7 @@ spmm.project <-
           } 
           
           for (j in seq_along(mod_mort)) {
-            if (!all(dim(mod_mort[[j]]) == dim(matlist[[j]]))) {
+            if (!all(dim(mod_mort[[j]][-1, ]) == dim(matlist[[j]]))) {
               stop(paste("mod_mort matrix at index", j, "does not match dimensions of the demographic matrix."))
             }
           }
