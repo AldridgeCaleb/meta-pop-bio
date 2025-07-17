@@ -208,7 +208,7 @@ spmm.project <-
         }
         for (i in seq_along(matlist)) {
           B <- matlist[i]
-          M <- -log(B[[1]][-1, ])  # Transform survival probabilities to mortality rates
+          M <- -log(B[[i]][-1, ])  # Transform survival probabilities to mortality rates
           if (is.vector(mod_mort) && length(mod_mort) == 1) {
             M <- M + mod_mort
           } else if (is.vector(mod_mort) &&
@@ -217,7 +217,7 @@ spmm.project <-
           } else if (is.list(mod_mort)) {
             M <- M + mod_mort[[i]]
           }
-          B[[1]][-1, ] <- exp(-M)
+          B[[i]][-1, ] <- exp(-M)
           matlist[i] <- B
         }
         BB <- blk.diag(matlist)
@@ -325,7 +325,7 @@ spmm.project <-
         }
         for (i in seq_along(matlist)) {
           B <- matlist[i]
-          M <- -log(B[[1]][-1, ])  # Transform survival probabilities to mortality rates
+          M <- -log(B[[i]][-1, ])  # Transform survival probabilities to mortality rates
           if (is.vector(mod_mort) && length(mod_mort) == 1) {
             M <- M + mod_mort
           } else if (is.vector(mod_mort) &&
@@ -334,7 +334,7 @@ spmm.project <-
           } else if (is.list(mod_mort)) {
             M <- M + mod_mort[[i]]
           }
-          B[[1]][-1, ] <- exp(-M)
+          B[[i]][-1, ] <- exp(-M)
           matlist[i] <- B
         }
         BB <- blk.diag(matlist)
@@ -441,7 +441,7 @@ spmm.project <-
         }
         for (i in seq_along(matlist)) {
           B <- matlist[i]
-          M <- -log(B[[1]][-1, ])  # Transform survival probabilities to mortality rates
+          M <- -log(B[[i]][-1, ])  # Transform survival probabilities to mortality rates
           if (is.vector(mod_mort) && length(mod_mort) == 1) {
             M <- M + mod_mort
           } else if (is.vector(mod_mort) &&
@@ -450,7 +450,7 @@ spmm.project <-
           } else if (is.list(mod_mort)) {
             M <- M + mod_mort[[i]]
           }
-          B[[1]][-1, ] <- exp(-M)
+          B[[i]][-1, ] <- exp(-M)
           matlist[i] <- B
         }
         BB <- blk.diag(matlist)
@@ -556,7 +556,7 @@ spmm.project <-
         }
         for (i in seq_along(matlist)) {
           B <- matlist[i]
-          M <- -log(B[[1]][-1, ])  # Transform survival probabilities to mortality rates
+          M <- -log(B[[i]][-1, ])  # Transform survival probabilities to mortality rates
           if (is.vector(mod_mort) && length(mod_mort) == 1) {
             M <- M + mod_mort
           } else if (is.vector(mod_mort) &&
@@ -565,7 +565,7 @@ spmm.project <-
           } else if (is.list(mod_mort)) {
             M <- M + mod_mort[[i]]
           }
-          B[[1]][-1, ] <- exp(-M)
+          B[[i]][-1, ] <- exp(-M)
           matlist[i] <- B
         }
         BB <- blk.diag(matlist)
