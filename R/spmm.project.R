@@ -208,7 +208,7 @@ spmm.project <-
         }
         for (i in seq_along(matlist)) {
           B <- matlist[i]
-          M <- -log(B[[i]][-1, ])  # Transform survival probabilities to mortality rates
+          M <- -log(B[[1]][-1, ])  # Transform survival probabilities to mortality rates
           if (is.vector(mod_mort) && length(mod_mort) == 1) {
             M <- M + mod_mort
           } else if (!is.list(mod_mort) &&
@@ -325,7 +325,7 @@ spmm.project <-
         }
         for (i in seq_along(matlist)) {
           B <- matlist[i]
-          M <- -log(B[[i]][-1, ])  # Transform survival probabilities to mortality rates
+          M <- -log(B[[1]][-1, ])  # Transform survival probabilities to mortality rates
           if (is.vector(mod_mort) && length(mod_mort) == 1) {
             M <- M + mod_mort
           } else if (!is.list(mod_mort) &&
@@ -441,7 +441,7 @@ spmm.project <-
         }
         for (i in seq_along(matlist)) {
           B <- matlist[i]
-          M <- -log(B[[i]][-1, ])  # Transform survival probabilities to mortality rates
+          M <- -log(B[[1]][-1, ])  # Transform survival probabilities to mortality rates
           if (is.vector(mod_mort) && length(mod_mort) == 1) {
             M <- M + mod_mort
           } else if (!is.list(mod_mort) &&
@@ -556,7 +556,7 @@ spmm.project <-
         }
         for (i in seq_along(matlist)) {
           B <- matlist[i]
-          M <- -log(B[[i]][-1, ])  # Transform survival probabilities to mortality rates
+          M <- -log(B[[1]][-1, ])  # Transform survival probabilities to mortality rates
           if (is.vector(mod_mort) && length(mod_mort) == 1) {
             M <- M + mod_mort
           } else if (!is.list(mod_mort) &&
