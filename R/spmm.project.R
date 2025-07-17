@@ -49,10 +49,18 @@
 #' Use a single value for uniform recruitment modification, a vector for matrix-wise 
 #' differences, or a list of vectors for full element-wise control across recruitment 
 #' elements.
-#' @param mod_move Optional modification to movement. A list containing three vectors:
-#'   - `from`: indices of origin patches,
-#'   - `to`: indices of destination patches,
-#'   - `d`: corresponding proportions by which movement is reduced.
+#' @param mod_move Optional modification to movement. This si specified as a data.frame
+#' that must contain columns:
+#'     - `stage`: the index of the stage to which the modification applies,
+#'     - `triangle`: either `"lower"` or `"upper"`, specifying which half of the 
+#'     movement matrix to modify,
+#'     - `at`: the column index of the movement matrix where modification is applied,
+#'     - `d_perc`: the proportional change (e.g., `0.5` for 50% reduction, `1.5` 
+#'     for 50% increase) to apply to all off-diagonal elements in the specified 
+#'     triangle and column.
+#' After applying the modification, the corresponding column is re-normalized to 
+#' ensure they sum to 1. Note: specific patch-to-patch modifications using `from`
+#' and `to` columns is being developed for future functionality.
 #' Currently modifications are currently applied equally across all stages.
 #' @param P (optional) vec-permutation matrix -- required if ddf, mod_mort, or mod_move given
 #' @param BB (optional) block diagonal demographic matrix -- required if ddf, mod_mort, or mod_move given
@@ -218,20 +226,41 @@ spmm.project <-
                                  lh_order = A_lh_order)
       }
 ## Movement modification
-      # if (!is.na(mod_move)) {
-      #   matlist <- unblk.diag(MM, n_patches)
-      #   for (i in seq_along(matlist)) {
-      #     M <- matlist[i]
-      #     if (!is.identity.matrix(M)) {
-      #       M[mod_move$from, mod_move$to] <- M[mod_move$from, mod_move$to] * mod_move$d
-      #     }
-      #     matlist[i] <- M
-      #   }
-      #   MM <- blk.diag(matlist)
-      #   A <- spmm.project.matrix(P = P, BB = BB, MM = MM,
-      #                            group_by = group_by, 
-      #                            lh_order = A_lh_order)
-      # }
+      if (all(!is.na(mod_move)) && is.data.frame(mod_move)) {
+        matlist <- unblk.diag(MM, n_patches)
+        for (i in seq_along(matlist)) {
+          M <- matlist[i]
+          mm <- mod_move[mod_move$stage == i, ]
+          for (j in unique(mm$triangle)) {
+            if (j == "lower") {
+              if ("at" %in% colnames(mm)) {
+                for (k in unique(mm$at)) {
+                  M[lower.tri(M) & (col(M) == k)] <- 
+                    M[lower.tri(M) & (col(M) == k)] * mm[mm$at == k, "d_perc"]
+                  M[k, k] <- M[k, k] + (1 - sum(M[, k]))
+                }
+              } else if (all(c("from", "to") %in% colnames(mm))) {
+                stop("Funcitnality for from - to specification coming soon.")
+              }
+            } else if (j == "upper") {
+              if ("at" %in% colnames(mm)) {
+                for (k in unique(mm$at)) {
+                  M[upper.tri(M) & (col(M) == k)] <- 
+                    M[upper.tri(M) & (col(M) == k)] * mm[mm$at == k, "d_perc"]
+                  M[k, k] <- M[k, k] + (1 - sum(M[, k]))
+                }
+              } else if (all(c("from", "to") %in% colnames(mm))) {
+                stop("Funcitnality for from - to specification coming soon.")
+              }
+            }
+          }
+          matlist[i] <- M
+        }
+        MM <- blk.diag(matlist)
+        A <- spmm.project.matrix(P = P, BB = BB, MM = MM,
+                                 group_by = group_by,
+                                 lh_order = A_lh_order)
+      }
 ## Density-dependence
       for (t in 2:n_timesteps) {
         if (!is.na(ddf)){
@@ -313,20 +342,42 @@ spmm.project <-
                                  group_by = group_by, 
                                  lh_order = A_lh_order)
       }
-## Movement modification      
-      # if (!is.na(mod_move)) {
-      #   matlist <- unblk.diag(MM, n_patches)
-      #   for (i in seq_along(matlist)) {
-      #     M <- matlist[i]
-      #     if (!is.identity.matrix(M)) {
-      #       M[mod_move$from, mod_move$to] <- M[mod_move$from, mod_move$to] * mod_move$d
-      #     }
-      #     matlist[i] <- M
-      #   }
-      #   MM <- blk.diag(matlist)
-      #   A <- spmm.project.matrix(P = P, BB = BB, MM = MM,
-      #                            group_by = group_by, lh_order = A_lh_order)
-      # }
+      ## Movement modification
+      if (all(!is.na(mod_move)) && is.data.frame(mod_move)) {
+        matlist <- unblk.diag(MM, n_patches)
+        for (i in seq_along(matlist)) {
+          M <- matlist[i]
+          mm <- mod_move[mod_move$stage == i, ]
+          for (j in unique(mm$triangle)) {
+            if (j == "lower") {
+              if ("at" %in% colnames(mm)) {
+                for (k in unique(mm$at)) {
+                  M[lower.tri(M) & (col(M) == k)] <- 
+                    M[lower.tri(M) & (col(M) == k)] * mm[mm$at == k, "d_perc"]
+                  M[k, k] <- M[k, k] + (1 - sum(M[, k]))
+                }
+              } else if (all(c("from", "to") %in% colnames(mm))) {
+                stop("Funcitnality for from - to specification coming soon.")
+              }
+            } else if (j == "upper") {
+              if ("at" %in% colnames(mm)) {
+                for (k in unique(mm$at)) {
+                  M[upper.tri(M) & (col(M) == k)] <- 
+                    M[upper.tri(M) & (col(M) == k)] * mm[mm$at == k, "d_perc"]
+                  M[k, k] <- M[k, k] + (1 - sum(M[, k]))
+                }
+              } else if (all(c("from", "to") %in% colnames(mm))) {
+                stop("Funcitnality for from - to specification coming soon.")
+              }
+            }
+          }
+          matlist[i] <- M
+        }
+        MM <- blk.diag(matlist)
+        A <- spmm.project.matrix(P = P, BB = BB, MM = MM,
+                                 group_by = group_by,
+                                 lh_order = A_lh_order)
+      }
 ## Density-dependence      
       for (t in 2:n_timesteps) {
         if (!is.na(ddf)){
@@ -407,20 +458,42 @@ spmm.project <-
                                  group_by = group_by, 
                                  lh_order = A_lh_order)
       }
-## Movement modification      
-      # if (!is.na(mod_move)) {
-      #   matlist <- unblk.diag(MM, n_patches)
-      #   for (i in seq_along(matlist)) {
-      #     M <- matlist[i]
-      #     if (!is.identity.matrix(M)) {
-      #       M[mod_move$from, mod_move$to] <- M[mod_move$from, mod_move$to] * mod_move$d
-      #     }
-      #     matlist[i] <- M
-      #   }
-      #   MM <- blk.diag(matlist)
-      #   A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
-      #                            group_by = group_by, lh_order = A_lh_order)
-      # }
+      ## Movement modification
+      if (all(!is.na(mod_move)) && is.data.frame(mod_move)) {
+        matlist <- unblk.diag(MM, n_patches)
+        for (i in seq_along(matlist)) {
+          M <- matlist[i]
+          mm <- mod_move[mod_move$stage == i, ]
+          for (j in unique(mm$triangle)) {
+            if (j == "lower") {
+              if ("at" %in% colnames(mm)) {
+                for (k in unique(mm$at)) {
+                  M[lower.tri(M) & (col(M) == k)] <- 
+                    M[lower.tri(M) & (col(M) == k)] * mm[mm$at == k, "d_perc"]
+                  M[k, k] <- M[k, k] + (1 - sum(M[, k]))
+                }
+              } else if (all(c("from", "to") %in% colnames(mm))) {
+                stop("Funcitnality for from - to specification coming soon.")
+              }
+            } else if (j == "upper") {
+              if ("at" %in% colnames(mm)) {
+                for (k in unique(mm$at)) {
+                  M[upper.tri(M) & (col(M) == k)] <- 
+                    M[upper.tri(M) & (col(M) == k)] * mm[mm$at == k, "d_perc"]
+                  M[k, k] <- M[k, k] + (1 - sum(M[, k]))
+                }
+              } else if (all(c("from", "to") %in% colnames(mm))) {
+                stop("Funcitnality for from - to specification coming soon.")
+              }
+            }
+          }
+          matlist[i] <- M
+        }
+        MM <- blk.diag(matlist)
+        A <- spmm.project.matrix(P = P, BB = BB, MM = MM,
+                                 group_by = group_by,
+                                 lh_order = A_lh_order)
+      }
 ## Density-dependence      
       for (t in 2:n_timesteps) {
         if (!is.na(ddf)){
@@ -500,20 +573,42 @@ spmm.project <-
                                  group_by = group_by, 
                                  lh_order = A_lh_order)
       }
-## Movement modification      
-      # if (!is.null(mod_move)) {
-      #   matlist <- unblk.diag(MM, n_patches)
-      #   for (i in seq_along(matlist)) {
-      #     M <- matlist[i]
-      #     if (!is.identity.matrix(M)) {
-      #       M[mod_move$from, mod_move$to] <- M[mod_move$from, mod_move$to] * mod_move$d
-      #     }
-      #     matlist[i] <- M
-      #   }
-      #   MM <- blk.diag(matlist)
-      #   A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
-      #                            group_by = group_by, lh_order = A_lh_order)
-      # }
+      ## Movement modification
+      if (all(!is.na(mod_move)) && is.data.frame(mod_move)) {
+        matlist <- unblk.diag(MM, n_patches)
+        for (i in seq_along(matlist)) {
+          M <- matlist[i]
+          mm <- mod_move[mod_move$stage == i, ]
+          for (j in unique(mm$triangle)) {
+            if (j == "lower") {
+              if ("at" %in% colnames(mm)) {
+                for (k in unique(mm$at)) {
+                  M[lower.tri(M) & (col(M) == k)] <- 
+                    M[lower.tri(M) & (col(M) == k)] * mm[mm$at == k, "d_perc"]
+                  M[k, k] <- M[k, k] + (1 - sum(M[, k]))
+                }
+              } else if (all(c("from", "to") %in% colnames(mm))) {
+                stop("Funcitnality for from - to specification coming soon.")
+              }
+            } else if (j == "upper") {
+              if ("at" %in% colnames(mm)) {
+                for (k in unique(mm$at)) {
+                  M[upper.tri(M) & (col(M) == k)] <- 
+                    M[upper.tri(M) & (col(M) == k)] * mm[mm$at == k, "d_perc"]
+                  M[k, k] <- M[k, k] + (1 - sum(M[, k]))
+                }
+              } else if (all(c("from", "to") %in% colnames(mm))) {
+                stop("Funcitnality for from - to specification coming soon.")
+              }
+            }
+          }
+          matlist[i] <- M
+        }
+        MM <- blk.diag(matlist)
+        A <- spmm.project.matrix(P = P, BB = BB, MM = MM,
+                                 group_by = group_by,
+                                 lh_order = A_lh_order)
+      }
 ## Density-dependence      
       for (t in 2:n_timesteps) {
         if (!is.na(ddf)){
