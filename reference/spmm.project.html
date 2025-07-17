@@ -60,6 +60,7 @@ Hunter and Caswell (2005) and Lebreton (1996).</p>
 <span>  <span class="va">n_patches</span>,</span>
 <span>  ddf <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  mod_mort <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  mod_rec <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  mod_move <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  <span class="va">P</span>,</span>
 <span>  <span class="va">BB</span>,</span>
@@ -120,27 +121,6 @@ Use a single value for uniform mortality, a vector for matrix-wise variation,
 or a list of matrices for full element-wise control.</p></dd>
 
 
-<dt id="arg-mod-move">mod_move<a class="anchor" aria-label="anchor" href="#arg-mod-move"></a></dt>
-<dd><p>Optional modification to movement. A list containing three vectors:
-  - `from`: indices of origin patches,
-  - `to`: indices of destination patches,
-  - `d`: corresponding proportions by which movement is reduced.
-Currently modifications are currently applied equally across all stages.</p></dd>
-
-
-<dt id="arg-p">P<a class="anchor" aria-label="anchor" href="#arg-p"></a></dt>
-<dd><p>(optional) vec-permutation matrix – required if ddf, mod_mort, or mod_move given</p></dd>
-
-
-<dt id="arg-bb">BB<a class="anchor" aria-label="anchor" href="#arg-bb"></a></dt>
-<dd><p>(optional) block diagonal demographic matrix – required if ddf, mod_mort, or mod_move given</p></dd>
-
-
-<dt id="arg-mm">MM<a class="anchor" aria-label="anchor" href="#arg-mm"></a></dt>
-<dd><p>(optional) block diagonal movement (dispersal) matrix – required if ddf, mod_mort,
-or mod_move given</p></dd>
-
-
 <dt id="arg-mod-rec">mod_rec<a class="anchor" aria-label="anchor" href="#arg-mod-rec"></a></dt>
 <dd><p>Optional modification to recruitment rates via additive effects.
 This argument can be specified in one of three forms, similar to `mod_mort`:
@@ -157,6 +137,35 @@ This argument can be specified in one of three forms, similar to `mod_mort`:
 Use a single value for uniform recruitment modification, a vector for matrix-wise
 differences, or a list of vectors for full element-wise control across recruitment
 elements.</p></dd>
+
+
+<dt id="arg-mod-move">mod_move<a class="anchor" aria-label="anchor" href="#arg-mod-move"></a></dt>
+<dd><p>Optional modification to movement. This si specified as a data.frame
+that must contain columns:
+    - `stage`: the index of the stage to which the modification applies,
+    - `triangle`: either `"lower"` or `"upper"`, specifying which half of the
+    movement matrix to modify,
+    - `at`: the column index of the movement matrix where modification is applied,
+    - `d_perc`: the proportional change (e.g., `0.5` for 50<!-- % reduction, `1.5`  -->
+    for 50<!-- % increase) to apply to all off-diagonal elements in the specified  -->
+    triangle and column.
+After applying the modification, the corresponding column is re-normalized to
+ensure they sum to 1. Note: specific patch-to-patch modifications using `from`
+and `to` columns is being developed for future functionality.
+Currently modifications are currently applied equally across all stages.</p></dd>
+
+
+<dt id="arg-p">P<a class="anchor" aria-label="anchor" href="#arg-p"></a></dt>
+<dd><p>(optional) vec-permutation matrix – required if ddf, mod_mort, or mod_move given</p></dd>
+
+
+<dt id="arg-bb">BB<a class="anchor" aria-label="anchor" href="#arg-bb"></a></dt>
+<dd><p>(optional) block diagonal demographic matrix – required if ddf, mod_mort, or mod_move given</p></dd>
+
+
+<dt id="arg-mm">MM<a class="anchor" aria-label="anchor" href="#arg-mm"></a></dt>
+<dd><p>(optional) block diagonal movement (dispersal) matrix – required if ddf, mod_mort,
+or mod_move given</p></dd>
 
 </dl></div>
     <div class="section level2">
