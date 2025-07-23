@@ -58,7 +58,7 @@
 #' 
 #' @export
 unblk.diag  <- function(blk_matrix, dimensions) {
-  n_mats <- ncol(blk_matrix) / n_stages 
+  n_mats <- ncol(blk_matrix) / dimensions 
   
   matlist <- list()
 
