@@ -108,11 +108,13 @@
 #' 
 #' @export
 spmm.demo.elas <- function(BB, A, P, MM) {
+  if (rcond(A) < 1e-10) warning("Matrix A is poorly conditioned; eigenvalues may be unstable.")
+  
   eig <- eigen(A)
   lambda <- max(Re(eig$values))
-  v <- eig$vectors[, which.max(Re(eig$values))]
+  v <- Re(eig$vectors[, which.max(Re(eig$values))])
   eig_t <- eigen(t(A))
-  w <- eig_t$vectors[, which.max(Re(eig_t$values))]
+  w <- Re(eig_t$vectors[, which.max(Re(eig_t$values))])
   SA <- t((v %*% t(w)) / sum(w * v))
   
   SBB <- t(SA) %*% t(P) %*% t(MM) %*% P
