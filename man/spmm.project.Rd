@@ -71,7 +71,7 @@ Use a single value for uniform recruitment modification, a vector for matrix-wis
 differences, or a list of vectors for full element-wise control across recruitment 
 elements.}
 
-\item{mod_move}{Optional modification to movement. This si specified as a data.frame
+\item{mod_move}{Optional modification to movement. This is specified as a data.frame
 that must contain columns:
     - `stage`: the index of the stage to which the modification applies,
     - `triangle`: either `"lower"` or `"upper"`, specifying which half of the 
