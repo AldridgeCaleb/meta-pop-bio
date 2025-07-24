@@ -108,14 +108,49 @@
 #' 
 #' @export
 spmm.demo.sens <- function(BB, A, P, MM) {
-  eig <- eigen(A)
-  lambda <- max(Re(eig$values))
-  v <- Re(eig$vectors[, which.max(Re(eig$values))])
-  eig_t <- eigen(t(A))
-  w <- Re(eig_t$vectors[, which.max(Re(eig_t$values))])
-  SA <- t((v %*% t(w)) / sum(w * v))
+  try(if (is.null(comment(A)))
+    stop("Please specify group_by and lh_order as comment in A.")
+  )
+  lh_order <- comment(A)
   
-  SBB <- t(SA) %*% t(P) %*% t(MM) %*% P
+  if (rcond(A) < 1e-10) warning("Matrix A is poorly conditioned; eigenvalues may be unstable.")
+  
+  if (lh_order == "patches demo") {
+    eig <- eigen(A)
+    lambda <- max(Re(eig$values))
+    v <- Re(eig$vectors[, which.max(Re(eig$values))])
+    eig_t <- eigen(t(A))
+    w <- Re(eig_t$vectors[, which.max(Re(eig_t$values))])
+    SA <- t((v %*% t(w)) / sum(w * v))
+    SBB <- t(P) %*% t(MM) %*% P %*% SA
+  }
+  if (lh_order == "patches move") {
+    eig <- eigen(A)
+    lambda <- max(Re(eig$values))
+    v <- Re(eig$vectors[, which.max(Re(eig$values))])
+    eig_t <- eigen(t(A))
+    w <- Re(eig_t$vectors[, which.max(Re(eig_t$values))])
+    SA <- t((v %*% t(w)) / sum(w * v))
+    SBB <- SA %*% t(P) %*% t(MM) %*% P  
+  }
+  if (lh_order == "stages demo") {
+    eig <- eigen(A)
+    lambda <- max(Re(eig$values))
+    v <- Re(eig$vectors[, which.max(Re(eig$values))])
+    eig_t <- eigen(t(A))
+    w <- Re(eig_t$vectors[, which.max(Re(eig_t$values))])
+    SA <- t((v %*% t(w)) / sum(w * v))
+    SBB <- t(P) %*% t(MM) %*% SA %*% P
+  }
+  if (lh_order == "stages move") {
+    eig <- eigen(A)
+    lambda <- max(Re(eig$values))
+    v <- Re(eig$vectors[, which.max(Re(eig$values))])
+    eig_t <- eigen(t(A))
+    w <- Re(eig_t$vectors[, which.max(Re(eig_t$values))])
+    SA <- t((v %*% t(w)) / sum(w * v))
+    SBB <- t(P) %*% SA %*% t(MM) %*% P
+  }
   
   return(SBB)
 }

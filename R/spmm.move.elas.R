@@ -108,16 +108,7 @@
 #' 
 #' @export
 spmm.move.elas <- function(MM, A, P, BB) {
-  if (rcond(A) < 1e-10) warning("Matrix A is poorly conditioned; eigenvalues may be unstable.")
-  
-  eig <- eigen(A)
-  lambda <- max(Re(eig$values))
-  v <- Re(eig$vectors[, which.max(Re(eig$values))])
-  eig_t <- eigen(t(A))
-  w <- Re(eig_t$vectors[, which.max(Re(eig_t$values))])
-  SA <- t((v %*% t(w)) / sum(w * v))
-  
-  SMM <- P %*% t(BB) %*% t(SA) %*% t(P)
-  EMM <- MM / lambda * SMM
+  SMM <- spmm.move.sens(MM, A, P, BB)
+  EMM <- (1 / lambda) * MM * SMM
   return(EMM)
 }
