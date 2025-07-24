@@ -109,6 +109,8 @@
 #' @export
 spmm.move.elas <- function(MM, A, P, BB) {
   SMM <- spmm.move.sens(MM, A, P, BB)
+  eig <- eigen(A)
+  lambda <- max(Re(eig$values))
   EMM <- (1 / lambda) * MM * SMM
   return(EMM)
 }

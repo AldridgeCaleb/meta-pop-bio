@@ -109,6 +109,8 @@
 #' @export
 spmm.demo.elas <- function(BB, A, P, MM) {
   SBB <- spmm.demo.sens(BB, A, P, MM)
+  eig <- eigen(A)
+  lambda <- max(Re(eig$values))
   EBB <- (1 / lambda) * BB * SBB
   return(EBB)
 }
