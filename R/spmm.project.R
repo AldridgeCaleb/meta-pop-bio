@@ -274,10 +274,13 @@ spmm.project <-
               B[[1]][1, ] <- dd.rec.BevertonHolt(mat[, t - 1], ddf$a[i], ddf$b[i], theta)
             }
             if (ddf$s_type == "logistic") {
-              B[[1]][1, ] <- dd.surv.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][1, ] <- dd.growth.logistic(mat[, t - 1], ddf$r[i], ddf$K[i], ddf$B[[1]][1, ])
             }
             if (ddf$s_type == "ddExponential") {
-              B[[1]][1, ] <- dd.surv.exponential(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][1, ] <- dd.growth.exponential(mat[, t - 1], ddf$r[i], ddf$K[i])
+            }
+            if (ddf$s_type == "general") {
+              B[[1]][1, ] <- dd.growth.general(mat[, t - 1], ddf$r[i], ddf$K[i], ddf$theta)
             }
           }
           BB <- blk.diag(matlist)
@@ -392,7 +395,13 @@ spmm.project <-
               B[[1]][1, ] <- B[[1]][1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
             if (ddf$s_type == "logistic") {
-              B[[1]][-1, ] <- B[[1]][-1, ] * dd.surv.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][-1, ] <- B[[1]][-1, ] * dd.growth.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
+            }
+            if (ddf$s_type == "ddExponential") {
+              B[[1]][1, ] <- dd.growth.exponential(mat[, t - 1], ddf$r[i], ddf$K[i])
+            }
+            if (ddf$s_type == "general") {
+              B[[1]][1, ] <- dd.growth.general(mat[, t - 1], ddf$r[i], ddf$K[i], ddf$theta)
             }
             matlist[i] <- B
           }
@@ -507,7 +516,13 @@ spmm.project <-
               B[[1]][1, ] <- B[[1]][1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
             if (ddf$s_type == "logistic") {
-              B[[1]][-1, ] <- B[[1]][-1, ] * dd.surv.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][-1, ] <- B[[1]][-1, ] * dd.growth.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
+            }
+            if (ddf$s_type == "ddExponential") {
+              B[[1]][1, ] <- dd.growth.exponential(mat[, t - 1], ddf$r[i], ddf$K[i])
+            }
+            if (ddf$s_type == "general") {
+              B[[1]][1, ] <- dd.growth.general(mat[, t - 1], ddf$r[i], ddf$K[i], ddf$theta)
             }
             matlist[i] <- B
           }
@@ -622,7 +637,13 @@ spmm.project <-
               B[[1]][1, ] <- B[[1]][1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
             if (ddf$s_type == "logistic") {
-              B[[1]][-1, ] <- B[[1]][-1, ] * dd.surv.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][-1, ] <- B[[1]][-1, ] * dd.growth.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
+            }
+            if (ddf$s_type == "ddExponential") {
+              B[[1]][1, ] <- dd.growth.exponential(mat[, t - 1], ddf$r[i], ddf$K[i])
+            }
+            if (ddf$s_type == "general") {
+              B[[1]][1, ] <- dd.growth.general(mat[, t - 1], ddf$r[i], ddf$K[i], ddf$theta)
             }
             matlist[i] <- B
           }
