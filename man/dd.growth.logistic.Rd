@@ -20,5 +20,5 @@ Modifies growth of population in time *t + 1* by the population size in
 time *t*.
 }
 \note{
-This produces very similar results as `dd.growth.exponential`.
+This produces similar results as `dd.growth.exponential`.
 }
