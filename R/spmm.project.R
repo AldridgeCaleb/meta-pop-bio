@@ -302,7 +302,7 @@ spmm.project <-
 #       colnames(mat) <- paste(1:n_timesteps)
       
       for (t in 2:n_timesteps) {
-        if (!is.null(ddf) && ddf$type == "logistic") {
+        if (!is.null(ddf)) {
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
             B <- matlist[i]
@@ -449,7 +449,7 @@ spmm.project <-
       #       colnames(mat) <- paste(1:n_timesteps)
       
       for (t in 2:n_timesteps) {
-        if (!is.null(ddf) && ddf$type == "logistic") {
+        if (!is.null(ddf)) {
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
             B <- matlist[i]
@@ -596,7 +596,7 @@ spmm.project <-
       #       colnames(mat) <- paste(1:n_timesteps)
       
       for (t in 2:n_timesteps) {
-        if (!is.null(ddf) && ddf$type == "logistic") {
+        if (!is.null(ddf)) {
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
             B <- matlist[i]
@@ -743,7 +743,7 @@ spmm.project <-
       #       colnames(mat) <- paste(1:n_timesteps)
       
       for (t in 2:n_timesteps) {
-        if (!is.null(ddf) && ddf$type == "logistic") {
+        if (!is.null(ddf)) {
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
             B <- matlist[i]
