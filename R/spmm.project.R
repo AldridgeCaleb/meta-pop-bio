@@ -263,7 +263,7 @@ spmm.project <-
       }
 ## Density-dependence
       for (t in 2:n_timesteps) {
-        if (!is.na(ddf)){
+        if (any(!is.na(ddf))){
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
             B <- matlist[i]
@@ -383,7 +383,7 @@ spmm.project <-
       }
 ## Density-dependence      
       for (t in 2:n_timesteps) {
-        if (!is.na(ddf)){
+        if (any(!is.na(ddf))){
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
             B <- matlist[i]
@@ -505,7 +505,7 @@ spmm.project <-
       }
 ## Density-dependence      
       for (t in 2:n_timesteps) {
-        if (!is.na(ddf)){
+        if (any(!is.na(ddf))){
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
             B <- matlist[i]
@@ -626,7 +626,7 @@ spmm.project <-
       }
 ## Density-dependence      
       for (t in 2:n_timesteps) {
-        if (!is.na(ddf)){
+        if (any(!is.na(ddf))){
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
             B <- matlist[i]
