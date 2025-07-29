@@ -274,7 +274,8 @@ spmm.project <-
               B[[1]][1, ] <- dd.rec.BevertonHolt(mat[, t - 1], ddf$a[i], ddf$b[i], theta)
             }
             if (ddf$type == "logistic") {
-              B[[1]][1, ] <- dd.growth.logistic(mat[, t - 1], ddf$r[i], ddf$K[i], ddf$B[[1]][1, ])
+              B[[1]][1, ] <- dd.growth.logistic(N = mat[c(n_stages * 2 - 1):c(n_stages * 2), t - 1], 
+                                                r = ddf$r[i], K = ddf$K[i], B = ddf$B[[1]][1, ])
             }
             if (ddf$type == "ddExponential") {
               B[[1]][1, ] <- dd.growth.exponential(mat[, t - 1], ddf$r[i], ddf$K[i])
