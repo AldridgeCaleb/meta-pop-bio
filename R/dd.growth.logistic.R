@@ -14,10 +14,10 @@
 ##' This produces very similar results as `dd.growth.exponential`.
 ##' 
 ##' @export
-dd.growth.logistic <- function(N, r, B, K) {
+dd.growth.logistic <- function(N, r = NULL, B, K) {
   if (is.null(r) && !is.na(B)) {
-    r <- sum(N * B[[1]][1, ])
+    r <- N * B[[1]][1, ]
   }
-  N <- sum(N)
-  return(1 + (r * (1 - N/K)))
+  N_sum <- sum(N)
+  return(1 + (r * (1 - N_sum/K)))
 }
