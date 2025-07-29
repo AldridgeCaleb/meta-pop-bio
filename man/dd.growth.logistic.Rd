@@ -4,7 +4,7 @@
 \alias{dd.growth.logistic}
 \title{Density dependent logistic growth}
 \usage{
-dd.growth.logistic(N, r = NULL, B, K)
+dd.growth.logistic(N, r = NULL, B = NULL, K)
 }
 \arguments{
 \item{N}{Number of individuals or biomass in time t. Can (should) be a 
