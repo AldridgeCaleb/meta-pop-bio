@@ -283,6 +283,7 @@ spmm.project <-
             if (ddf$type == "general") {
               B[[1]][1, ] <- dd.growth.general(mat[, t - 1], ddf$r[i], ddf$K[i], ddf$theta)
             }
+            matlist[i] <- B
           }
           BB <- blk.diag(matlist)
           A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
@@ -396,7 +397,8 @@ spmm.project <-
               B[[1]][1, ] <- B[[1]][1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
             if (ddf$type == "logistic") {
-              B[[1]][-1, ] <- B[[1]][-1, ] * dd.growth.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][1, ] <- dd.growth.logistic(N = mat[c(i * n_stages - 1):c(i * n_stages), t - 1], 
+                                                r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
             }
             if (ddf$type == "ddExponential") {
               B[[1]][1, ] <- dd.growth.exponential(mat[, t - 1], ddf$r[i], ddf$K[i])
@@ -517,7 +519,8 @@ spmm.project <-
               B[[1]][1, ] <- B[[1]][1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
             if (ddf$type == "logistic") {
-              B[[1]][-1, ] <- B[[1]][-1, ] * dd.growth.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][1, ] <- dd.growth.logistic(N = mat[c(i * n_stages - 1):c(i * n_stages), t - 1], 
+                                                r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
             }
             if (ddf$type == "ddExponential") {
               B[[1]][1, ] <- dd.growth.exponential(mat[, t - 1], ddf$r[i], ddf$K[i])
@@ -638,7 +641,8 @@ spmm.project <-
               B[[1]][1, ] <- B[[1]][1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
             }
             if (ddf$type == "logistic") {
-              B[[1]][-1, ] <- B[[1]][-1, ] * dd.growth.logistic(mat[, t - 1], ddf$r[i], ddf$K[i])
+              B[[1]][1, ] <- dd.growth.logistic(N = mat[c(i * n_stages - 1):c(i * n_stages), t - 1], 
+                                                r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
             }
             if (ddf$type == "ddExponential") {
               B[[1]][1, ] <- dd.growth.exponential(mat[, t - 1], ddf$r[i], ddf$K[i])
