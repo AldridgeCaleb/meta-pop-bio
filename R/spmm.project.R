@@ -263,34 +263,47 @@ spmm.project <-
       }
 ## Density-dependence
       for (t in 2:n_timesteps) {
-        if (any(!is.null(ddf))){
+        if (!is.null(ddf) && ddf$type == "logistic") {
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
             B <- matlist[i]
-            if (ddf$type == "Ricker") {
-              B[[1]][1, ] <- dd.rec.Ricker(mat[, t - 1], ddf$a[i], ddf$b[i], theta)
-            } 
-            if (ddf$type == "Beverton-Holt") {
-              B[[1]][1, ] <- dd.rec.BevertonHolt(mat[, t - 1], ddf$a[i], ddf$b[i], theta)
-            }
-            if (ddf$type == "logistic") {
-              B[[1]][1, ] <- dd.growth.logistic(N = mat[c(i * n_stages - 1):c(i * n_stages), t - 1], 
-                                                r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
-            }
-            if (ddf$type == "ddExponential") {
-              B[[1]][1, ] <- dd.growth.exponential(mat[, t - 1], ddf$r[i], ddf$K[i])
-            }
-            if (ddf$type == "general") {
-              B[[1]][1, ] <- dd.growth.general(mat[, t - 1], ddf$r[i], ddf$K[i], ddf$theta)
-            }
+            idx <- ((i - 1) * n_stages + 1):(i * n_stages)
+            Ni <- mat[idx, t - 1]
+            B[[1]][1, ] <- dd.growth.logistic(N = Ni, r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
             matlist[i] <- B
           }
           BB <- blk.diag(matlist)
           A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
                                    group_by = group_by, lh_order = A_lh_order)
         }
+        # if (any(!is.null(ddf))){
+        #   matlist <- unblk.diag(BB, n_stages)
+        #   for (i in seq_along(matlist)) {
+        #     B <- matlist[i]
+        #     if (ddf$type == "Ricker") {
+        #       B[[1]][1, ] <- dd.rec.Ricker(mat[, t - 1], ddf$a[i], ddf$b[i], theta)
+        #     } 
+        #     if (ddf$type == "Beverton-Holt") {
+        #       B[[1]][1, ] <- dd.rec.BevertonHolt(mat[, t - 1], ddf$a[i], ddf$b[i], theta)
+        #     }
+        #     if (ddf$type == "logistic") {
+        #       B[[1]][1, ] <- dd.growth.logistic(N = mat[c(i * n_stages - 1):c(i * n_stages), t - 1], 
+        #                                         r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
+        #     }
+        #     if (ddf$type == "ddExponential") {
+        #       B[[1]][1, ] <- dd.growth.exponential(mat[, t - 1], ddf$r[i], ddf$K[i])
+        #     }
+        #     if (ddf$type == "general") {
+        #       B[[1]][1, ] <- dd.growth.general(mat[, t - 1], ddf$r[i], ddf$K[i], ddf$theta)
+        #     }
+        #     matlist[i] <- B
+        #   }
+        #   BB <- blk.diag(matlist)
+        #   A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
+        #                            group_by = group_by, lh_order = A_lh_order)
+        # }
 ## Projection
-        if (all(mat[, t - 1]%%1==0)) {
+        if (all(mat[, t - 1] %% 1 == 0)) {
           mat[, t] <- floor(as.vector(A %*% mat[, t - 1]))
         } else {
           mat[, t] <- as.vector(A %*% mat[, t - 1]) 
@@ -299,7 +312,7 @@ spmm.project <-
       if (!is.null(rownames(n))) {
         rownames(mat) <- rownames(n)
       }
-      colnames(mat) <- paste(1:n_timesteps)
+      colnames(mat) <- paste0(1:n_timesteps)
       
 # LH ORDER: patches - move ------------------------------------------------
     } else if (lh_order == "patches move") {
@@ -383,37 +396,49 @@ spmm.project <-
                                  group_by = group_by,
                                  lh_order = A_lh_order)
       }
-## Density-dependence      
+## Density-dependence
       for (t in 2:n_timesteps) {
-        if (any(!is.na(ddf))){
+        if (!is.null(ddf) && ddf$type == "logistic") {
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
             B <- matlist[i]
-            if (ddf$type == "Ricker") {
-              a <- B[[1]][1, ]
-              B[[1]][1, ] <- dd.rec.Ricker(mat[, t - 1], a, b)
-            } 
-            if (ddf$type == "Beverton-Holt") {
-              B[[1]][1, ] <- B[[1]][1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
-            }
-            if (ddf$type == "logistic") {
-              B[[1]][1, ] <- dd.growth.logistic(N = mat[c(i * n_stages - 1):c(i * n_stages), t - 1], 
-                                                r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
-            }
-            if (ddf$type == "ddExponential") {
-              B[[1]][1, ] <- dd.growth.exponential(mat[, t - 1], ddf$r[i], ddf$K[i])
-            }
-            if (ddf$type == "general") {
-              B[[1]][1, ] <- dd.growth.general(mat[, t - 1], ddf$r[i], ddf$K[i], ddf$theta)
-            }
+            idx <- ((i - 1) * n_stages + 1):(i * n_stages)
+            Ni <- mat[idx, t - 1]
+            B[[1]][1, ] <- dd.growth.logistic(N = Ni, r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
             matlist[i] <- B
           }
           BB <- blk.diag(matlist)
-          A <- spmm.project.matrix(P = P, BB = BB, MM = MM,
+          A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
                                    group_by = group_by, lh_order = A_lh_order)
         }
+        # if (any(!is.null(ddf))){
+        #   matlist <- unblk.diag(BB, n_stages)
+        #   for (i in seq_along(matlist)) {
+        #     B <- matlist[i]
+        #     if (ddf$type == "Ricker") {
+        #       B[[1]][1, ] <- dd.rec.Ricker(mat[, t - 1], ddf$a[i], ddf$b[i], theta)
+        #     } 
+        #     if (ddf$type == "Beverton-Holt") {
+        #       B[[1]][1, ] <- dd.rec.BevertonHolt(mat[, t - 1], ddf$a[i], ddf$b[i], theta)
+        #     }
+        #     if (ddf$type == "logistic") {
+        #       B[[1]][1, ] <- dd.growth.logistic(N = mat[c(i * n_stages - 1):c(i * n_stages), t - 1], 
+        #                                         r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
+        #     }
+        #     if (ddf$type == "ddExponential") {
+        #       B[[1]][1, ] <- dd.growth.exponential(mat[, t - 1], ddf$r[i], ddf$K[i])
+        #     }
+        #     if (ddf$type == "general") {
+        #       B[[1]][1, ] <- dd.growth.general(mat[, t - 1], ddf$r[i], ddf$K[i], ddf$theta)
+        #     }
+        #     matlist[i] <- B
+        #   }
+        #   BB <- blk.diag(matlist)
+        #   A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
+        #                            group_by = group_by, lh_order = A_lh_order)
+        # }
 ## Projection
-        if (all(mat[, t - 1]%%1==0)) {
+        if (all(mat[, t - 1] %% 1 == 0)) {
           mat[, t] <- floor(as.vector(A %*% mat[, t - 1]))
         } else {
           mat[, t] <- as.vector(A %*% mat[, t - 1]) 
@@ -422,7 +447,7 @@ spmm.project <-
       if (!is.null(rownames(n))) {
         rownames(mat) <- rownames(n)
       }
-      colnames(mat) <- paste(1:n_timesteps)
+      colnames(mat) <- paste0(1:n_timesteps)
       
 # LH ORDER: stages - demo -------------------------------------------------
     } else if (lh_order == "stages demo") {
@@ -506,36 +531,49 @@ spmm.project <-
                                  group_by = group_by,
                                  lh_order = A_lh_order)
       }
-## Density-dependence      
+## Density-dependence
       for (t in 2:n_timesteps) {
-        if (any(!is.na(ddf))){
+        if (!is.null(ddf) && ddf$type == "logistic") {
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
             B <- matlist[i]
-            if (ddf$type == "Ricker") {
-              B[[1]][1, ] <- B[[1]][1, ] * dd.rec.Ricker(mat[, t - 1], ddf$r[i], ddf$K[i])
-            } 
-            if (ddf$type == "Beverton-Holt") {
-              B[[1]][1, ] <- B[[1]][1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
-            }
-            if (ddf$type == "logistic") {
-              B[[1]][1, ] <- dd.growth.logistic(N = mat[c(i * n_stages - 1):c(i * n_stages), t - 1], 
-                                                r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
-            }
-            if (ddf$type == "ddExponential") {
-              B[[1]][1, ] <- dd.growth.exponential(mat[, t - 1], ddf$r[i], ddf$K[i])
-            }
-            if (ddf$type == "general") {
-              B[[1]][1, ] <- dd.growth.general(mat[, t - 1], ddf$r[i], ddf$K[i], ddf$theta)
-            }
+            idx <- ((i - 1) * n_stages + 1):(i * n_stages)
+            Ni <- mat[idx, t - 1]
+            B[[1]][1, ] <- dd.growth.logistic(N = Ni, r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
             matlist[i] <- B
           }
           BB <- blk.diag(matlist)
           A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
                                    group_by = group_by, lh_order = A_lh_order)
         }
+        # if (any(!is.null(ddf))){
+        #   matlist <- unblk.diag(BB, n_stages)
+        #   for (i in seq_along(matlist)) {
+        #     B <- matlist[i]
+        #     if (ddf$type == "Ricker") {
+        #       B[[1]][1, ] <- dd.rec.Ricker(mat[, t - 1], ddf$a[i], ddf$b[i], theta)
+        #     } 
+        #     if (ddf$type == "Beverton-Holt") {
+        #       B[[1]][1, ] <- dd.rec.BevertonHolt(mat[, t - 1], ddf$a[i], ddf$b[i], theta)
+        #     }
+        #     if (ddf$type == "logistic") {
+        #       B[[1]][1, ] <- dd.growth.logistic(N = mat[c(i * n_stages - 1):c(i * n_stages), t - 1], 
+        #                                         r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
+        #     }
+        #     if (ddf$type == "ddExponential") {
+        #       B[[1]][1, ] <- dd.growth.exponential(mat[, t - 1], ddf$r[i], ddf$K[i])
+        #     }
+        #     if (ddf$type == "general") {
+        #       B[[1]][1, ] <- dd.growth.general(mat[, t - 1], ddf$r[i], ddf$K[i], ddf$theta)
+        #     }
+        #     matlist[i] <- B
+        #   }
+        #   BB <- blk.diag(matlist)
+        #   A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
+        #                            group_by = group_by, lh_order = A_lh_order)
+        # }
 ## Projection
-        if (all(mat[, t - 1]%%1==0)) {
+        if (all(mat[, t - 1] %% 1 == 0)) {
           mat[, t] <- floor(as.vector(A %*% mat[, t - 1]))
         } else {
           mat[, t] <- as.vector(A %*% mat[, t - 1]) 
@@ -544,7 +582,7 @@ spmm.project <-
       if (!is.null(rownames(n))) {
         rownames(mat) <- rownames(n)
       }
-      colnames(mat) <- paste(1:n_timesteps)
+      colnames(mat) <- paste0(1:n_timesteps)
 
 # LH ORDER: stages - move -------------------------------------------------
     } else if (lh_order == "stages move") {
@@ -628,36 +666,49 @@ spmm.project <-
                                  group_by = group_by,
                                  lh_order = A_lh_order)
       }
-## Density-dependence      
+## Density-dependence
       for (t in 2:n_timesteps) {
-        if (any(!is.na(ddf))){
+        if (!is.null(ddf) && ddf$type == "logistic") {
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
             B <- matlist[i]
-            if (ddf$type == "Ricker") {
-              B[[1]][1, ] <- B[[1]][1, ] * dd.rec.Ricker(mat[, t - 1], ddf$r[i], ddf$K[i])
-            } 
-            if (ddf$type == "Beverton-Holt") {
-              B[[1]][1, ] <- B[[1]][1, ] * dd.rec.BevertonHolt(mat[, t - 1], ddf$r[i], ddf$K[i])
-            }
-            if (ddf$type == "logistic") {
-              B[[1]][1, ] <- dd.growth.logistic(N = mat[c(i * n_stages - 1):c(i * n_stages), t - 1], 
-                                                r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
-            }
-            if (ddf$type == "ddExponential") {
-              B[[1]][1, ] <- dd.growth.exponential(mat[, t - 1], ddf$r[i], ddf$K[i])
-            }
-            if (ddf$type == "general") {
-              B[[1]][1, ] <- dd.growth.general(mat[, t - 1], ddf$r[i], ddf$K[i], ddf$theta)
-            }
+            idx <- ((i - 1) * n_stages + 1):(i * n_stages)
+            Ni <- mat[idx, t - 1]
+            B[[1]][1, ] <- dd.growth.logistic(N = Ni, r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
             matlist[i] <- B
           }
           BB <- blk.diag(matlist)
           A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
                                    group_by = group_by, lh_order = A_lh_order)
         }
+        # if (any(!is.null(ddf))){
+        #   matlist <- unblk.diag(BB, n_stages)
+        #   for (i in seq_along(matlist)) {
+        #     B <- matlist[i]
+        #     if (ddf$type == "Ricker") {
+        #       B[[1]][1, ] <- dd.rec.Ricker(mat[, t - 1], ddf$a[i], ddf$b[i], theta)
+        #     } 
+        #     if (ddf$type == "Beverton-Holt") {
+        #       B[[1]][1, ] <- dd.rec.BevertonHolt(mat[, t - 1], ddf$a[i], ddf$b[i], theta)
+        #     }
+        #     if (ddf$type == "logistic") {
+        #       B[[1]][1, ] <- dd.growth.logistic(N = mat[c(i * n_stages - 1):c(i * n_stages), t - 1], 
+        #                                         r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
+        #     }
+        #     if (ddf$type == "ddExponential") {
+        #       B[[1]][1, ] <- dd.growth.exponential(mat[, t - 1], ddf$r[i], ddf$K[i])
+        #     }
+        #     if (ddf$type == "general") {
+        #       B[[1]][1, ] <- dd.growth.general(mat[, t - 1], ddf$r[i], ddf$K[i], ddf$theta)
+        #     }
+        #     matlist[i] <- B
+        #   }
+        #   BB <- blk.diag(matlist)
+        #   A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
+        #                            group_by = group_by, lh_order = A_lh_order)
+        # }
 ## Projection
-        if (all(mat[, t - 1]%%1==0)) {
+        if (all(mat[, t - 1] %% 1 == 0)) {
           mat[, t] <- floor(as.vector(A %*% mat[, t - 1]))
         } else {
           mat[, t] <- as.vector(A %*% mat[, t - 1]) 
@@ -666,9 +717,8 @@ spmm.project <-
       if (!is.null(rownames(n))) {
         rownames(mat) <- rownames(n)
       }
-      colnames(mat) <- paste(1:n_timesteps)
-    }
-
+      colnames(mat) <- paste0(1:n_timesteps)
+      
 # Package output ----------------------------------------------------------
     if (A_lh_order == "move") {
       A_TYPE <- "movement then demography"
