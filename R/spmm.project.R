@@ -263,7 +263,7 @@ spmm.project <-
       }
 ## Density-dependence
       for (t in 2:n_timesteps) {
-        if (any(!is.na(ddf))){
+        if (any(!is.null(ddf))){
           matlist <- unblk.diag(BB, n_stages)
           for (i in seq_along(matlist)) {
             B <- matlist[i]
@@ -274,7 +274,7 @@ spmm.project <-
               B[[1]][1, ] <- dd.rec.BevertonHolt(mat[, t - 1], ddf$a[i], ddf$b[i], theta)
             }
             if (ddf$type == "logistic") {
-              B[[1]][1, ] <- dd.growth.logistic(N = mat[c(n_stages * 2 - 1):c(n_stages * 2), t - 1], 
+              B[[1]][1, ] <- dd.growth.logistic(N = mat[c(i * n_stages - 1):c(i * n_stages), t - 1], 
                                                 r = ifelse(is.null(ddf$r[i]), NULL, ddf$r[i]), 
                                                 K = ddf$K[i], B = ddf$B[[1]][1, ])
             }
