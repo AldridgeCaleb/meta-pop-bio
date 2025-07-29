@@ -15,7 +15,7 @@
 ##' 
 ##' @export
 dd.growth.logistic <- function(N, r, B, K) {
-  if (is.na(r) && !is.na(B)) {
+  if (exists("r") && !is.na(B)) {
     r <- sum(N * B[[1]][1, ])
   }
   N <- sum(N)
