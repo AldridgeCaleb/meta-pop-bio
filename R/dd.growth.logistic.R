@@ -14,8 +14,11 @@
 ##' This produces very similar results as `dd.growth.exponential`.
 ##' 
 ##' @export
-dd.growth.logistic <- function(N, r = NULL, B, K) {
-  if (is.null(r) && all(!is.na(B))) {
+dd.growth.logistic <- function(N, r = NULL, B = NULL, K) {
+  if (is.null(r)) {
+    if (is.null(B) || all(is.na(B))) {
+      stop("Both 'r' and valid 'B' must be provided for logistic density dependence.")
+    }
     r <- N * B
   }
   N_sum <- sum(N)
