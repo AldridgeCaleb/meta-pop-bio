@@ -11,7 +11,7 @@
 ##' patches. 
 ##'
 ##' @note
-##' This produces very similar results as `dd.growth.exponential`.
+##' This produces similar results as `dd.growth.exponential`.
 ##' 
 ##' @export
 dd.growth.logistic <- function(N, r = NULL, B = NULL, K) {
