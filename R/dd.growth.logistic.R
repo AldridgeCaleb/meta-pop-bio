@@ -15,9 +15,9 @@
 ##' 
 ##' @export
 dd.growth.logistic <- function(N, r = NULL, B, K) {
-  if (is.null(r) && !is.na(B)) {
-    r <- N * B[[1]][1, ]
+  if (is.null(r) && all(!is.na(B))) {
+    r <- N * B
   }
   N_sum <- sum(N)
-  return(1 + (r * (1 - N_sum/K)))
+  return(r * (1 - N_sum/K))
 }

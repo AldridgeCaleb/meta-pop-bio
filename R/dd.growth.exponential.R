@@ -15,6 +15,6 @@
 ##'
 ##' @export
 dd.growth.exponential <- function(N, r, K) {
-  N <- sum(N)
-  return(exp(r * (1 - N/K)))
+  N_sum <- sum(N)
+  return(exp(r * (1 - N_sum/K)))
 }
