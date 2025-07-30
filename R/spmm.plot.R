@@ -132,7 +132,7 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
     # throw error if starts and ends != lengths()
     for (i in seq_along(starts)) {
       idx <- starts[i]:ends[i]
-      if (ylim.max == "patch") {
+      if (ylim_max == "patch") {
         ylim_vals <- c(0, round(max(projections[idx, , drop = FALSE]) + 1, -1))
       } else {
         ylim_vals <- c(0, round(max(projections) + 1, -1))
@@ -171,7 +171,7 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
     # throw error if starts and ends != lengths()
     for (i in seq_along(starts)) {
       idx <- starts[i]:ends[i]
-      if (ylim.max == "stage") {
+      if (ylim_max == "stage") {
         ylim_vals <- c(0, round(max(projections[idx, , drop = FALSE]) + 1, -1))
       } else {
         ylim_vals <- c(0, round(max(projections) + 1, -1))
