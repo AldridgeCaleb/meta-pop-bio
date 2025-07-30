@@ -13,6 +13,8 @@
 #' @param xlabs X-axis label for plots.
 #' @param stage_names Names of stages, ages, classes, etc.
 #' @param patch_names Names of patches, units, pools, etc.
+#' @param ylim_max Choice of either "overall" or "patch" that controls the ylim
+#' for each plot.
 #'
 #' @note
 #' As with `spmm.project` ensure that the structural type of population vector
@@ -111,7 +113,8 @@
 #'
 #' @export
 spmm.plot <- function(projections, ylabs = NA, xlabs = NA, 
-                          stage_names = NA, patch_names = NA) {
+                          stage_names = NA, patch_names = NA,
+                      ylim_max = "overall") {
   comments <- comment(projections)
   group_by <- strsplit(comments, " +")[[1]][1]
   if (group_by == "patches") {
@@ -127,13 +130,19 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
     starts <- seq(1, dim(projections)[1], by = n_stages)
     ends <- c(starts - 1, dim(projections)[1])[-1]
     # throw error if starts and ends != lengths()
-    for (i in 1:length(starts)) {
+    for (i in seq_along(starts)) {
+      idx <- starts[i]:ends[i]
+      if (ylim.max == "patch") {
+        ylim_vals <- c(0, round(max(projections[idx, , drop = FALSE]) + 1, -1))
+      } else {
+        ylim_vals <- c(0, round(max(projections) + 1, -1))
+      }
       graphics::matplot(
-        t(projections)[, c(starts[i]:ends[i])],
+        t(projections)[, idx],
         type = 'b',
         pch = 16,
         # col = c("black", "black"),
-        ylim = c(0, round(max(projections) +1, -1)),
+        ylim = ylim_vals,
         ylab = ylabs,
         xlab = xlabs,
         main = paste("Patch :", patch_names[i])
@@ -160,13 +169,19 @@ spmm.plot <- function(projections, ylabs = NA, xlabs = NA,
     starts <- seq(1, dim(projections)[1], by = n_patches)
     ends <- c(starts - 1, dim(projections)[1])[-1]
     # throw error if starts and ends != lengths()
-    for (i in 1:length(starts)) {
+    for (i in seq_along(starts)) {
+      idx <- starts[i]:ends[i]
+      if (ylim.max == "stage") {
+        ylim_vals <- c(0, round(max(projections[idx, , drop = FALSE]) + 1, -1))
+      } else {
+        ylim_vals <- c(0, round(max(projections) + 1, -1))
+      }
       graphics::matplot(
-        t(projections)[, c(starts[i]:ends[i])],
+        t(projections)[, idx],
         type = 'b',
         pch = 16,
         # col = c("black", "black"),
-        ylim = c(0, round(max(projections) +1 , -1)),
+        ylim = ylim_vals,
         ylab = ylabs,
         xlab = xlabs,
         main = paste("Stage :", stage_names[i])
