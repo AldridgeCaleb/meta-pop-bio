@@ -39,7 +39,7 @@ dd.growth.logistic <- function(N, B, K, beta = 0, theta = 1) {
   # Density-dependent enhancement possible when beta > 0
   raw_modifier <- 1 + beta * (1 - ratio^theta)
   if (!is.finite(raw_modifier) || is.nan(raw_modifier)) raw_modifier <- 0
-  density_modifier <- max(density_modifier, 0)  # truncate negative values
+  density_modifier <- max(raw_modifier, 0)  # truncate negative values
   
   # Apply modifier to baseline per capita fertility
   out <- rep(0, length(N))
