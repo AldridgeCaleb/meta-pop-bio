@@ -4,21 +4,35 @@
 \alias{dd.growth.logistic}
 \title{Density dependent logistic growth}
 \usage{
-dd.growth.logistic(N, r = NULL, B = NULL, K)
+dd.growth.logistic(N, B, K, beta = 0, theta = 1)
 }
 \arguments{
-\item{N}{Number of individuals or biomass in time t. Can (should) be a 
-vector structure according to group_by.}
+\item{N}{Numeric vector. Abundance or biomass at time *t* for each stage or group.}
 
-\item{r}{Intrinsic rate of increase or baseline growth rate.}
+\item{B}{Numeric vector. Baseline or average per capita fecundity rates 
+for each stage. Typically, only mature stages are nonzero.}
 
-\item{K}{Carrying capacity. Can be a vector for each stage and can vary by
-patches.}
+\item{K}{Numeric scalar. Carrying capacity, representing max abundance or biomass 
+in the population, beyond which fecundity begins to decline.}
+
+\item{beta}{Numeric scalar. Density feedback strength. 
+\code{beta = 0} implies no density dependence. 
+\code{beta > 0} enables enhanced reproduction at low density.}
+
+\item{theta}{Numeric scalar. Shape parameter controlling the steepness of the 
+response. \code{theta = 1} is standard logistic; \code{theta > 1} produces 
+stronger decline at high density.}
+}
+\value{
+A numeric vector of modified per capita fecundity rates (same length as \code{N}), 
+adjusted for density dependence.
 }
 \description{
-Modifies growth of population in time *t + 1* by the population size in 
-time *t*.
+Adjusts per capita fecundity based on current total population size at *t*
+relative to carrying capacity using a theta-logistic-like formulation. 
+Allows enhancement at low density and compensation at high density.
 }
 \note{
-This produces similar results as `dd.growth.exponential`.
+This theta-logistic formulation allows low-density enhancement (if \code{beta > 0}), 
+mimicking undercompensatory or compensatory responses.
 }
