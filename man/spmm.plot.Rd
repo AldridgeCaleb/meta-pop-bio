@@ -9,7 +9,8 @@ spmm.plot(
   ylabs = NA,
   xlabs = NA,
   stage_names = NA,
-  patch_names = NA
+  patch_names = NA,
+  ylim_max = "overall"
 )
 }
 \arguments{
@@ -25,6 +26,9 @@ specified correctly and correspond to structure of `n` (and expectations).}
 \item{stage_names}{Names of stages, ages, classes, etc.}
 
 \item{patch_names}{Names of patches, units, pools, etc.}
+
+\item{ylim_max}{Choice of either "overall" or "patch" that controls the ylim
+for each plot.}
 }
 \description{
 Produces plots of deterministic future population sizes of stages s in
