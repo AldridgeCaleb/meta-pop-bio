@@ -10,7 +10,7 @@ spmm.project(
   n_timesteps,
   n_stages,
   n_patches,
-  ddf = NA,
+  ddf = NULL,
   mod_mort = NA,
   mod_rec = NA,
   mod_move = NA,

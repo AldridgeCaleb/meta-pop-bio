@@ -316,6 +316,11 @@ spmm.project <-
           A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
                                    group_by = group_by, lh_order = A_lh_order)
         }
+        if (anyNA(mat[, t - 1])) {
+          warning(paste("NA detected at timestep", t - 1))
+          print(which(is.na(mat[, t - 1])))
+        }
+        
         if (all(mat[, t - 1] %% 1 == 0)) {
           mat[, t] <- floor(as.vector(A %*% mat[, t - 1]))
         } else {
@@ -464,6 +469,11 @@ spmm.project <-
           A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
                                    group_by = group_by, lh_order = A_lh_order)
         }
+        if (anyNA(mat[, t - 1])) {
+          warning(paste("NA detected at timestep", t - 1))
+          print(which(is.na(mat[, t - 1])))
+        }
+        
         if (all(mat[, t - 1] %% 1 == 0)) {
           mat[, t] <- floor(as.vector(A %*% mat[, t - 1]))
         } else {
@@ -612,6 +622,11 @@ spmm.project <-
           A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
                                    group_by = group_by, lh_order = A_lh_order)
         }
+        if (anyNA(mat[, t - 1])) {
+          warning(paste("NA detected at timestep", t - 1))
+          print(which(is.na(mat[, t - 1])))
+        }
+        
         if (all(mat[, t - 1] %% 1 == 0)) {
           mat[, t] <- floor(as.vector(A %*% mat[, t - 1]))
         } else {
@@ -760,6 +775,11 @@ spmm.project <-
           A <- spmm.project.matrix(P = P, BB = BB, MM = MM, 
                                    group_by = group_by, lh_order = A_lh_order)
         }
+        if (anyNA(mat[, t - 1])) {
+          warning(paste("NA detected at timestep", t - 1))
+          print(which(is.na(mat[, t - 1])))
+        }
+        
         if (all(mat[, t - 1] %% 1 == 0)) {
           mat[, t] <- floor(as.vector(A %*% mat[, t - 1]))
         } else {

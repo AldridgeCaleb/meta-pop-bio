@@ -26,14 +26,19 @@
 ##' 
 ##' @export
 dd.growth.logistic <- function(N, B, K, beta = 0, theta = 1) {
-  if (is.null(K)) stop("K must be provided.")
+  if (is.null(K) || K <= 0) stop("K must be provided and > 0.")
   if (is.null(B)) stop("B must be provided.")
   
   mat_idx <- which(B > 0)
   N_total <- sum(N)
   
+  # Compute ratio and protect against non-finite values
+  ratio <- N_total / K
+  if (!is.finite(ratio)) ratio <- 1e6  # large fallback value
+  
   # Density-dependent enhancement possible when beta > 0
-  density_modifier <- 1 + beta * (1 - (N_total / K)^theta)
+  raw_modifier <- 1 + beta * (1 - ratio^theta)
+  if (!is.finite(raw_modifier) || is.nan(raw_modifier)) raw_modifier <- 0
   density_modifier <- max(density_modifier, 0)  # truncate negative values
   
   # Apply modifier to baseline per capita fertility
