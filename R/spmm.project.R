@@ -308,6 +308,7 @@ spmm.project <-
             B <- matlist[i]
             idx <- ((i - 1) * n_stages + 1):(i * n_stages)
             Ni <- mat[idx, t - 1]
+            ri <- if (!is.null(ddf$r)) ddf$r[i] else NULL
             B[[1]][1, ] <- dd.growth.logistic(N = Ni, r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
             matlist[i] <- B
           }
@@ -455,7 +456,8 @@ spmm.project <-
             B <- matlist[i]
             idx <- ((i - 1) * n_stages + 1):(i * n_stages)
             Ni <- mat[idx, t - 1]
-            B[[1]][1, ] <- dd.growth.logistic(N = Ni, r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
+            ri <- if (!is.null(ddf$r)) ddf$r[i] else NULL
+            B[[1]][1, ] <- dd.growth.logistic(N = Ni, r = ri, B = B[[1]][1, ], K = ddf$K[i])
             matlist[i] <- B
           }
           BB <- blk.diag(matlist)
@@ -602,6 +604,7 @@ spmm.project <-
             B <- matlist[i]
             idx <- ((i - 1) * n_stages + 1):(i * n_stages)
             Ni <- mat[idx, t - 1]
+            ri <- if (!is.null(ddf$r)) ddf$r[i] else NULL
             B[[1]][1, ] <- dd.growth.logistic(N = Ni, r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
             matlist[i] <- B
           }
@@ -749,6 +752,7 @@ spmm.project <-
             B <- matlist[i]
             idx <- ((i - 1) * n_stages + 1):(i * n_stages)
             Ni <- mat[idx, t - 1]
+            ri <- if (!is.null(ddf$r)) ddf$r[i] else NULL
             B[[1]][1, ] <- dd.growth.logistic(N = Ni, r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
             matlist[i] <- B
           }
