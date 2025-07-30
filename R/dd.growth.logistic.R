@@ -16,11 +16,9 @@
 ##' @export
 dd.growth.logistic <- function(N, r = NULL, B = NULL, K) {
   if (is.null(r)) {
-    if (is.null(B) || all(is.na(B))) {
-      stop("Both 'r' and valid 'B' must be provided for logistic density dependence.")
-    }
     r <- N * B
   }
   N_sum <- sum(N)
-  return(r * (1 - N_sum/K))
+  dd_f <- r * (1 - N_sum / K)
+  return(dd_f / N)
 }
