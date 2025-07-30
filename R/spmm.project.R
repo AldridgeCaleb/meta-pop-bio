@@ -162,7 +162,7 @@
 spmm.project <-
   function(n, A, n_timesteps,
            n_stages, n_patches, 
-           ddf = NA, mod_mort = NA, 
+           ddf = NULL, mod_mort = NA, 
            mod_rec = NA, mod_move = NA,
            P, BB, MM) {
 
@@ -308,8 +308,8 @@ spmm.project <-
             B <- matlist[i]
             idx <- ((i - 1) * n_stages + 1):(i * n_stages)
             Ni <- mat[idx, t - 1]
-            ri <- if (!is.null(ddf$r)) ddf$r[i] else NULL
-            B[[1]][1, ] <- dd.growth.logistic(N = Ni, r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
+            B[[1]][1, ] <- dd.growth.logistic(N = Ni, B = B[[1]][1, ], K = ddf$K[i],
+                                              beta = ddf$beta, theta = ddf$theta)
             matlist[i] <- B
           }
           BB <- blk.diag(matlist)
@@ -456,8 +456,8 @@ spmm.project <-
             B <- matlist[i]
             idx <- ((i - 1) * n_stages + 1):(i * n_stages)
             Ni <- mat[idx, t - 1]
-            ri <- if (!is.null(ddf$r)) ddf$r[i] else NULL
-            B[[1]][1, ] <- dd.growth.logistic(N = Ni, r = ri, B = B[[1]][1, ], K = ddf$K[i])
+            B[[1]][1, ] <- dd.growth.logistic(N = Ni, B = B[[1]][1, ], K = ddf$K[i],
+                                              beta = ddf$beta, theta = ddf$theta)
             matlist[i] <- B
           }
           BB <- blk.diag(matlist)
@@ -604,8 +604,8 @@ spmm.project <-
             B <- matlist[i]
             idx <- ((i - 1) * n_stages + 1):(i * n_stages)
             Ni <- mat[idx, t - 1]
-            ri <- if (!is.null(ddf$r)) ddf$r[i] else NULL
-            B[[1]][1, ] <- dd.growth.logistic(N = Ni, r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
+            B[[1]][1, ] <- dd.growth.logistic(N = Ni, B = B[[1]][1, ], K = ddf$K[i],
+                                              beta = ddf$beta, theta = ddf$theta)
             matlist[i] <- B
           }
           BB <- blk.diag(matlist)
@@ -752,8 +752,8 @@ spmm.project <-
             B <- matlist[i]
             idx <- ((i - 1) * n_stages + 1):(i * n_stages)
             Ni <- mat[idx, t - 1]
-            ri <- if (!is.null(ddf$r)) ddf$r[i] else NULL
-            B[[1]][1, ] <- dd.growth.logistic(N = Ni, r = ddf$r[i], B = B[[1]][1, ], K = ddf$K[i])
+            B[[1]][1, ] <- dd.growth.logistic(N = Ni, B = B[[1]][1, ], K = ddf$K[i],
+                                              beta = ddf$beta, theta = ddf$theta)
             matlist[i] <- B
           }
           BB <- blk.diag(matlist)
